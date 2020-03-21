@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import React from "react";
 import "./materialize.min.css";
 import Typography from "@material-ui/core/Typography";
 import Input from "@material-ui/core/Input";
@@ -9,10 +8,6 @@ import FormControl from "@material-ui/core/FormControl";
 import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft";
 
 function Ranking(props) {
-  const [displayStayAtHome, setDisplayStayAtHome] = useState(false);
-  function changeAtHomeDisplay() {
-    setDisplayStayAtHome(!displayStayAtHome);
-  }
   return (
     <>
       <Typography variant="h2">Was kann ich gegen Angst tun?</Typography>
@@ -21,23 +16,13 @@ function Ranking(props) {
           <div className="col m3">
             Selektion
             <ul className="collapsible">
-              <li>
-                <div
-                  className="collapsible-header"
-                  onClick={changeAtHomeDisplay}
-                >
-                  <AccessTimeIcon />
-                  Zuhause bleiben
-                </div>
-                {displayStayAtHome ? (
-                  <div
-                    className="collapsible-body"
-                    style={{ display: "block" }}
-                  >
-                    <span>Zocken is geil.</span>
-                  </div>
-                ) : null}
-              </li>
+              {props.data.selektion.map(item => {
+                return (
+                  <li>
+                    <div className="collapsible-header">{item.name}</div>
+                  </li>
+                );
+              })}
             </ul>
             <FormControl>
               <InputLabel htmlFor="input-with-icon-adornment">
@@ -60,10 +45,7 @@ function Ranking(props) {
               {props.data.modifikation.map(item => {
                 return (
                   <li>
-                    <div className="collapsible-header">
-                      <AccessTimeIcon />
-                      {item.name}
-                    </div>
+                    <div className="collapsible-header">{item.name}</div>
                   </li>
                 );
               })}
@@ -86,36 +68,13 @@ function Ranking(props) {
           <div className="col m3">
             Aufmerksamkeit
             <ul className="collapsible">
-              <li>
-                <div className="collapsible-header">
-                  <AccessTimeIcon />
-                  Netflix
-                </div>
-                <div className="collapsible-body">
-                  <span>Streamen.</span>
-                </div>
-              </li>
-              <li>
-                <div className="collapsible-header">
-                  <AccessTimeIcon />
-                  Offline
-                </div>
-                <div className="collapsible-body">
-                  <span>Ohne Internet.</span>
-                </div>
-              </li>
-              <li>
-                <div className="collapsible-header">
-                  <AccessTimeIcon />
-                  Ruhe
-                  <span className="new badge"></span>
-                </div>
-                <div className="collapsible-body">
-                  <span>
-                    Einfach chillen, auch gut kombinierbar mit Netflix.
-                  </span>
-                </div>
-              </li>
+              {props.data.aufmerksamkeit.map(item => {
+                return (
+                  <li>
+                    <div className="collapsible-header">{item.name}</div>
+                  </li>
+                );
+              })}
             </ul>
             <FormControl>
               <InputLabel htmlFor="input-with-icon-adornment">
@@ -134,12 +93,13 @@ function Ranking(props) {
           <div className="col m3">
             Umdeutung
             <ul className="collapsible">
-              <li>
-                <div className="collapsible-header">
-                  <AccessTimeIcon />
-                  Netflix
-                </div>
-              </li>
+              {props.data.umdeutung.map(item => {
+                return (
+                  <li>
+                    <div className="collapsible-header">{item.name}</div>
+                  </li>
+                );
+              })}
             </ul>
             <FormControl>
               <InputLabel htmlFor="input-with-icon-adornment">
@@ -159,34 +119,13 @@ function Ranking(props) {
           <div className="col m3">
             Reaktion
             <ul className="collapsible">
-              <li>
-                <div className="collapsible-header">
-                  <AccessTimeIcon />
-                  Yoga/Meditation
-                </div>
-                <div className="collapsible-body">
-                  <span>Chillen.</span>
-                </div>
-              </li>
-              <li>
-                <div className="collapsible-header">
-                  <AccessTimeIcon />
-                  Atmen
-                  <span className="new badge"></span>
-                </div>
-                <div className="collapsible-body">
-                  <span>Lunge.</span>
-                </div>
-              </li>
-              <li>
-                <div className="collapsible-header">
-                  <AccessTimeIcon />
-                  Alkohol
-                </div>
-                <div className="collapsible-body">
-                  <span>Vodka.</span>
-                </div>
-              </li>
+              {props.data.reaktion.map(item => {
+                return (
+                  <li>
+                    <div className="collapsible-header">{item.name}</div>
+                  </li>
+                );
+              })}
             </ul>
             <FormControl>
               <InputLabel htmlFor="input-with-icon-adornment">

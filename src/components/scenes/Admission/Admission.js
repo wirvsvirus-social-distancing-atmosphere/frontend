@@ -1,3 +1,7 @@
+/* 
+    "New" Label ? --> <span className="new badge"></span>
+*/
+
 import React from "react";
 import Ranking from "../../Ranking";
 
@@ -19,24 +23,24 @@ function Admission() {
     ],
     aufmerksamkeit: [
       {
-        name: "Zuhause bleiben",
+        name: "Netflix",
         value: 15
       },
-      { name: "Zocken is geil.", value: 14 }
+      { name: "Kuscheln", value: 14 },
+      { name: "Offline", value: 24 }
     ],
     umdeutung: [
       {
-        name: "Yoga/Meditation",
+        name: "Zeit für Familie",
         value: 345
       },
-      { name: "Zocken is geil.", value: 39 }
+      { name: "Nachbarn helfen", value: 39 }
     ],
     reaktion: [
       {
         name: "Yoga/Meditation",
         value: 20
-      },
-      { name: "Zocken is geil.", value: 12 }
+      }
     ]
   };
 
