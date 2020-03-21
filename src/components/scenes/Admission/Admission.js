@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import Button from "@material-ui/core/Button";
 import Modal from '@material-ui/core/Modal';
@@ -6,19 +6,40 @@ import Slider from '@material-ui/core/Slider';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles(theme => ({
+    title: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     modalRoot: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    modalBody: {
+        position: 'absolute',
+        width: 230,
+        backgroundColor: theme.palette.background.paper,
+        padding: theme.spacing(2, 4, 3),
+    },
+    button: {
+        margin: theme.spacing(1),
     },
 }));
 
 function Admission() {
     const classes = useStyles();
 
-    const [openModal, setOpenModal] = React.useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [formValues, setFormValues] = useState({
+        what: '',
+        likelihood: 0,
+        manageability: 0,
+        severity: 0,
+    });
 
     const handleOpenModal = () => {
         setOpenModal(true);
@@ -28,8 +49,31 @@ function Admission() {
         setOpenModal(false);
     };
 
+    const handleInputChange = e => {
+        const {name, value} = e.target
+        console.log(e)
+        setFormValues({...formValues, [name]: value})
+    }
+
+    const handleSeverityChange = (_e, newValue) => {
+        setFormValues({...formValues, "severity": newValue});
+    }
+    const handleLikelihoodChange = (_e, newValue) => {
+        setFormValues({...formValues, "likelihood": newValue});
+    }
+    const handleManageabilityChange = (_e, newValue) => {
+        setFormValues({...formValues, "manageability": newValue});
+    }
+
+    const handleSubmit = (e) => {
+        console.log(formValues);
+    };
+
     return (
         <Container maxWidth="sm">
+            <DialogTitle className={classes.title}>What are you worried about?</DialogTitle>
+            <div className="meter"></div>
+            <div className="bubble"></div>
             <Button
                 variant='contained'
                 color='primary'
@@ -42,34 +86,59 @@ function Admission() {
                 open={openModal}
                 onClose={handleCloseModal}
             >
-                <form>
+                <form
+                    className={classes.modalBody}
+                    onSubmit={handleSubmit}
+                >
+                    <Typography gutterBottom>
+                        What could happen?
+                    </Typography>
                     <TextField
-                        id="anxiety"
-                        label="What could happen?"
-                        style={{ margin: 8 }}
+                        id="what"
                         placeholder="F.e. depression"
                         fullWidth
-                        margin="normal"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
+                        margin="none"
+                        name='what'
+                        onChange={handleInputChange}
+                        value={formValues.what}
                     />
 
-                    <Typography id="input-slider" gutterBottom>
+                    <Typography gutterBottom>
                         How bad is it?
                     </Typography>
-                    <Slider />
+                    <Slider
+                        name='severity'
+                        onChange={handleSeverityChange}
+                        value={formValues.severity}
+                    />
 
-                    <Typography id="input-slider" gutterBottom>
+                    <Typography gutterBottom>
                         How likely is it?
                     </Typography>
-                    <Slider />
+                    <Slider
+                        name='likelihood'
+                        onChange={handleLikelihoodChange}
+                        value={formValues.likelihood}
+                    />
 
-                    <Typography id="input-slider" gutterBottom>
+                    <Typography gutterBottom>
                         How manageable is it?
                     </Typography>
-                    <Slider />
-
+                    <Slider
+                        name='manageability'
+                        onChange={handleManageabilityChange}
+                        value={formValues.manageability}
+                    />
+                    
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        className={classes.button}
+                        type="submit"
+                    >
+                        Submit
+                    </Button>
                 </form>
             </Modal>
         </Container>
