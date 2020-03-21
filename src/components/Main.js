@@ -1,63 +1,76 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
-import Admission from './scenes/Admission/Admission';
-import './Main.css';
+import React, { useEffect } from 'react';
+import { withRouter, Route, Switch } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
+import Admission from './scenes/Admission/Admission';
+import ScreenB from './scenes/ScreenB/ScreenB';
+import LinkTab from './elements/LinkTab';
+import './Main.css';
+
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
+  main: {
+    overflow: 'hidden',
+    width: '100%'
   },
   title: {
     flexGrow: 1,
   },
 }));
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-function App() {
+function App({
+  location: { pathname }
+}) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+
+  useEffect(() => {
+    setValue(pathname === "/" ? 0 : 1);
+  }, [pathname]);
 
   const handleChange = (_event, newValue) => {
     setValue(newValue);
   };
   return (
-    <BrowserRouter>
+    <div className={classes.main}>
       <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             Social Atmosphere
           </Typography>
 
-          <Tabs value={value} onChange={handleChange}>
-            <Tab href="/" label="Screen A" {...a11yProps(0)} />
-            <Tab label="Screen B" {...a11yProps(1)} />
+          <Tabs
+            variant="fullWidth"
+            value={value}
+            onChange={handleChange}
+            aria-label="nav tabs example"
+          >
+            <LinkTab
+              label="Screen A"
+              href="/"
+              component="a"
+            />
+            <LinkTab
+              label="Screen B"
+              href="/screenb"
+            />
           </Tabs>
         </Toolbar>
       </AppBar>
       <Switch>
-        <Route path="/">
+        <Route exact path="/">
           <Admission />
         </Route>
+        <Route path="/screenb">
+          <ScreenB />
+        </Route>
       </Switch>
-    </BrowserRouter>
+    </div>
   );
 }
 
-export default App;
+export default withRouter(App);
