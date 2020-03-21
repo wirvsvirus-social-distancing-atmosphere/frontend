@@ -5,7 +5,7 @@ function Admission() {
         <div>
             test
         </div>
-    )
+    );
 }
 
 export default Admission;
