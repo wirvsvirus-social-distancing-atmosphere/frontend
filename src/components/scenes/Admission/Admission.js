@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Container from '@material-ui/core/Container';
 import Button from "@material-ui/core/Button";
 import Modal from '@material-ui/core/Modal';
@@ -8,6 +8,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import CirclePack from 'circlepack-chart';
+import * as d3 from 'd3'
+
+const color = d3.scaleOrdinal(d3.schemePaired);
 const useStyles = makeStyles(theme => ({
     title: {
         display: 'flex',
@@ -21,7 +25,6 @@ const useStyles = makeStyles(theme => ({
     },
     modalBody: {
         position: 'absolute',
-        width: 230,
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(2, 4, 3),
     },
@@ -32,6 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 function Admission() {
     const classes = useStyles();
+    const bubbleChartContainer = useRef();
 
     const [openModal, setOpenModal] = useState(false);
     const [formValues, setFormValues] = useState({
@@ -40,6 +44,33 @@ function Admission() {
         manageability: 0,
         severity: 0,
     });
+
+    useEffect(() => {
+        const bubbleChartData = {
+            name: '',
+            children: [{
+                name: 'Unemployment',
+                size: 16
+            }, {
+                name: 'Depression',
+                size: 27
+            }, {
+                name: 'Family loss',
+                size: 8.4
+            }, {
+                name: 'Isolation',
+                size: 5
+            }]
+        };
+        const bubbleChart = CirclePack();
+        bubbleChart
+            .data(bubbleChartData)
+            .width(bubbleChartContainer.current.parentElement.clientWidth)
+            .height(500)
+            .size('size')
+            .color(d => color(d.name))
+            (bubbleChartContainer.current);
+    }, []);
 
     const handleOpenModal = () => {
         setOpenModal(true);
@@ -70,10 +101,10 @@ function Admission() {
     };
 
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
             <DialogTitle className={classes.title}>What are you worried about?</DialogTitle>
             <div className="meter"></div>
-            <div className="bubble"></div>
+            <div className="bubble" ref={bubbleChartContainer}></div>
             <Button
                 variant='contained'
                 color='primary'
