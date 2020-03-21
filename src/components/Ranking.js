@@ -131,9 +131,33 @@ function Ranking(props) {
               />
             </FormControl>
           </div>
+          <div className="col m3">
+            Umdeutung
+            <ul className="collapsible">
+              <li>
+                <div className="collapsible-header">
+                  <AccessTimeIcon />
+                  Netflix
+                </div>
+              </li>
+            </ul>
+            <FormControl>
+              <InputLabel htmlFor="input-with-icon-adornment">
+                With a start adornment
+              </InputLabel>
+              <Input
+                id="input-with-icon-adornment"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <SubdirectoryArrowLeftIcon />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </div>
 
           <div className="col m3">
-            Regulation ???
+            Reaktion
             <ul className="collapsible">
               <li>
                 <div className="collapsible-header">
