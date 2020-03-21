@@ -12,7 +12,22 @@ function Admission() {
         name: "Zuhause bleiben",
         value: 202
       },
-      { name: "Zocken is geil.", value: 39 }
+      { name: "Zocken is geil.", value: 39 },
+      {
+        name: "Zuhause bleiben",
+        value: 202
+      },
+      { name: "Zocken is geil.", value: 39 },
+      {
+        name: "Zuhause bleiben",
+        value: 202
+      },
+      { name: "Zocken is geil.", value: 39 },
+      {
+        name: "Zuhause bleiben",
+        value: 202
+      },
+      { name: "Zuhause bleiben", value: 39 }
     ],
     modifikation: [
       {

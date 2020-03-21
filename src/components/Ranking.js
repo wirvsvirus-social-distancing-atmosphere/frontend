@@ -15,7 +15,10 @@ function Ranking(props) {
         <div className="row">
           <div className="col m3">
             Selektion
-            <ul className="collapsible">
+            <ul
+              className="collapsible"
+              style={{ height: "375px", overflow: "auto" }}
+            >
               {props.data.selektion.map(item => {
                 return (
                   <li>
@@ -41,7 +44,10 @@ function Ranking(props) {
 
           <div className="col m3">
             Modifikation
-            <ul className="collapsible">
+            <ul
+              className="collapsible"
+              style={{ height: "375px", overflow: "auto" }}
+            >
               {props.data.modifikation.map(item => {
                 return (
                   <li>
@@ -67,7 +73,10 @@ function Ranking(props) {
 
           <div className="col m3">
             Aufmerksamkeit
-            <ul className="collapsible">
+            <ul
+              className="collapsible"
+              style={{ height: "375px", overflow: "auto" }}
+            >
               {props.data.aufmerksamkeit.map(item => {
                 return (
                   <li>
@@ -92,7 +101,10 @@ function Ranking(props) {
           </div>
           <div className="col m3">
             Umdeutung
-            <ul className="collapsible">
+            <ul
+              className="collapsible"
+              style={{ height: "375px", overflow: "auto" }}
+            >
               {props.data.umdeutung.map(item => {
                 return (
                   <li>
@@ -118,7 +130,10 @@ function Ranking(props) {
 
           <div className="col m3">
             Reaktion
-            <ul className="collapsible">
+            <ul
+              className="collapsible"
+              style={{ height: "375px", overflow: "auto" }}
+            >
               {props.data.reaktion.map(item => {
                 return (
                   <li>
