@@ -7,13 +7,35 @@ import FormControl from "@material-ui/core/FormControl";
 import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft";
 import Tooltip from "@material-ui/core/Tooltip";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { makeStyles } from "@material-ui/core/styles";
 
 import "../materialize.min.css";
 
+const useStyles = makeStyles(theme => ({
+  row: {
+    display: "flex",
+    alignItems: "center",
+    flexWrap: "wrap",
+    justifyContent: "center"
+  },
+  modalBody: {
+    position: "absolute",
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(2, 4, 3)
+  },
+  button: {
+    margin: theme.spacing(1)
+  }
+}));
+
 function Ranking(props) {
+  const classes = useStyles();
   return (
     <>
-      <Typography variant="h2">Was kann ich gegen Angst tun?</Typography>
+      <DialogTitle className={classes.row}>
+        Was kann ich gegen Angst tun?
+      </DialogTitle>
       <div className="container">
         <div className="row">
           <div className="col m3">
