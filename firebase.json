@@ -1,7 +1,7 @@
 {
   "hosting": {
     "public": "build",
-    "site": "social-atmosphere",
+    "site": "moodometer",
     "ignore": [
       "firebase.json",
       "**/.*",

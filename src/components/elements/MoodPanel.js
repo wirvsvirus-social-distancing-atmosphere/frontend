@@ -12,7 +12,7 @@ import Slider from '@material-ui/core/Slider';
 
 import Histogram from './Histogram';
 
-import firebase from '../../utils/firebase';
+import firebase from "../../utils/firebase";
 import Fab from "@material-ui/core/Fab";
 import happy from "../../res/laugh-beam-regular.svg";
 import angry from "../../res/angry-regular.svg";
@@ -44,8 +44,8 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function MoodPanel({handleNext}) {
-    const classes = useStyles();
+function MoodPanel({ handleNext }) {
+  const classes = useStyles();
 
     const [moodValue, setMoodValue] = useState(100);
     const [overallMood, setOverallMood] = useState(0);
@@ -187,7 +187,7 @@ function MoodPanel({handleNext}) {
                 </div>
             </Modal>
         </div>
-    )
+  );
 }
 
 export default MoodPanel;

@@ -43,7 +43,9 @@ function getSteps() {
 }
 
 function Ranking(props) {
-  const [activeStep, setActiveStep] = React.useState(4);
+  const [activeStep, setActiveStep] = React.useState(
+    window.innerWidth <= 700 ? 0 : 4
+  );
   const classes = useStyles();
   const steps = getSteps();
   const handleNext = () => {
@@ -55,7 +57,10 @@ function Ranking(props) {
   };
 
   function showAufmerksamkeit() {
-    if (activeStep >= 2) {
+    if (
+      (window.innerWidth <= 700 && activeStep === 2) ||
+      (window.innerWidth > 700 && activeStep >= 2)
+    ) {
       return (
         <>
           <ul
@@ -97,7 +102,10 @@ function Ranking(props) {
     }
   }
   function showUmdeutung() {
-    if (activeStep >= 3) {
+    if (
+      (window.innerWidth <= 700 && activeStep === 3) ||
+      (window.innerWidth > 700 && activeStep >= 3)
+    ) {
       return (
         <>
           <ul
@@ -139,7 +147,10 @@ function Ranking(props) {
     }
   }
   function showReaktion() {
-    if (activeStep >= 4) {
+    if (
+      (window.innerWidth <= 700 && activeStep === 4) ||
+      (window.innerWidth > 700 && activeStep >= 4)
+    ) {
       return (
         <>
           <ul
@@ -181,7 +192,10 @@ function Ranking(props) {
     }
   }
   function showModification() {
-    if (activeStep >= 1) {
+    if (
+      (window.innerWidth <= 700 && activeStep === 1) ||
+      (window.innerWidth > 700 && activeStep >= 1)
+    ) {
       return (
         <>
           <ul
@@ -222,6 +236,53 @@ function Ranking(props) {
       );
     }
   }
+
+  function showSelektion() {
+    if (
+      (window.innerWidth <= 700 && activeStep === 0) ||
+      (window.innerWidth > 700 && activeStep >= 0)
+    ) {
+      return (
+        <>
+          <ul
+            className="collapsible"
+            style={{ height: "375px", overflow: "auto" }}
+          >
+            {props.data.selektion.map(item => {
+              return (
+                <li>
+                  <div className="collapsible-header">
+                    {item.name +
+                      " (" +
+                      (
+                        (item.value /
+                          props.data.totalItemsPerCategory.selektion) *
+                        100
+                      ).toFixed(2) +
+                      "%)"}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+
+          <TextField
+            id="input-with-icon-textfield"
+            label="Your measure"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SubdirectoryArrowLeftIcon fontSize="small" />
+                </InputAdornment>
+              )
+            }}
+            onKeyPress={e => saveNewItem(e, "selektion")}
+            helperText="Situation Selection: Do I face the situation or do I avoid it? (Eg: I stay at home)"
+          />
+        </>
+      );
+    }
+  }
   function saveNewItem(e, category) {
     if (e.key === "Enter") {
       props.saveNewItem(e.target.value, category);
@@ -248,56 +309,47 @@ function Ranking(props) {
           </Stepper>
         </div>
         <div className="row">
-          <div className="col m3" style={{ width: "calc(100% / 5)" }}>
-            <ul
-              className="collapsible"
-              style={{ height: "375px", overflow: "auto" }}
-            >
-              {props.data.selektion.map(item => {
-                return (
-                  <li>
-                    <div className="collapsible-header">
-                      {item.name +
-                        " (" +
-                        (
-                          (item.value /
-                            props.data.totalItemsPerCategory.selektion) *
-                          100
-                        ).toFixed(2) +
-                        "%)"}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-
-            <TextField
-              id="input-with-icon-textfield"
-              label="Your measure"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SubdirectoryArrowLeftIcon fontSize="small" />
-                  </InputAdornment>
-                )
-              }}
-              onKeyPress={e => saveNewItem(e, "selektion")}
-              helperText="Situation Selection: Do I face the situation or do I avoid it? (Eg: I stay at home)"
-            />
+          <div
+            className="col m3"
+            style={{
+              width: window.innerWidth <= 700 ? "100%" : "calc(100% / 5)"
+            }}
+          >
+            {showSelektion()}
           </div>
 
-          <div className="col m3" style={{ width: "calc(100% / 5)" }}>
+          <div
+            className="col m3"
+            style={{
+              width: window.innerWidth <= 700 ? "100%" : "calc(100% / 5)"
+            }}
+          >
             {showModification()}
           </div>
 
-          <div className="col m3" style={{ width: "calc(100% / 5)" }}>
+          <div
+            className="col m3"
+            style={{
+              width: window.innerWidth <= 700 ? "100%" : "calc(100% / 5)"
+            }}
+          >
             {showAufmerksamkeit()}
           </div>
-          <div className="col m3" style={{ width: "calc(100% / 5)" }}>
+          <div
+            className="col m3"
+            style={{
+              width: window.innerWidth <= 700 ? "100%" : "calc(100% / 5)"
+            }}
+          >
             {showUmdeutung()}
           </div>
 
-          <div className="col m3" style={{ width: "calc(100% / 5)" }}>
+          <div
+            className="col m3"
+            style={{
+              width: window.innerWidth <= 700 ? "100%" : "calc(100% / 5)"
+            }}
+          >
             {showReaktion()}
           </div>
         </div>

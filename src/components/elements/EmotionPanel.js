@@ -1,70 +1,70 @@
-import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
 
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slider from '@material-ui/core/Slider';
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Slider from "@material-ui/core/Slider";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Modal from '@material-ui/core/Modal';
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Modal from "@material-ui/core/Modal";
 
-import Fearometer from './Fearometer';
-import BubbleChart from './BubbleChart';
-import firebase from '../../utils/firebase';
+import Fearometer from "./Fearometer";
+import BubbleChart from "./BubbleChart";
+import firebase from "../../utils/firebase";
 
-import angry from '../../res/angry-regular.svg';
-import sad from '../../res/sad-tear-regular.svg';
-import happy from '../../res/laugh-beam-regular.svg';
-import anxious from '../../res/grimace-regular.svg';
+import angry from "../../res/angry-regular.svg";
+import sad from "../../res/sad-tear-regular.svg";
+import happy from "../../res/laugh-beam-regular.svg";
+import anxious from "../../res/grimace-regular.svg";
 import Fab from "@material-ui/core/Fab";
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        width: 600,
-        marginLeft: 'auto',
-        marginRight: 'auto',
+  root: {
+    width: window.innerWidth <= 620 ? "80%" : "600px",
+    marginLeft: "auto",
+    marginRight: "auto",
 
-        justifyContent: 'center',
-    },
-    row: {
-        display: 'flex',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-    },
-    button: {
-        margin: theme.spacing(1),
-    },
-    marginBottom: {
-        marginBottom: 20
-    },
-    selected: {
-        backgroundColor: 'cornflowerblue'
-    },
-    unselected: {
-        backgroundColor: 'lightgrey'
-    },
-    modalBody: {
-        position: 'absolute',
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(2, 4, 3),
-    },
-    what: {
-        margin: 10,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: 'lightblue',
-        fontWeight: 'bold'
-    }
+    justifyContent: "center"
+  },
+  row: {
+    display: "flex",
+    alignItems: "center",
+    flexWrap: "wrap",
+    justifyContent: "center"
+  },
+  button: {
+    margin: theme.spacing(1)
+  },
+  marginBottom: {
+    marginBottom: 20
+  },
+  selected: {
+    backgroundColor: "cornflowerblue"
+  },
+  unselected: {
+    backgroundColor: "lightgrey"
+  },
+  modalBody: {
+    position: "absolute",
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(2, 4, 3)
+  },
+  what: {
+    margin: 10,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "lightblue",
+    fontWeight: "bold"
+  }
 }));
 
 const moods = {
-    'joy': happy,
-    'anger': angry,
-    'fear': anxious,
-    'grief': sad
+  joy: happy,
+  anger: angry,
+  fear: anxious,
+  grief: sad
 };
 
 function MoodPanel({
@@ -159,16 +159,17 @@ function MoodPanel({
         }
     };
 
-    const handleCloseModal = () => {
-        setOpenModal(false);
-    };
-
     const handleNext = () => {
         history.push({
             pathname: '/howtocope',
             state: { emotion: formValues.what }
         });
-    }
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
 
     return (
         <div className={classes.root}>
@@ -241,32 +242,31 @@ function MoodPanel({
             >
                 <div className={classes.modalBody}>
                     <div>
-                        Would you like to learn how others coped with {selectedMood} similar to
+                    Would you like to learn how others coped with {selectedMood} similar
+                    to
                     </div>
-                    <div className={classes.what}>
-                        {formValues.what}
-                    </div>
+                    <div className={classes.what}>{formValues.what}</div>
                     <div>
-                        <Button
-                            variant="contained"
-                            className={classes.button}
-                            onClick={handleCloseModal}
-                        >
-                            No, thanks
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.button}
-                            onClick={handleNext}
-                        >
-                            Sure
-                        </Button>
+                    <Button
+                        variant="contained"
+                        className={classes.button}
+                        onClick={handleCloseModal}
+                    >
+                        No, thanks
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        onClick={handleNext}
+                    >
+                        Sure
+                    </Button>
                     </div>
                 </div>
             </Modal>
         </div>
-    )
+    );
 }
 
 export default withRouter(MoodPanel);
