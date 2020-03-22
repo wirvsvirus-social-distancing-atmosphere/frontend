@@ -43,7 +43,7 @@ function getSteps() {
 }
 
 function Ranking(props) {
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(4);
   const classes = useStyles();
   const steps = getSteps();
   const handleNext = () => {
