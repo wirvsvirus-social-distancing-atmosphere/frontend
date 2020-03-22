@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import Container from '@material-ui/core/Container';
 import Button from "@material-ui/core/Button";
 import Modal from '@material-ui/core/Modal';
 import Slider from '@material-ui/core/Slider';
@@ -8,13 +7,34 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Paper from '@material-ui/core/Paper';
 
 import Fearometer from '../../elements/Fearometer';
 import BubbleChart from '../../elements/BubbleChart';
 import Histogram from '../../elements/Histogram';
-import Query from '../../elements/Query';
 
 const useStyles = makeStyles(theme => ({
+    layout: {
+        width: 'auto',
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+          width: 600,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        },
+      },
+      paper: {
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(3),
+        padding: theme.spacing(2),
+        [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+          marginTop: theme.spacing(6),
+          marginBottom: theme.spacing(6),
+          padding: theme.spacing(3),
+        },
+      },
     row: {
         display: 'flex',
         alignItems: 'center',
@@ -43,9 +63,6 @@ function Admission({
         manageability: 0,
         severity: 0,
     });
-
-    const [data, setData] = useState();
-    const [fetchData, setFetchData] = useState(true);
     const handleOpenModal = () => {
         setOpenModal(true);
     };
@@ -79,84 +96,89 @@ function Admission({
     };
 
     return (
-        <Container maxWidth="md">
-            <DialogTitle className={classes.row}>Was befürchten Andere?</DialogTitle>
-            <BubbleChart data={data} />
+        <>
+            <CssBaseline />
+            <main className={classes.layout}>
+                <Paper className={classes.paper}>
+                    <DialogTitle className={classes.row}>Was befürchten Andere?</DialogTitle>
+                    <BubbleChart />
 
-            <div className={classes.row}>
-                <Fearometer />
-                <Histogram />
-            </div>
-            
-            <Button
-                variant='contained'
-                color='primary'
-                onClick={handleOpenModal}
-            >
-                Was ist Dir wichtig?
-            </Button>
-            <Modal
-                className={classes.row}
-                open={openModal}
-                onClose={handleCloseModal}
-            >
-                <form
-                    className={classes.modalBody}
-                    onSubmit={handleSubmit}
-                >
-                    <Typography gutterBottom>
-                        Was könnte passieren?
-                    </Typography>
-                    <TextField
-                        id="what"
-                        placeholder="Z.B. Depression"
-                        fullWidth
-                        margin="none"
-                        name='what'
-                        onChange={handleInputChange}
-                        value={formValues.what}
-                    />
-
-                    <Typography gutterBottom>
-                        Wie schlimm?
-                    </Typography>
-                    <Slider
-                        name='severity'
-                        onChange={handleSeverityChange}
-                        value={formValues.severity}
-                    />
-
-                    <Typography gutterBottom>
-                        Wie wahrscheinlich?
-                    </Typography>
-                    <Slider
-                        name='likelihood'
-                        onChange={handleLikelihoodChange}
-                        value={formValues.likelihood}
-                    />
-
-                    <Typography gutterBottom>
-                        Wie kontrollierbar?
-                    </Typography>
-                    <Slider
-                        name='manageability'
-                        onChange={handleManageabilityChange}
-                        value={formValues.manageability}
-                    />
+                    <div className={classes.row}>
+                        <Fearometer />
+                        <Histogram />
+                    </div>
                     
                     <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        className={classes.button}
-                        type="submit"
+                        variant='contained'
+                        color='primary'
+                        onClick={handleOpenModal}
                     >
-                        Beitragen
+                        Was ist Dir wichtig?
                     </Button>
-                </form>
-            </Modal>
+                    <Modal
+                        className={classes.row}
+                        open={openModal}
+                        onClose={handleCloseModal}
+                    >
+                        <form
+                            className={classes.modalBody}
+                            onSubmit={handleSubmit}
+                        >
+                            <Typography gutterBottom>
+                                Was könnte passieren?
+                            </Typography>
+                            <TextField
+                                id="what"
+                                placeholder="Z.B. Depression"
+                                fullWidth
+                                margin="none"
+                                name='what'
+                                onChange={handleInputChange}
+                                value={formValues.what}
+                            />
 
-        </Container>
+                            <Typography gutterBottom>
+                                Wie schlimm?
+                            </Typography>
+                            <Slider
+                                name='severity'
+                                onChange={handleSeverityChange}
+                                value={formValues.severity}
+                            />
+
+                            <Typography gutterBottom>
+                                Wie wahrscheinlich?
+                            </Typography>
+                            <Slider
+                                name='likelihood'
+                                onChange={handleLikelihoodChange}
+                                value={formValues.likelihood}
+                            />
+
+                            <Typography gutterBottom>
+                                Wie kontrollierbar?
+                            </Typography>
+                            <Slider
+                                name='manageability'
+                                onChange={handleManageabilityChange}
+                                value={formValues.manageability}
+                            />
+                            
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                className={classes.button}
+                                type="submit"
+                            >
+                                Beitragen
+                            </Button>
+                        </form>
+                    </Modal>
+                </Paper>
+            </main>
+        </>
+        
     );
 }
 

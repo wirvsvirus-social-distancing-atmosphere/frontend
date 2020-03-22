@@ -209,7 +209,7 @@ function Fearometer({
     const chartContainer = useRef();
     useEffect(() => {
         show_thermometer(chartContainer.current, currentValue);
-    }, []);
+    }, [currentValue]);
 
     return (
         <div ref={chartContainer} />

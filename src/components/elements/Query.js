@@ -1,4 +1,4 @@
-import firebase from '../../configs/firebase';
+import firebase from '../../utils/firebase';
 import {useEffect, useState} from 'react';
 
 export default props => {

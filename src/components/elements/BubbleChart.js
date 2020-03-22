@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import CirclePack from 'circlepack-chart';
 import * as d3 from 'd3'
-import firebase from '../../configs/firebase';
+import firebase from '../../utils/firebase';
 
 const color = d3.scaleOrdinal(d3.schemePaired);
 
