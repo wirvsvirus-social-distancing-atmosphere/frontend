@@ -151,7 +151,7 @@ function MoodPanel({
                 </Typography>
                 <TextField
                     id="what"
-                    placeholder="z.B. Depression"
+                    placeholder="e.g. Depression"
                     fullWidth
                     margin="none"
                     name='what'
