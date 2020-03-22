@@ -160,7 +160,7 @@ function MoodPanel({ history, mood = "joy" }) {
   const handleNext = () => {
     history.push({
       pathname: "/howtocope",
-      state: { emotion: formValues.what }
+      state: { emotion: mood }
     });
     setOpenModal(true);
   };
