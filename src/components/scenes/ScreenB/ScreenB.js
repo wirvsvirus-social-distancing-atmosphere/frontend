@@ -3,15 +3,39 @@ import Ranking from "../../elements/Ranking";
 
 function ScreenB() {
   const [tmpData, setTmpData] = React.useState({
-    selektion: ["Zuhause bleiben"],
-    modifikation: [
-      "Desinfektion",
-      "Hände waschen",
-      "Desinfektion",
-      "Desinfektion"
+    selektion: [
+      "Stay at home",
+      "Move to friends",
+      "Stay in my room",
+      "Stay in my room",
+      "Send grandma on vacation",
+      "Stay at home",
+      "Stay at home"
     ],
-    aufmerksamkeit: ["Netflix", "Kuscheln", "Offline"],
-    umdeutung: ["Zeit für Familie", "Nachbarn helfen"],
+    modifikation: [
+      "Video call",
+      "Video call",
+      "Video call",
+      "Video call",
+      "Wash hands frequently",
+      "Eat lots of fruit",
+      "Wrap grandma in cling film"
+    ],
+    aufmerksamkeit: [
+      "Watch TV",
+      "Watch TV",
+      "Watch TV",
+      "Play board games",
+      "Play board games",
+      "Computer-Gaming",
+      "Curry the cat"
+    ],
+    umdeutung: [
+      "I make new online contacts with my grandma",
+      "A lot of time to read",
+      "Grandma's apartment has never been so clean",
+      "Time for sport"
+    ],
     reaktion: ["Yoga/Meditation"]
   });
   function getPercentagePerItem(data) {

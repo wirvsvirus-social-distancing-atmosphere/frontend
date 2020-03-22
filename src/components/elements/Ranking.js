@@ -39,13 +39,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-  return [
-    "Selektion",
-    "Modifikation",
-    "Aufmerksamkeit",
-    "Umdeutung",
-    "Reaktion"
-  ];
+  return ["Selection", "Modification", "Attention", "Appraisal", "Response"];
 }
 
 function Ranking(props) {
@@ -87,7 +81,7 @@ function Ranking(props) {
           </ul>
           <TextField
             id="input-with-icon-textfield"
-            label="Deine Maßnahme"
+            label="Your measure"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -96,7 +90,7 @@ function Ranking(props) {
               )
             }}
             onKeyPress={e => saveNewItem(e, "aufmerksamkeit")}
-            helperText="Lenkung der Aufmerksamkeit: Hilft es mir, wenn ich mich auf eine Sache konzentriere? (Bsp: Ich schaue Netflix, um mich abzulenken)"
+            helperText="Attentional Deployment: Does it help if I concentrate on one thing? (Eg: I'm watching Netflix to distract myself)"
           />
         </>
       );
@@ -129,7 +123,7 @@ function Ranking(props) {
           </ul>
           <TextField
             id="input-with-icon-textfield"
-            label="Deine Maßnahme"
+            label="Your measure"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -138,7 +132,7 @@ function Ranking(props) {
               )
             }}
             onKeyPress={e => saveNewItem(e, "umdeutung")}
-            helperText="Kognitive Neubewertung: Wie kann ich die Situation noch sehen? (Bsp: Positiv gesehen knüpfe ich auch in Isolation virtuelle neue Kontakte)"
+            helperText="Cognitive Change: How can I see the situation from a different perspective? (Eg: Seen positively, I also make new virtual contacts in isolation)"
           />
         </>
       );
@@ -171,7 +165,7 @@ function Ranking(props) {
           </ul>
           <TextField
             id="input-with-icon-textfield"
-            label="Deine Maßnahme"
+            label="Your measure"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -180,7 +174,7 @@ function Ranking(props) {
               )
             }}
             onKeyPress={e => saveNewItem(e, "reaktion")}
-            helperText="Modulation der emotionalen Reaktion: Wie kann ich meine Reaktion steuern? (Bsp: Yoga hilft mir, mein Stresslevel zu senken)"
+            helperText="Emotional Response Modulation: How can I control my response? (Eg: Yoga helps me to lower my stress level)"
           />
         </>
       );
@@ -213,7 +207,7 @@ function Ranking(props) {
           </ul>
           <TextField
             id="input-with-icon-textfield"
-            label="Deine Maßnahme"
+            label="Your measure"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -222,7 +216,7 @@ function Ranking(props) {
               )
             }}
             onKeyPress={e => saveNewItem(e, "modifikation")}
-            helperText="Situationsmodifikation: Wie kann ich die Situation verändern? (Bsp: Mache einen Videoanruf, statt einen Freund zu treffen)"
+            helperText="Situation Modification: How can I change the situation? (Eg: Make a video call instead of meeting a friend)"
           />
         </>
       );
@@ -236,7 +230,7 @@ function Ranking(props) {
   return (
     <>
       <DialogTitle className={classes.row}>
-        Was kann ich gegen Angst tun?
+        What can I do about fear?
       </DialogTitle>
 
       <div className="container" style={{ width: "90%" }}>
@@ -279,7 +273,7 @@ function Ranking(props) {
 
             <TextField
               id="input-with-icon-textfield"
-              label="Deine Maßnahme"
+              label="Your measure"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -288,7 +282,7 @@ function Ranking(props) {
                 )
               }}
               onKeyPress={e => saveNewItem(e, "selektion")}
-              helperText="Situationsauswahl: Stelle ich mich der Situation oder vermeide ich sie? (Bsp: Ich bleibe zuhause)"
+              helperText="Situation Selection: Do I face the situation or do I avoid it? (Eg: I stay at home)"
             />
           </div>
 
