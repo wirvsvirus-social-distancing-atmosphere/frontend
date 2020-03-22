@@ -77,7 +77,9 @@ function Ranking(props) {
             {props.data.aufmerksamkeit.map(item => {
               return (
                 <li>
-                  <div className="collapsible-header">{item.name}</div>
+                  <div className="collapsible-header">
+                    {item.name + " (" + item.value + "%)"}
+                  </div>
                 </li>
               );
             })}
@@ -93,6 +95,7 @@ function Ranking(props) {
                   <SubdirectoryArrowLeftIcon />
                 </InputAdornment>
               }
+              onKeyPress={e => saveNewItem(e, "aufmerksamkeit")}
             />
           </FormControl>
         </>
@@ -118,7 +121,9 @@ function Ranking(props) {
             {props.data.umdeutung.map(item => {
               return (
                 <li>
-                  <div className="collapsible-header">{item.name}</div>
+                  <div className="collapsible-header">
+                    {item.name + " (" + item.value + "%)"}
+                  </div>
                 </li>
               );
             })}
@@ -134,6 +139,7 @@ function Ranking(props) {
                   <SubdirectoryArrowLeftIcon />
                 </InputAdornment>
               }
+              onKeyPress={e => saveNewItem(e, "umdeutung")}
             />
           </FormControl>
         </>
@@ -160,7 +166,9 @@ function Ranking(props) {
             {props.data.reaktion.map(item => {
               return (
                 <li>
-                  <div className="collapsible-header">{item.name}</div>
+                  <div className="collapsible-header">
+                    {item.name + " (" + item.value + "%)"}
+                  </div>
                 </li>
               );
             })}
@@ -176,6 +184,7 @@ function Ranking(props) {
                   <SubdirectoryArrowLeftIcon />
                 </InputAdornment>
               }
+              onKeyPress={e => saveNewItem(e, "reaktion")}
             />
           </FormControl>
         </>
@@ -201,7 +210,9 @@ function Ranking(props) {
             {props.data.modifikation.map(item => {
               return (
                 <li>
-                  <div className="collapsible-header">{item.name}</div>
+                  <div className="collapsible-header">
+                    {item.name + " (" + item.value + "%)"}
+                  </div>
                 </li>
               );
             })}
@@ -217,10 +228,16 @@ function Ranking(props) {
                   <SubdirectoryArrowLeftIcon />
                 </InputAdornment>
               }
+              onKeyPress={e => saveNewItem(e, "modifikation")}
             />
           </FormControl>
         </>
       );
+    }
+  }
+  function saveNewItem(e, category) {
+    if (e.key === "Enter") {
+      props.saveNewItem(e.target.value, category);
     }
   }
   return (
@@ -256,7 +273,9 @@ function Ranking(props) {
               {props.data.selektion.map(item => {
                 return (
                   <li>
-                    <div className="collapsible-header">{item.name}</div>
+                    <div className="collapsible-header">
+                      {item.name + " (" + item.value + "%)"}
+                    </div>
                   </li>
                 );
               })}
@@ -272,6 +291,7 @@ function Ranking(props) {
                     <SubdirectoryArrowLeftIcon />
                   </InputAdornment>
                 }
+                onKeyPress={e => saveNewItem(e, "selektion")}
               />
             </FormControl>
           </div>
