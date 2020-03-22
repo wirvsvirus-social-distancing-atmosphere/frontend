@@ -1,9 +1,5 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import FormControl from "@material-ui/core/FormControl";
 import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft";
 import Tooltip from "@material-ui/core/Tooltip";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
@@ -15,6 +11,7 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 
 import "../materialize.min.css";
+import { TextField } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   row: {
@@ -76,20 +73,18 @@ function Ranking(props) {
               );
             })}
           </ul>
-          <FormControl>
-            <InputLabel htmlFor="input-with-icon-adornment">
-              Lenkung der Aufmerksamkeit
-            </InputLabel>
-            <Input
-              id="input-with-icon-adornment"
-              endAdornment={
+          <TextField
+            id="input-with-icon-textfield"
+            label="Deine Maßnahme"
+            InputProps={{
+              endAdornment: (
                 <InputAdornment position="end">
-                  <SubdirectoryArrowLeftIcon />
+                  <SubdirectoryArrowLeftIcon fontSize="small" />
                 </InputAdornment>
-              }
-              onKeyPress={e => saveNewItem(e, "aufmerksamkeit")}
-            />
-          </FormControl>
+              )
+            }}
+            onKeyPress={e => saveNewItem(e, "aufmerksamkeit")}
+          />
         </>
       );
     }
@@ -112,20 +107,18 @@ function Ranking(props) {
               );
             })}
           </ul>
-          <FormControl>
-            <InputLabel htmlFor="input-with-icon-adornment">
-              Kognitive Neubewertung
-            </InputLabel>
-            <Input
-              id="input-with-icon-adornment"
-              endAdornment={
+          <TextField
+            id="input-with-icon-textfield"
+            label="Deine Maßnahme"
+            InputProps={{
+              endAdornment: (
                 <InputAdornment position="end">
-                  <SubdirectoryArrowLeftIcon />
+                  <SubdirectoryArrowLeftIcon fontSize="small" />
                 </InputAdornment>
-              }
-              onKeyPress={e => saveNewItem(e, "umdeutung")}
-            />
-          </FormControl>
+              )
+            }}
+            onKeyPress={e => saveNewItem(e, "umdeutung")}
+          />
         </>
       );
     }
@@ -148,20 +141,18 @@ function Ranking(props) {
               );
             })}
           </ul>
-          <FormControl>
-            <InputLabel htmlFor="input-with-icon-adornment">
-              Modulation der emotionalen Reaktion
-            </InputLabel>
-            <Input
-              id="input-with-icon-adornment"
-              endAdornment={
+          <TextField
+            id="input-with-icon-textfield"
+            label="Deine Maßnahme"
+            InputProps={{
+              endAdornment: (
                 <InputAdornment position="end">
-                  <SubdirectoryArrowLeftIcon />
+                  <SubdirectoryArrowLeftIcon fontSize="small" />
                 </InputAdornment>
-              }
-              onKeyPress={e => saveNewItem(e, "reaktion")}
-            />
-          </FormControl>
+              )
+            }}
+            onKeyPress={e => saveNewItem(e, "reaktion")}
+          />
         </>
       );
     }
@@ -184,20 +175,18 @@ function Ranking(props) {
               );
             })}
           </ul>
-          <FormControl>
-            <InputLabel htmlFor="input-with-icon-adornment">
-              Situationsmodifikation
-            </InputLabel>
-            <Input
-              id="input-with-icon-adornment"
-              endAdornment={
+          <TextField
+            id="input-with-icon-textfield"
+            label="Deine Maßnahme"
+            InputProps={{
+              endAdornment: (
                 <InputAdornment position="end">
-                  <SubdirectoryArrowLeftIcon />
+                  <SubdirectoryArrowLeftIcon fontSize="small" />
                 </InputAdornment>
-              }
-              onKeyPress={e => saveNewItem(e, "modifikation")}
-            />
-          </FormControl>
+              )
+            }}
+            onKeyPress={e => saveNewItem(e, "modifikation")}
+          />
         </>
       );
     }
@@ -205,21 +194,20 @@ function Ranking(props) {
   function saveNewItem(e, category) {
     if (e.key === "Enter") {
       props.saveNewItem(e.target.value, category);
-      e.target.value = null;
     }
   }
   function getTooltipTitle(label) {
     switch (label) {
       case "Selektion":
-        return "Situationsauswahl: Stelle ich mich der Situation oder vermeide ich sie? (Bsp: Ich bliebe zuhause)";
+        return "Situationsauswahl: Stelle ich mich der Situation oder vermeide ich sie? (Bsp: Ich bleibe zuhause)";
       case "Modifikation":
-        return "Situationsmodifikation: Wie kann ich die Situation verändern? (Bsp: mache einen Videoanruf, statt einen Freund zu treffen)";
+        return "Situationsmodifikation: Wie kann ich die Situation verändern? (Bsp: Mache einen Videoanruf, statt einen Freund zu treffen)";
       case "Aufmerksamkeit":
         return "Lenkung der Aufmerksamkeit: Hilft es mir, wenn ich mich auf eine Sache konzentriere? (Bsp: Ich schaue Netflix, um mich abzulenken)";
       case "Umdeutung":
-        return "Kognitive Neubewertung: Wie kann ich die Situation noch sehen? (Bsp: positiv gesehen knüpfe ich auch in Isolation virtuelle neue Kontakte)";
+        return "Kognitive Neubewertung: Wie kann ich die Situation noch sehen? (Bsp: Positiv gesehen knüpfe ich auch in Isolation virtuelle neue Kontakte)";
       case "Reaktion":
-        return "Modulation der emotionalen Reaktion: Wie kann ich meine Reaktion steuern? (Bsp: Yoge hilft mir, mein Stresslevel zu senken)";
+        return "Modulation der emotionalen Reaktion: Wie kann ich meine Reaktion steuern? (Bsp: Yoga hilft mir, mein Stresslevel zu senken)";
       default:
         return;
     }
@@ -269,20 +257,20 @@ function Ranking(props) {
                 );
               })}
             </ul>
-            <FormControl>
-              <InputLabel htmlFor="input-with-icon-adornment">
-                Situationsauswahl
-              </InputLabel>
-              <Input
-                id="input-with-icon-adornment"
-                endAdornment={
+
+            <TextField
+              id="input-with-icon-textfield"
+              label="Deine Maßnahme"
+              InputProps={{
+                endAdornment: (
                   <InputAdornment position="end">
-                    <SubdirectoryArrowLeftIcon />
+                    <SubdirectoryArrowLeftIcon fontSize="small" />
                   </InputAdornment>
-                }
-                onKeyPress={e => saveNewItem(e, "selektion")}
-              />
-            </FormControl>
+                )
+              }}
+              onKeyPress={e => saveNewItem(e, "selektion")}
+              helperText="Situationsauswahl: Stelle ich mich der Situation oder vermeide ich sie? (Bsp: Ich bleibe zuhause)"
+            />
           </div>
 
           <div className="col m3" style={{ width: "calc(100% / 5)" }}>
@@ -307,7 +295,7 @@ function Ranking(props) {
             onClick={handleNext}
             className={classes.button}
           >
-            {activeStep === steps.length - 1 ? "Finish" : "Next"}
+            {activeStep === steps.length - 1 ? "Go to ScreenB" : "Next"}
           </Button>
         </div>
       </div>
