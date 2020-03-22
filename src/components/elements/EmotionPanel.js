@@ -10,6 +10,12 @@ import Fearometer from './Fearometer';
 import BubbleChart from './BubbleChart';
 import firebase from '../../utils/firebase';
 
+import angry from '../../res/angry-regular.svg';
+import sad from '../../res/sad-tear-regular.svg';
+import happy from '../../res/laugh-beam-regular.svg';
+import anxious from '../../res/grimace-regular.svg';
+import Fab from "@material-ui/core/Fab";
+
 const useStyles = makeStyles(theme => ({
     row: {
         display: 'flex',
@@ -50,6 +56,35 @@ function MoodPanel() {
 
     return (
         <>
+
+            <Fab
+                style={{ margin: '20px', backgroundColor: "green" }}
+                size='large'
+                color='primary'
+            >
+                <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${happy})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
+            </Fab>
+            <Fab
+                style={{ margin: '20px', backgroundColor: "orange" }}
+                size='large'
+                color='primary'
+            >
+                <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${angry})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
+            </Fab>
+            <Fab
+                style={{ margin: '20px', backgroundColor: "yellow" }}
+                size='large'
+                color='primary'
+            >
+                <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${sad})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
+            </Fab>
+            <Fab
+                style={{ margin: '20px', backgroundColor: "blue" }}
+                size='large'
+                color='primary'
+            >
+                <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${anxious})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
+            </Fab>
             <DialogTitle className={classes.row}>Was befürchten Andere?</DialogTitle>
             <BubbleChart />
 
