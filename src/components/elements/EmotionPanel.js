@@ -111,7 +111,7 @@ function MoodPanel({ history, mood = "joy" }) {
         Object.keys(data).forEach(key => {
           children.push({
             name: key,
-            size: data[key].count > 0 ? data[key].value / data[key].count : 0
+            size: data[key].count / querySnapshot.size
           });
         });
         setOverallMood(Math.round(avg));
