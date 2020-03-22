@@ -66,7 +66,14 @@ function Ranking(props) {
               return (
                 <li>
                   <div className="collapsible-header">
-                    {item.name + " (" + item.value + "%)"}
+                    {item.name +
+                      " (" +
+                      (
+                        (item.value /
+                          props.data.totalItemsPerCategory.aufmerksamkeit) *
+                        100
+                      ).toFixed(2) +
+                      "%)"}
                   </div>
                 </li>
               );
@@ -101,7 +108,14 @@ function Ranking(props) {
               return (
                 <li>
                   <div className="collapsible-header">
-                    {item.name + " (" + item.value + "%)"}
+                    {item.name +
+                      " (" +
+                      (
+                        (item.value /
+                          props.data.totalItemsPerCategory.umdeutung) *
+                        100
+                      ).toFixed(2) +
+                      "%)"}
                   </div>
                 </li>
               );
@@ -136,7 +150,14 @@ function Ranking(props) {
               return (
                 <li>
                   <div className="collapsible-header">
-                    {item.name + " (" + item.value + "%)"}
+                    {item.name +
+                      " (" +
+                      (
+                        (item.value /
+                          props.data.totalItemsPerCategory.reaktion) *
+                        100
+                      ).toFixed(2) +
+                      "%)"}
                   </div>
                 </li>
               );
@@ -171,7 +192,14 @@ function Ranking(props) {
               return (
                 <li>
                   <div className="collapsible-header">
-                    {item.name + " (" + item.value + "%)"}
+                    {item.name +
+                      " (" +
+                      (
+                        (item.value /
+                          props.data.totalItemsPerCategory.modifikation) *
+                        100
+                      ).toFixed(2) +
+                      "%)"}
                   </div>
                 </li>
               );
@@ -229,7 +257,14 @@ function Ranking(props) {
                 return (
                   <li>
                     <div className="collapsible-header">
-                      {item.name + " (" + item.value + "%)"}
+                      {item.name +
+                        " (" +
+                        (
+                          (item.value /
+                            props.data.totalItemsPerCategory.selektion) *
+                          100
+                        ).toFixed(2) +
+                        "%)"}
                     </div>
                   </li>
                 );
@@ -273,7 +308,7 @@ function Ranking(props) {
             onClick={handleNext}
             className={classes.button}
           >
-            {activeStep === steps.length - 1 ? "Go to ScreenB" : "Next"}
+            {activeStep === steps.length - 1 ? "Go to ScreenA" : "Next"}
           </Button>
         </div>
       </div>
