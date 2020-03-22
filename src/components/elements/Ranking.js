@@ -62,7 +62,7 @@ function Ranking(props) {
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
           >
-            {props.data.aufmerksamkeit.map(item => {
+            {props.data && props.data.aufmerksamkeit.map(item => {
               return (
                 <li>
                   <div className="collapsible-header">
@@ -104,7 +104,7 @@ function Ranking(props) {
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
           >
-            {props.data.umdeutung.map(item => {
+            {props.data && props.data.umdeutung.map(item => {
               return (
                 <li>
                   <div className="collapsible-header">
@@ -146,7 +146,7 @@ function Ranking(props) {
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
           >
-            {props.data.reaktion.map(item => {
+            {props.data && props.data.reaktion.map(item => {
               return (
                 <li>
                   <div className="collapsible-header">
@@ -188,7 +188,7 @@ function Ranking(props) {
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
           >
-            {props.data.modifikation.map(item => {
+            {props.data && props.data.modifikation.map(item => {
               return (
                 <li>
                   <div className="collapsible-header">
@@ -253,7 +253,7 @@ function Ranking(props) {
               className="collapsible"
               style={{ height: "375px", overflow: "auto" }}
             >
-              {props.data.selektion.map(item => {
+              {props.data && props.data.selektion.map(item => {
                 return (
                   <li>
                     <div className="collapsible-header">
