@@ -40,7 +40,7 @@ function App({
       <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            Social Atmosphere
+            Moodometer
           </Typography>
 
           <Tabs
@@ -50,12 +50,12 @@ function App({
             aria-label="nav tabs example"
           >
             <LinkTab
-              label="Screen A"
+              label="How people feel"
               href="/"
               component="a"
             />
             <LinkTab
-              label="Screen B"
+              label="How to cope"
               href="/screenb"
             />
           </Tabs>
