@@ -1,14 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import Typography from '@material-ui/core/Typography';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Slider from '@material-ui/core/Slider';
 import Button from "@material-ui/core/Button";
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
-import Fearometer from '../../elements/Fearometer';
+import Fearometer from './Fearometer';
+import Histogram from './Histogram';
+
 import firebase from '../../utils/firebase';
 
+const useStyles = makeStyles(theme => ({
+    row: {
+        display: 'flex',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+    },
+    button: {
+        margin: theme.spacing(1),
+    },
+}));
+
 function MoodPanel() {
+    const classes = useStyles();
+
     const [moodValue, setMoodValue] = useState(0);
-    const [overallMood, setOverallMood] = useState();
+    const [overallMood, setOverallMood] = useState(0);
 
     const handleSubmit = () => {
         firebase
@@ -34,7 +52,7 @@ function MoodPanel() {
                 querySnapshot.forEach(function (doc) {
                     resultArray.push(doc.data());
                 });
-                setOverallMood(resultArray);
+                setOverallMood(42);
             })
             .catch(function (error) {
                 console.log('Error getting documents: ', error);
@@ -43,27 +61,33 @@ function MoodPanel() {
 
     return (
         <>
-            <Typography gutterBottom>
-                Wie geht es dir heute?
-            </Typography>
-            <Slider
-                name='manageability'
-                onChange={ (_e, newValue) => {
-                    setMoodValue(newValue);
-                }}
-                value={moodValue}
-            />
-
-            <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                onClick={handleSubmit}
-            >
-                Abschicken
-            </Button>
-
-            <Fearometer currentValue={overallMood}/>
+            <DialogTitle className={classes.row}>Wie geht es dir heute?</DialogTitle>
+            <div className={classes.row}>
+                <Fearometer currentValue={overallMood}/>
+                <div>
+                    <Typography gutterBottom>
+                        Deine Stimmung
+                    </Typography>
+                    <Slider
+                        name='manageability'
+                        onChange={ (_e, newValue) => {
+                            setMoodValue(newValue);
+                        }}
+                        value={moodValue}
+                    />
+                    <div>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        onClick={handleSubmit}
+                    >
+                        Abschicken
+                    </Button>
+            </div>
+                </div>
+            </div>
+            <Histogram />
         </>
     )
 }

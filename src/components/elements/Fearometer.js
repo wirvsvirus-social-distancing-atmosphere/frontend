@@ -3,7 +3,7 @@ import * as d3 from 'd3'
 
 function show_thermometer(container, currentValue) {
     var width = 150,
-        height = 400,
+        height = 300,
         maxValue = 100,
         minValue = 0;
 
@@ -21,6 +21,8 @@ function show_thermometer(container, currentValue) {
         bulb_cx = width / 2,
         top_cy = topY + tubeWidth / 2;
 
+    d3.select(container)
+        .selectAll("svg").remove();
     var svg = d3.select(container)
         .append("svg")
         .attr("width", width)

@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import Button from "@material-ui/core/Button";
-import Modal from '@material-ui/core/Modal';
-import Slider from '@material-ui/core/Slider';
-import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 
-import Fearometer from '../../elements/Fearometer';
-import BubbleChart from '../../elements/BubbleChart';
-import Histogram from '../../elements/Histogram';
+import MoodPanel from '../../elements/MoodPanel';
+import EmotionPanel from '../../elements/EmotionPanel';
 
 const useStyles = makeStyles(theme => ({
     layout: {
@@ -41,58 +35,41 @@ const useStyles = makeStyles(theme => ({
         flexWrap: 'wrap',
         justifyContent: 'center',
     },
-    modalBody: {
-        position: 'absolute',
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(2, 4, 3),
-    },
     button: {
         margin: theme.spacing(1),
     },
 }));
+
+function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <MoodPanel />;
+      case 1:
+        return <EmotionPanel />;
+      default:
+        throw new Error('Unknown step');
+    }
+  }
 
 function Admission({
     history,
 }) {
     const classes = useStyles();
 
-    const [openModal, setOpenModal] = useState(false);
-    const [formValues, setFormValues] = useState({
-        what: '',
-        likelihood: 0,
-        manageability: 0,
-        severity: 0,
-    });
-    const handleOpenModal = () => {
-        setOpenModal(true);
+    const [activeStep, setActiveStep] = React.useState(0);
+
+    const handleNext = () => {
+        if (activeStep !== 0) {
+            history.push({
+                pathname: '/screenb',
+            });
+        } else {
+            setActiveStep(activeStep + 1);
+        }
     };
 
-    const handleCloseModal = () => {
-        setOpenModal(false);
-    };
-
-    const handleInputChange = e => {
-        const {name, value} = e.target
-        console.log(e)
-        setFormValues({...formValues, [name]: value})
-    }
-
-    const handleSeverityChange = (_e, newValue) => {
-        setFormValues({...formValues, "severity": newValue});
-    }
-    const handleLikelihoodChange = (_e, newValue) => {
-        setFormValues({...formValues, "likelihood": newValue});
-    }
-    const handleManageabilityChange = (_e, newValue) => {
-        setFormValues({...formValues, "manageability": newValue});
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        history.replace({
-            pathname: 'screenb',
-        });
+    const handleBack = () => {
+        setActiveStep(activeStep - 1);
     };
 
     return (
@@ -100,81 +77,25 @@ function Admission({
             <CssBaseline />
             <main className={classes.layout}>
                 <Paper className={classes.paper}>
-                    <DialogTitle className={classes.row}>Was befürchten Andere?</DialogTitle>
-                    <BubbleChart />
-
-                    <div className={classes.row}>
-                        <Fearometer />
-                        <Histogram />
-                    </div>
-                    
-                    <Button
-                        variant='contained'
-                        color='primary'
-                        onClick={handleOpenModal}
-                    >
-                        Was ist Dir wichtig?
-                    </Button>
-                    <Modal
-                        className={classes.row}
-                        open={openModal}
-                        onClose={handleCloseModal}
-                    >
-                        <form
-                            className={classes.modalBody}
-                            onSubmit={handleSubmit}
-                        >
-                            <Typography gutterBottom>
-                                Was könnte passieren?
-                            </Typography>
-                            <TextField
-                                id="what"
-                                placeholder="Z.B. Depression"
-                                fullWidth
-                                margin="none"
-                                name='what'
-                                onChange={handleInputChange}
-                                value={formValues.what}
-                            />
-
-                            <Typography gutterBottom>
-                                Wie schlimm?
-                            </Typography>
-                            <Slider
-                                name='severity'
-                                onChange={handleSeverityChange}
-                                value={formValues.severity}
-                            />
-
-                            <Typography gutterBottom>
-                                Wie wahrscheinlich?
-                            </Typography>
-                            <Slider
-                                name='likelihood'
-                                onChange={handleLikelihoodChange}
-                                value={formValues.likelihood}
-                            />
-
-                            <Typography gutterBottom>
-                                Wie kontrollierbar?
-                            </Typography>
-                            <Slider
-                                name='manageability'
-                                onChange={handleManageabilityChange}
-                                value={formValues.manageability}
-                            />
-                            
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                size="small"
-                                className={classes.button}
-                                type="submit"
-                            >
-                                Beitragen
+                    <React.Fragment>
+                        {getStepContent(activeStep)}
+                        <div className={classes.buttons}>
+                        {activeStep !== 0 && (
+                            <Button onClick={handleBack} className={classes.button}>
+                                Zurück
                             </Button>
-                        </form>
-                    </Modal>
+                        )}
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleNext}
+                            className={classes.button}
+                        >
+                            {activeStep === 1 ? 'Beitragen' : 'Weiter'}
+                        </Button>
+                        </div>
+                    </React.Fragment>
+
                 </Paper>
             </main>
         </>
