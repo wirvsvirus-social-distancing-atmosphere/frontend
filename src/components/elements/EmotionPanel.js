@@ -112,7 +112,7 @@ function MoodPanel({
 
     const handleNext = () => {
         history.push({
-            pathname: '/screenb',
+            pathname: '/howtocope',
             state: { emotion: formValues.what }
         });
     }

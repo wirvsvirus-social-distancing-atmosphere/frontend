@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function MoodPanel() {
+function MoodPanel({handleNext}) {
     const classes = useStyles();
 
     const [moodValue, setMoodValue] = useState(0);
@@ -101,33 +101,38 @@ function MoodPanel() {
                 <div style={{fontSize: "22px"}}>And how do you feel today?</div>
                 <div style={{display: "flex", justifyContent: "space-around",margin: "10px"}}>
                     <Fab
-                        style={{ backgroundColor: "green" }}
+                        style={{ backgroundColor: "lightgrey" }}
                         size='large'
                         color='primary'
+                        onClick={() => handleNext('joy')}
                     >
                         <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${happy})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
                     </Fab>
                     <Fab
-                        style={{  backgroundColor: "orange" }}
+                        style={{  backgroundColor: "lightgrey" }}
                         size='large'
                         color='primary'
+                        onClick={() => handleNext('anger')}
                     >
                         <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${angry})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
                     </Fab>
                     <Fab
-                        style={{ backgroundColor: "yellow" }}
+                        style={{ backgroundColor: "lightgrey" }}
                         size='large'
                         color='primary'
-                    >
-                        <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${sad})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
-                    </Fab>
-                    <Fab
-                        style={{ backgroundColor: "blue" }}
-                        size='large'
-                        color='primary'
+                        onClick={() => handleNext('fear')}
                     >
                         <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${anxious})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
                     </Fab>
+                    <Fab
+                        style={{ backgroundColor: "lightgrey" }}
+                        size='large'
+                        color='primary'
+                        onClick={() => handleNext('grief')}
+                    >
+                        <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${sad})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
+                    </Fab>
+                    
                 </div>
             </Paper>
 

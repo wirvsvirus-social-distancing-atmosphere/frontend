@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%'
   },
   title: {
-    flexGrow: 1,
+    justifyContent: 'center'
   },
 }));
 
@@ -38,8 +38,8 @@ function App({
   return (
     <div className={classes.main}>
       <AppBar position="static">
-        <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
+        <Toolbar className={classes.title}>
+          <Typography variant="h6" noWrap>
             Moodometer
           </Typography>
 
@@ -56,7 +56,7 @@ function App({
             />
             <LinkTab
               label="How to cope"
-              href="/screenb"
+              href="/howtocope"
             />
           </Tabs>
         </Toolbar>
@@ -65,7 +65,7 @@ function App({
         <Route exact path="/">
           <Admission />
         </Route>
-        <Route path="/screenb">
+        <Route path="/howtocope">
           <ScreenB />
         </Route>
       </Switch>

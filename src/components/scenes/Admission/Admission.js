@@ -32,33 +32,29 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function getStepContent(step) {
-    switch (step) {
-      case 0:
-        return <MoodPanel />;
-      case 1:
-        return <EmotionPanel />;
-      default:
-        throw new Error('Unknown step');
-    }
-  }
-
 function Admission({
     history,
 }) {
     const classes = useStyles();
 
-    const [activeStep, setActiveStep] = React.useState(1);
+    const [activeStep, setActiveStep] = React.useState(0);
+    const [selectedMood, setSelectedMood] = useState();
 
-    const handleNext = () => {
-        if (activeStep !== 0) {
-            history.push({
-                pathname: '/screenb',
-            });
-        } else {
-            setActiveStep(activeStep + 1);
-        }
+    const handleNext = (mood) => {
+        setSelectedMood(mood);
+        setActiveStep(1);
     };
+
+    const getStepContent = (step) => {
+        switch (step) {
+          case 0:
+            return <MoodPanel handleNext={ handleNext }/>;
+          case 1:
+            return <EmotionPanel mood={selectedMood}/>;
+          default:
+            throw new Error('Unknown step');
+        }
+      }
 
     return (
         <>

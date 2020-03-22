@@ -1,4 +1,6 @@
 import React from "react";
+import { withRouter } from 'react-router-dom';
+
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
@@ -51,7 +53,9 @@ function Ranking(props) {
   const classes = useStyles();
   const steps = getSteps();
   const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+    props.history.push({
+      pathname: '/',
+    });
   };
 
   function showAufmerksamkeit() {
@@ -273,7 +277,7 @@ function Ranking(props) {
             onClick={handleNext}
             className={classes.button}
           >
-            {activeStep === steps.length - 1 ? "Go to ScreenB" : "Next"}
+            {activeStep === steps.length - 1 ? "Back" : "Next"}
           </Button>
         </div>
       </div>
@@ -281,4 +285,4 @@ function Ranking(props) {
   );
 }
 
-export default Ranking;
+export default withRouter(Ranking);
