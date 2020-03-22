@@ -81,13 +81,15 @@ function MoodPanel({ handleNext }) {
     >
       <Paper
         style={{
-          width: "60%",
+          width: window.innerWidth <= 700 ? "95%" : "60%",
           margin: "30px",
           padding: "20px",
           backgroundColor: "#f1f1f1"
         }}
       >
-        <Histogram />
+        <p style={{ height: window.innerWidth <= 700 ? "150px" : "100px" }}>
+          <Histogram />
+        </p>
       </Paper>
       <Paper
         style={{

@@ -286,6 +286,25 @@ function Ranking(props) {
   function saveNewItem(e, category) {
     if (e.key === "Enter") {
       props.saveNewItem(e.target.value, category);
+      if (window.innerWidth <= 700) {
+        switch (category) {
+          case "modifikation":
+            setActiveStep(2);
+            break;
+          case "aufmerksamkeit":
+            setActiveStep(3);
+            break;
+          case "umdeutung":
+            setActiveStep(4);
+            break;
+          case "reaktion":
+            setActiveStep(4);
+            break;
+          default:
+            setActiveStep(1);
+            break;
+        }
+      }
     }
   }
   return (

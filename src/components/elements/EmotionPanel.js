@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Modal from "@material-ui/core/Modal";
-
+import Grid from "@material-ui/core/Grid";
 import Fearometer from "./Fearometer";
 import BubbleChart from "./BubbleChart";
 import firebase from "../../utils/firebase";
@@ -21,7 +21,7 @@ import Fab from "@material-ui/core/Fab";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: window.innerWidth <= 620 ? "80%" : "600px",
+    width: "90%",
     marginLeft: "auto",
     marginRight: "auto",
 
@@ -124,105 +124,118 @@ function MoodPanel({ history, mood = "joy" }) {
 
   return (
     <div className={classes.root}>
-      <DialogTitle className={classes.row}>How is your mood?</DialogTitle>
-      <div className={classes.row}>
-        {Object.keys(moods).map(item => {
-          return (
-            <Fab
-              key={item}
-              className={
-                selectedMood === item ? classes.selected : classes.unselected
-              }
-              style={{ margin: "20px" }}
-              size="large"
-              color="primary"
-              onClick={() => setSelectedMood(item)}
-              component="div"
-            >
-              <div
-                style={{
-                  backgroundSize: "contain",
-                  height: "50px",
-                  width: "50px",
-                  backgroundImage: `url(${moods[item]})`,
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat"
-                }}
-              />
-            </Fab>
-          );
-        })}
-      </div>
+      <Grid container style={{ width: "100%" }}>
+        <Grid
+          item
+          style={{ width: "46%", marginLeft: "2%", marginRight: "3%" }}
+        >
+          <DialogTitle className={classes.row}>How is your mood?</DialogTitle>
+          <div className={classes.row}>
+            {Object.keys(moods).map(item => {
+              return (
+                <Fab
+                  key={item}
+                  className={
+                    selectedMood === item
+                      ? classes.selected
+                      : classes.unselected
+                  }
+                  style={{ margin: "20px" }}
+                  size="large"
+                  color="primary"
+                  onClick={() => setSelectedMood(item)}
+                  component="div"
+                >
+                  <div
+                    style={{
+                      backgroundSize: "contain",
+                      height: "50px",
+                      width: "50px",
+                      backgroundImage: `url(${moods[item]})`,
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat"
+                    }}
+                  />
+                </Fab>
+              );
+            })}
+          </div>
 
-      <form>
-        <Typography align={"center"}>What could happen?</Typography>
-        <TextField
-          id="what"
-          placeholder="e.g. Depression"
-          fullWidth
-          margin="none"
-          name="what"
-          onChange={handleInputChange}
-          value={formValues.what}
-          className={classes.marginBottom}
-        />
+          <form>
+            <Typography align={"center"}>What could happen?</Typography>
+            <TextField
+              id="what"
+              placeholder="e.g. Depression"
+              fullWidth
+              margin="none"
+              name="what"
+              onChange={handleInputChange}
+              value={formValues.what}
+              className={classes.marginBottom}
+            />
 
-        <Typography align={"center"}>How intense is that emotion?</Typography>
-        <Slider
-          name="severity"
-          onChange={handleSeverityChange}
-          value={formValues.severity}
-        />
-        <div className={classes.row}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={handleOpenModal}
+            <Typography align={"center"}>
+              How intense is that emotion?
+            </Typography>
+            <Slider
+              name="severity"
+              onChange={handleSeverityChange}
+              value={formValues.severity}
+            />
+            <div className={classes.row}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={handleOpenModal}
+              >
+                Communicate
+              </Button>
+            </div>
+          </form>
+        </Grid>
+
+        <Grid item style={{ width: "46%", marginLeft: "3%" }}>
+          <DialogTitle className={classes.row}>
+            What are {selectedMood}s of others?
+          </DialogTitle>
+
+          <div className={classes.row}>
+            <Fearometer />
+            <BubbleChart />
+          </div>
+          <Modal
+            className={classes.row}
+            open={openModal}
+            onClose={handleCloseModal}
           >
-            Communicate
-          </Button>
-        </div>
-      </form>
-
-      <DialogTitle className={classes.row}>
-        What are {selectedMood}s of others?
-      </DialogTitle>
-
-      <div className={classes.row}>
-        <Fearometer />
-        <BubbleChart />
-      </div>
-      <Modal
-        className={classes.row}
-        open={openModal}
-        onClose={handleCloseModal}
-      >
-        <div className={classes.modalBody}>
-          <div>
-            Would you like to learn how others coped with {selectedMood} similar
-            to
-          </div>
-          <div className={classes.what}>{formValues.what}</div>
-          <div>
-            <Button
-              variant="contained"
-              className={classes.button}
-              onClick={handleCloseModal}
-            >
-              No, thanks
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={handleNext}
-            >
-              Sure
-            </Button>
-          </div>
-        </div>
-      </Modal>
+            <div className={classes.modalBody}>
+              <div>
+                Would you like to learn how others coped with {selectedMood}{" "}
+                similar to
+              </div>
+              <div className={classes.what}>{formValues.what}</div>
+              <div>
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  onClick={handleCloseModal}
+                >
+                  No, thanks
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={handleNext}
+                >
+                  Sure
+                </Button>
+              </div>
+            </div>
+          </Modal>
+        </Grid>
+      </Grid>
     </div>
   );
 }
