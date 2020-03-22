@@ -29,13 +29,14 @@ function Histogram({
                         }
                     }]
                 },
+                maintainAspectRatio: false,
                 responsive: true
             }
         });
     }, []);
 
     return (
-        <canvas ref={histogramContainer} id="histogram" responsive="true" width="400" height="50"></canvas>
+        <canvas ref={histogramContainer} id="histogram" responsive="true" width="400" height="150"></canvas>
     );
 }
 
