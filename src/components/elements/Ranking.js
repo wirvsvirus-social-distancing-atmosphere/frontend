@@ -58,9 +58,6 @@ function Ranking(props) {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
   function showAufmerksamkeit() {
     if (activeStep >= 2) {
       return (
@@ -231,35 +228,19 @@ function Ranking(props) {
       <DialogTitle className={classes.row}>
         Was kann ich gegen Angst tun?
       </DialogTitle>
-      <div className={classes.root}>
-        <Stepper alternativeLabel activeStep={activeStep}>
-          {steps.map((label, index) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <div>
-          <Button
-            disabled={activeStep === 0}
-            onClick={handleBack}
-            className={classes.button}
-          >
-            Back
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleNext}
-            className={classes.button}
-          >
-            {activeStep === steps.length - 1 ? "Finish" : "Next"}
-          </Button>
+
+      <div className="container" style={{ width: "90%" }}>
+        <div className={classes.root}>
+          <Stepper alternativeLabel activeStep={activeStep}>
+            {steps.map((label, index) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
         </div>
-      </div>
-      <div className="container">
         <div className="row">
-          <div className="col m3">
+          <div className="col m3" style={{ width: "calc(100% / 5)" }}>
             Selektion
             <Tooltip
               disableFocusListener
@@ -295,12 +276,30 @@ function Ranking(props) {
             </FormControl>
           </div>
 
-          <div className="col m3">{showModification()}</div>
+          <div className="col m3" style={{ width: "calc(100% / 5)" }}>
+            {showModification()}
+          </div>
 
-          <div className="col m3">{showAufmerksamkeit()}</div>
-          <div className="col m3">{showUmdeutung()}</div>
+          <div className="col m3" style={{ width: "calc(100% / 5)" }}>
+            {showAufmerksamkeit()}
+          </div>
+          <div className="col m3" style={{ width: "calc(100% / 5)" }}>
+            {showUmdeutung()}
+          </div>
 
-          <div className="col m3">{showReaktion()}</div>
+          <div className="col m3" style={{ width: "calc(100% / 5)" }}>
+            {showReaktion()}
+          </div>
+        </div>
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleNext}
+            className={classes.button}
+          >
+            {activeStep === steps.length - 1 ? "Finish" : "Next"}
+          </Button>
         </div>
       </div>
     </>
