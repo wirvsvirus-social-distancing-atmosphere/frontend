@@ -5,7 +5,7 @@ function Histogram({
     data = {
         labels: ['15.03.2020', '16.03.2020', '17.03.2020', '18.03.2020', '19.03.2020', '20.03.2020', '21.03.2020'],
         datasets: [{
-            label: '# Anzahl',
+             label: 'World Mood Curve',
             backgroundColor: 'rgb(54, 162, 235)',
             borderColor: 'rgb(54, 162, 235)',
             cubicInterpolationMode: 'monotone',
@@ -35,7 +35,7 @@ function Histogram({
     }, []);
 
     return (
-        <canvas ref={histogramContainer} id="histogram" responsive="true" width="200" height="100"></canvas>
+        <canvas ref={histogramContainer} id="histogram" responsive="true" width="400" height="50"></canvas>
     );
 }
 

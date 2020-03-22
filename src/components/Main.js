@@ -40,7 +40,7 @@ function App({
       <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            Social Atmosphere
+            Moodometer
           </Typography>
 
           <Tabs
