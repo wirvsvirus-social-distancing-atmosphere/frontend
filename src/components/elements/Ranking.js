@@ -248,7 +248,7 @@ function Ranking(props) {
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
           >
-            {props.data.selektion.map(item => {
+            {props.data && props.data.selektion.map(item => {
               return (
                 <li>
                   <div className="collapsible-header">
