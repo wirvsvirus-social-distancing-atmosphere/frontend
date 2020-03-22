@@ -14,7 +14,7 @@ import happy from "../../res/laugh-beam-regular.svg";
 import angry from "../../res/angry-regular.svg";
 import sad from "../../res/sad-tear-regular.svg";
 import anxious from "../../res/grimace-regular.svg";
-import map from "../../res/map.png";
+import map from "../../res/map.PNG";
 import {Paper} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
@@ -75,7 +75,7 @@ function MoodPanel({handleNext}) {
                 <div style={{fontSize: "22px"}}>And how do you feel today?</div>
                 <div style={{display: "flex", justifyContent: "space-around",margin: "10px"}}>
                     <Fab
-                        style={{ backgroundColor: "lightgrey" }}
+                        style={{ backgroundColor: "#bbe7ff" }}
                         size='large'
                         color='primary'
                         onClick={() => handleNext('joy')}
@@ -83,7 +83,7 @@ function MoodPanel({handleNext}) {
                         <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${happy})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
                     </Fab>
                     <Fab
-                        style={{  backgroundColor: "lightgrey" }}
+                        style={{  backgroundColor: "#ffc88c" }}
                         size='large'
                         color='primary'
                         onClick={() => handleNext('anger')}
@@ -91,7 +91,7 @@ function MoodPanel({handleNext}) {
                         <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${angry})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
                     </Fab>
                     <Fab
-                        style={{ backgroundColor: "lightgrey" }}
+                        style={{ backgroundColor: "#bdf38d" }}
                         size='large'
                         color='primary'
                         onClick={() => handleNext('fear')}
@@ -99,7 +99,7 @@ function MoodPanel({handleNext}) {
                         <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${anxious})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
                     </Fab>
                     <Fab
-                        style={{ backgroundColor: "lightgrey" }}
+                        style={{ backgroundColor: "#fff6aa" }}
                         size='large'
                         color='primary'
                         onClick={() => handleNext('grief')}

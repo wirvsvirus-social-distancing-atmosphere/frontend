@@ -51,7 +51,7 @@ function App({
     <div className={classes.main}>
 
       <Header>
-        <div style={{backgroundColor: "#d7d7d7", fontSize: "36px", position: "absolute", left: "10px", }}>
+        <div style={{backgroundColor: "#d7d7d7", fontSize: "36px", position: "absolute", left: "10px", color: 'gray'}}>
           Moodometer
         </div>
         <Toolbar style={{display: "flex", justifyContent: "center"}}>
