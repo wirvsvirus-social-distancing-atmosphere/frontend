@@ -1,11 +1,15 @@
 {
   "hosting": {
     "public": "build",
-    "site": "moodometer",
+    "site": "social-atmosphere",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ],
+    "rewrites": [ {
+      "source": "**",
+      "destination": "/index.html"
+    } ]
   }
 }
