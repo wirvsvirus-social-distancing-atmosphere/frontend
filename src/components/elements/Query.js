@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from '../../utils/firebase';
 import {useEffect, useState} from 'react';
 
 export default props => {
@@ -15,7 +15,6 @@ export default props => {
                     resultArray.push(doc.data());
                 });
                 setResult(resultArray)
-
             })
             .catch(function (error) {
                 console.log('Error getting documents: ', error);
