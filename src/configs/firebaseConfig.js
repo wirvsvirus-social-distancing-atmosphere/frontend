@@ -1,5 +1,5 @@
 export default {
-    apiKey: "AIzaSyADVe9U4RAhgRQfbsPieA0O8wCRROqE2g4",
+    apiKey: "",
     authDomain: "social-atmosphere.firebaseapp.com",
     databaseURL: "https://social-atmosphere.firebaseio.com",
     projectId: "social-atmosphere",
