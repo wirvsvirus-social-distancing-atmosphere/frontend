@@ -51,7 +51,7 @@ function getSteps() {
 }
 
 function Ranking(props) {
-  const [activeStep, setActiveStep] = React.useState(1);
+  const [activeStep, setActiveStep] = React.useState(4);
   const classes = useStyles();
   const steps = getSteps();
   const handleNext = () => {
@@ -232,7 +232,11 @@ function Ranking(props) {
 
       <div className="container" style={{ width: "90%" }}>
         <div className={classes.root}>
-          <Stepper alternativeLabel activeStep={activeStep}>
+          <Stepper
+            alternativeLabel
+            activeStep={activeStep}
+            style={{ padding: 0 }}
+          >
             {steps.map((label, index) => (
               <Step key={label}>
                 <StepLabel>
