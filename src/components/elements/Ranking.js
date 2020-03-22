@@ -1,7 +1,6 @@
 import React from "react";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft";
-import Tooltip from "@material-ui/core/Tooltip";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
@@ -84,6 +83,7 @@ function Ranking(props) {
               )
             }}
             onKeyPress={e => saveNewItem(e, "aufmerksamkeit")}
+            helperText="Lenkung der Aufmerksamkeit: Hilft es mir, wenn ich mich auf eine Sache konzentriere? (Bsp: Ich schaue Netflix, um mich abzulenken)"
           />
         </>
       );
@@ -118,6 +118,7 @@ function Ranking(props) {
               )
             }}
             onKeyPress={e => saveNewItem(e, "umdeutung")}
+            helperText="Kognitive Neubewertung: Wie kann ich die Situation noch sehen? (Bsp: Positiv gesehen knüpfe ich auch in Isolation virtuelle neue Kontakte)"
           />
         </>
       );
@@ -152,6 +153,7 @@ function Ranking(props) {
               )
             }}
             onKeyPress={e => saveNewItem(e, "reaktion")}
+            helperText="Modulation der emotionalen Reaktion: Wie kann ich meine Reaktion steuern? (Bsp: Yoga hilft mir, mein Stresslevel zu senken)"
           />
         </>
       );
@@ -186,6 +188,7 @@ function Ranking(props) {
               )
             }}
             onKeyPress={e => saveNewItem(e, "modifikation")}
+            helperText="Situationsmodifikation: Wie kann ich die Situation verändern? (Bsp: Mache einen Videoanruf, statt einen Freund zu treffen)"
           />
         </>
       );
@@ -194,22 +197,6 @@ function Ranking(props) {
   function saveNewItem(e, category) {
     if (e.key === "Enter") {
       props.saveNewItem(e.target.value, category);
-    }
-  }
-  function getTooltipTitle(label) {
-    switch (label) {
-      case "Selektion":
-        return "Situationsauswahl: Stelle ich mich der Situation oder vermeide ich sie? (Bsp: Ich bleibe zuhause)";
-      case "Modifikation":
-        return "Situationsmodifikation: Wie kann ich die Situation verändern? (Bsp: Mache einen Videoanruf, statt einen Freund zu treffen)";
-      case "Aufmerksamkeit":
-        return "Lenkung der Aufmerksamkeit: Hilft es mir, wenn ich mich auf eine Sache konzentriere? (Bsp: Ich schaue Netflix, um mich abzulenken)";
-      case "Umdeutung":
-        return "Kognitive Neubewertung: Wie kann ich die Situation noch sehen? (Bsp: Positiv gesehen knüpfe ich auch in Isolation virtuelle neue Kontakte)";
-      case "Reaktion":
-        return "Modulation der emotionalen Reaktion: Wie kann ich meine Reaktion steuern? (Bsp: Yoga hilft mir, mein Stresslevel zu senken)";
-      default:
-        return;
     }
   }
   return (
@@ -227,16 +214,7 @@ function Ranking(props) {
           >
             {steps.map((label, index) => (
               <Step key={label}>
-                <StepLabel>
-                  {label}{" "}
-                  <Tooltip
-                    disableFocusListener
-                    disableTouchListener
-                    title={getTooltipTitle(label)}
-                  >
-                    <HelpOutlineIcon fontSize="small" />
-                  </Tooltip>
-                </StepLabel>
+                <StepLabel>{label}</StepLabel>
               </Step>
             ))}
           </Stepper>
