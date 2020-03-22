@@ -78,6 +78,52 @@ function MoodPanel({ history, mood = "joy" }) {
     manageability: 0,
     severity: 0
   });
+  const [overallMood, setOverallMood] = useState(0);
+  const [bubbleChartData, setBubbleChartData] = useState();
+
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection("emotions")
+      .where("category", "==", selectedMood)
+      .get()
+      .then(function(querySnapshot) {
+        let avg = 0;
+        const data = {};
+        const children = [];
+        if (querySnapshot.size) {
+          querySnapshot.forEach(doc => {
+            const d = doc.data();
+            avg += d.value;
+            if (!data[d.emotion]) {
+              data[d.emotion] = {
+                count: 0,
+                value: 0
+              };
+            }
+            data[d.emotion] = {
+              count: data[d.emotion].count + 1,
+              value: data[d.emotion].value + d.value
+            };
+          });
+          avg /= querySnapshot.size;
+        }
+        Object.keys(data).forEach(key => {
+          children.push({
+            name: key,
+            size: data[key].count > 0 ? data[key].value / data[key].count : 0
+          });
+        });
+        setOverallMood(Math.round(avg));
+        setBubbleChartData({
+          name: "",
+          children
+        });
+      })
+      .catch(function(error) {
+        console.log("Error getting documents: ", error);
+      });
+  }, [selectedMood]);
 
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -111,24 +157,137 @@ function MoodPanel({ history, mood = "joy" }) {
     }
   };
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
-
   const handleNext = () => {
     history.push({
       pathname: "/howtocope",
       state: { emotion: formValues.what }
     });
+    setOpenModal(true);
   };
 
-  return (
-    <div className={classes.root}>
-      <Grid container style={{ width: "100%" }}>
-        <Grid
-          item
-          style={{ width: "46%", marginLeft: "2%", marginRight: "3%" }}
-        >
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+  function showContent() {
+    if (window.innerWidth > 700) {
+      return (
+        <Grid container style={{ width: "100%" }}>
+          <Grid
+            item
+            style={{ width: "46%", marginLeft: "2%", marginRight: "3%" }}
+          >
+            <DialogTitle className={classes.row}>How is your mood?</DialogTitle>
+            <div className={classes.row}>
+              {Object.keys(moods).map(item => {
+                return (
+                  <Fab
+                    key={item}
+                    className={
+                      selectedMood === item
+                        ? classes.selected
+                        : classes.unselected
+                    }
+                    style={{ margin: "20px" }}
+                    size="large"
+                    color="primary"
+                    onClick={() => setSelectedMood(item)}
+                    component="div"
+                  >
+                    <div
+                      style={{
+                        backgroundSize: "contain",
+                        height: "50px",
+                        width: "50px",
+                        backgroundImage: `url(${moods[item]})`,
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat"
+                      }}
+                    />
+                  </Fab>
+                );
+              })}
+            </div>
+
+            <form>
+              <Typography align={"center"}>What could happen?</Typography>
+              <TextField
+                id="what"
+                placeholder="e.g. Depression"
+                fullWidth
+                margin="none"
+                name="what"
+                onChange={handleInputChange}
+                value={formValues.what}
+                className={classes.marginBottom}
+              />
+
+              <Typography align={"center"}>
+                How intense is that emotion?
+              </Typography>
+              <Slider
+                name="severity"
+                onChange={handleSeverityChange}
+                value={formValues.severity}
+                valueLabelDisplay="auto"
+              />
+              <div className={classes.row}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={handleOpenModal}
+                >
+                  Communicate
+                </Button>
+              </div>
+            </form>
+          </Grid>
+
+          <Grid item style={{ width: "46%", marginLeft: "3%" }}>
+            <DialogTitle className={classes.row}>
+              What are {selectedMood}s of others?
+            </DialogTitle>
+
+            <div className={classes.row}>
+              <Fearometer currentValue={overallMood} />
+              <BubbleChart data={bubbleChartData} />
+            </div>
+            <Modal
+              className={classes.row}
+              open={openModal}
+              onClose={handleCloseModal}
+            >
+              <div className={classes.modalBody}>
+                <div>
+                  Would you like to learn how others coped with {selectedMood}{" "}
+                  similar to
+                </div>
+                <div className={classes.what}>{formValues.what}</div>
+                <div>
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                    onClick={handleCloseModal}
+                  >
+                    No, thanks
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={handleNext}
+                  >
+                    Sure
+                  </Button>
+                </div>
+              </div>
+            </Modal>
+          </Grid>
+        </Grid>
+      );
+    } else {
+      return (
+        <>
           <DialogTitle className={classes.row}>How is your mood?</DialogTitle>
           <div className={classes.row}>
             {Object.keys(moods).map(item => {
@@ -181,6 +340,7 @@ function MoodPanel({ history, mood = "joy" }) {
               name="severity"
               onChange={handleSeverityChange}
               value={formValues.severity}
+              valueLabelDisplay="auto"
             />
             <div className={classes.row}>
               <Button
@@ -193,16 +353,13 @@ function MoodPanel({ history, mood = "joy" }) {
               </Button>
             </div>
           </form>
-        </Grid>
-
-        <Grid item style={{ width: "46%", marginLeft: "3%" }}>
           <DialogTitle className={classes.row}>
             What are {selectedMood}s of others?
           </DialogTitle>
 
           <div className={classes.row}>
-            <Fearometer />
-            <BubbleChart />
+            <Fearometer currentValue={overallMood} />
+            <BubbleChart data={bubbleChartData} />
           </div>
           <Modal
             className={classes.row}
@@ -234,10 +391,11 @@ function MoodPanel({ history, mood = "joy" }) {
               </div>
             </div>
           </Modal>
-        </Grid>
-      </Grid>
-    </div>
-  );
+        </>
+      );
+    }
+  }
+  return <div className={classes.root}>{showContent()}</div>;
 }
 
 export default withRouter(MoodPanel);
