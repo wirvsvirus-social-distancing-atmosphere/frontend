@@ -162,7 +162,7 @@ function MoodPanel({
     const handleNext = () => {
         history.push({
             pathname: '/howtocope',
-            state: { emotion: formValues.what }
+            state: { emotion: mood }
         });
         setOpenModal(true);
     };
@@ -226,7 +226,7 @@ function MoodPanel({
                         Communicate
                     </Button>
                 </div>
-                
+
             </form>
 
             <DialogTitle className={classes.row}>What are {selectedMood}s of others?</DialogTitle>

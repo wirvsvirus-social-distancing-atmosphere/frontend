@@ -2,10 +2,17 @@ import React from "react";
 import Ranking from "../../elements/Ranking";
 import saveRegulationToFirestore from "../../../services/saveRegulationToFirestore";
 import firebase from "../../../utils/firebase";
+import addFakeRegulationData from "../../../utils/addFakeRegulationData";
+import {withRouter} from "react-router-dom";
 
 
-function ScreenB() {
+function ScreenB({
+                   history,
+                 }) {
     const [firestoreData, setFirestoreData] = React.useState();
+
+    console.log("history", history.location.state)
+    const emotion = history.location.state ? history.location.state.emotion : "fear";
 
     function getPercentagePerItem(data) {
         let newData = {
@@ -15,11 +22,11 @@ function ScreenB() {
             umdeutung: [],
             reaktion: [],
             totalItemsPerCategory: {
-                selektion: data.selektion.length,
-                modifikation: data.modifikation.length,
-                aufmerksamkeit: data.aufmerksamkeit.length,
-                umdeutung: data.umdeutung.length,
-                reaktion: data.reaktion.length
+                selektion: data.selektion ? data.selektion.length : 0,
+                modifikation: data.modifikation ? data.modifikation.length : 0,
+                aufmerksamkeit: data.aufmerksamkeit ? data.aufmerksamkeit.length : 0,
+                umdeutung: data.umdeutung ? data.umdeutung.length : 0,
+                reaktion: data.reaktion ? data.reaktion.length : 0
             }
         };
         Object.keys(data).forEach(function (item) {
@@ -40,7 +47,7 @@ function ScreenB() {
     }
 
     function saveNewItem(name, category) {
-        saveRegulationToFirestore({category: category, name: name}, () => {
+        saveRegulationToFirestore({category: category, emotion: emotion, name: name}, () => {
             getFirestoreData(category)
         })
     }
@@ -51,6 +58,7 @@ function ScreenB() {
                 .firestore()
                 .collection("regulation")
                 .where('category', '==', category)
+                .where('emotion', '==', emotion)
                 .get()
                 .then(function (querySnapshot) {
                     let tmp = {...firestoreData};
@@ -72,6 +80,7 @@ function ScreenB() {
             firebase
                 .firestore()
                 .collection("regulation")
+                .where('emotion', '==', emotion)
                 .get()
                 .then(function (querySnapshot) {
                     let resultArray = [];
@@ -85,7 +94,9 @@ function ScreenB() {
                             resultArray[category].push(doc.data().name);
                         }
                     });
+                    console.log("resultArray", resultArray)
                     setFirestoreData(resultArray)
+
                 })
                 .catch(function (error) {
                     console.log('Error getting documents: ', error);
@@ -94,6 +105,7 @@ function ScreenB() {
     }
 
     function sortData() {
+      //addFakeRegulationData()
         if (!firestoreData) {
             getFirestoreData()
         }
@@ -106,10 +118,10 @@ function ScreenB() {
             sortedData.reaktion.sort((a, b) => (a.value < b.value ? 1 : -1));
 
         }
-        return <Ranking data={sortedData} saveNewItem={saveNewItem}/>;
+        return <Ranking emotion={emotion} data={sortedData} saveNewItem={saveNewItem}/>;
     }
 
     return <div>{sortData()}</div>;
 }
 
-export default ScreenB;
+export default withRouter(ScreenB);
