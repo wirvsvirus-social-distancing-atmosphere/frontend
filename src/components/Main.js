@@ -6,6 +6,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
+import styled from "styled-components"
 
 import Admission from './scenes/Admission/Admission';
 import ScreenB from './scenes/ScreenB/ScreenB';
@@ -22,6 +23,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const Header = styled.div`
+  background-color: #d7d7d7;
+  height: 70px;
+  padding: 1em;
+  padding-top: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 function App({
   location: { pathname }
 }) {
@@ -37,11 +49,13 @@ function App({
   };
   return (
     <div className={classes.main}>
-      <AppBar position="static">
-        <Toolbar className={classes.title}>
-          <Typography variant="h6" noWrap>
-            Moodometer
-          </Typography>
+
+      <Header>
+        <div style={{backgroundColor: "#d7d7d7", fontSize: "36px", position: "absolute", left: "10px", }}>
+          Moodometer
+        </div>
+        <Toolbar style={{display: "flex", justifyContent: "center"}}>
+
 
           <Tabs
             variant="fullWidth"
@@ -60,7 +74,7 @@ function App({
             />
           </Tabs>
         </Toolbar>
-      </AppBar>
+      </Header>
       <Switch>
         <Route exact path="/">
           <Admission />

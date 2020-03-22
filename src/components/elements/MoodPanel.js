@@ -68,32 +68,6 @@ function MoodPanel({handleNext}) {
 
     return (
         <div style={{display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center", backgroundImage: `url(${map})`, width: "100%", height: "90vh",backgroundSize: "cover",}}>
-            {/*<DialogTitle className={classes.row}>Wie geht es dir heute?</DialogTitle>
-            <div className={classes.row}>
-                <Fearometer currentValue={overallMood}/>
-                <div>
-                    <Typography gutterBottom>
-                        Deine Stimmung
-                    </Typography>
-                    <Slider
-                        name='manageability'
-                        onChange={(_e, newValue) => {
-                            setMoodValue(newValue);
-                        }}
-                        value={moodValue}
-                    />
-                    <div>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="small"
-                            onClick={handleSubmit}
-                        >
-                            Abschicken
-                        </Button>
-                    </div>
-                </div>
-            </div>*/}
             <Paper style={{width: "60%", margin: "30px", padding: "20px", backgroundColor: "#f1f1f1"}}>
             <Histogram/>
             </Paper>
