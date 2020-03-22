@@ -5,6 +5,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
 import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft";
+import Tooltip from "@material-ui/core/Tooltip";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 
 import "../materialize.min.css";
 
@@ -16,6 +18,13 @@ function Ranking(props) {
         <div className="row">
           <div className="col m3">
             Selektion
+            <Tooltip
+              disableFocusListener
+              disableTouchListener
+              title="Situationsauswahl: Stelle ich mich der Situation oder vermeide ich sie? (Bsp: Ich bliebe zuhause)"
+            >
+              <HelpOutlineIcon />
+            </Tooltip>
             <ul
               className="collapsible"
               style={{ height: "375px", overflow: "auto" }}
@@ -45,6 +54,13 @@ function Ranking(props) {
 
           <div className="col m3">
             Modifikation
+            <Tooltip
+              disableFocusListener
+              disableTouchListener
+              title="Situationsmodifikation: Wie kann ich die Situation verändern? (Bsp: mache einen Videoanruf, statt einen Freund zu treffen)"
+            >
+              <HelpOutlineIcon />
+            </Tooltip>
             <ul
               className="collapsible"
               style={{ height: "375px", overflow: "auto" }}
@@ -74,6 +90,13 @@ function Ranking(props) {
 
           <div className="col m3">
             Aufmerksamkeit
+            <Tooltip
+              disableFocusListener
+              disableTouchListener
+              title="Lenkung der Aufmerksamkeit: Hilft es mir, wenn ich mich auf eine Sache konzentriere? (Bsp: Ich schaue Netflix, um mich abzulenken)"
+            >
+              <HelpOutlineIcon />
+            </Tooltip>
             <ul
               className="collapsible"
               style={{ height: "375px", overflow: "auto" }}
@@ -102,6 +125,13 @@ function Ranking(props) {
           </div>
           <div className="col m3">
             Umdeutung
+            <Tooltip
+              disableFocusListener
+              disableTouchListener
+              title="Kognitive Neubewertung: Wie kann ich die Situation noch sehen? (Bsp: positiv gesehen knüpfe ich auch in Isolation virtuelle neue Kontakte)"
+            >
+              <HelpOutlineIcon />
+            </Tooltip>
             <ul
               className="collapsible"
               style={{ height: "375px", overflow: "auto" }}
@@ -131,6 +161,13 @@ function Ranking(props) {
 
           <div className="col m3">
             Reaktion
+            <Tooltip
+              disableFocusListener
+              disableTouchListener
+              title="Modulation der emotionalen Reaktion: Wie kann ich meine Reaktion steuern? (Bsp: Yoge hilft mir, mein Stresslevel zu senken)"
+            >
+              <HelpOutlineIcon />
+            </Tooltip>
             <ul
               className="collapsible"
               style={{ height: "375px", overflow: "auto" }}
