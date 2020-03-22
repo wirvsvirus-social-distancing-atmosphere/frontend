@@ -14,7 +14,7 @@ import happy from "../../res/laugh-beam-regular.svg";
 import angry from "../../res/angry-regular.svg";
 import sad from "../../res/sad-tear-regular.svg";
 import anxious from "../../res/grimace-regular.svg";
-import map from "../../res/map.PNG";
+import map from "../../res/map.png";
 import {Paper} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
@@ -106,7 +106,7 @@ function MoodPanel({handleNext}) {
                     >
                         <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${sad})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
                     </Fab>
-                    
+
                 </div>
             </Paper>
 
