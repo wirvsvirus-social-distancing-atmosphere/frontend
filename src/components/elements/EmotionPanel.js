@@ -20,6 +20,13 @@ import anxious from '../../res/grimace-regular.svg';
 import Fab from "@material-ui/core/Fab";
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        width: 600,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+
+        justifyContent: 'center',
+    },
     row: {
         display: 'flex',
         alignItems: 'center',
@@ -118,7 +125,7 @@ function MoodPanel({
     }
 
     return (
-        <>
+        <div className={classes.root}>
             <DialogTitle className={classes.row}>How is your mood?</DialogTitle>
             <div className={classes.row}>
                 {
@@ -211,7 +218,7 @@ function MoodPanel({
                     </div>
                 </div>
             </Modal>
-        </>
+        </div>
     )
 }
 
