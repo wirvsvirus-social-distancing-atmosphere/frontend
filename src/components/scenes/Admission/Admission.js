@@ -12,6 +12,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Fearometer from '../../elements/Fearometer';
 import BubbleChart from '../../elements/BubbleChart';
 import Histogram from '../../elements/Histogram';
+import Query from '../../elements/Query';
 
 const useStyles = makeStyles(theme => ({
     row: {
@@ -43,6 +44,8 @@ function Admission({
         severity: 0,
     });
 
+    const [data, setData] = useState();
+    const [fetchData, setFetchData] = useState(true);
     const handleOpenModal = () => {
         setOpenModal(true);
     };
@@ -77,8 +80,8 @@ function Admission({
 
     return (
         <Container maxWidth="md">
-            <DialogTitle className={classes.row}>What are you worried about?</DialogTitle>
-            <BubbleChart />
+            <DialogTitle className={classes.row}>Was befürchten Andere?</DialogTitle>
+            <BubbleChart data={data} />
 
             <div className={classes.row}>
                 <Fearometer />
@@ -90,7 +93,7 @@ function Admission({
                 color='primary'
                 onClick={handleOpenModal}
             >
-                Was fühlst du derzeit?
+                Was ist Dir wichtig?
             </Button>
             <Modal
                 className={classes.row}
@@ -102,11 +105,11 @@ function Admission({
                     onSubmit={handleSubmit}
                 >
                     <Typography gutterBottom>
-                        What could happen?
+                        Was könnte passieren?
                     </Typography>
                     <TextField
                         id="what"
-                        placeholder="F.e. depression"
+                        placeholder="Z.B. Depression"
                         fullWidth
                         margin="none"
                         name='what'
@@ -115,7 +118,7 @@ function Admission({
                     />
 
                     <Typography gutterBottom>
-                        How bad is it?
+                        Wie schlimm?
                     </Typography>
                     <Slider
                         name='severity'
@@ -124,7 +127,7 @@ function Admission({
                     />
 
                     <Typography gutterBottom>
-                        How likely is it?
+                        Wie wahrscheinlich?
                     </Typography>
                     <Slider
                         name='likelihood'
@@ -133,7 +136,7 @@ function Admission({
                     />
 
                     <Typography gutterBottom>
-                        How manageable is it?
+                        Wie kontrollierbar?
                     </Typography>
                     <Slider
                         name='manageability'
@@ -148,10 +151,11 @@ function Admission({
                         className={classes.button}
                         type="submit"
                     >
-                        Submit
+                        Beitragen
                     </Button>
                 </form>
             </Modal>
+
         </Container>
     );
 }
