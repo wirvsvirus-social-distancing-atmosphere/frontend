@@ -9,6 +9,7 @@ import SentimentSatisfiedAltIcon from "@material-ui/icons/SentimentSatisfiedAlt"
 import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
 import Grid from "@material-ui/core/Grid";
 import Slider from "@material-ui/core/Slider";
+import { Map as LeafletMap, TileLayer } from "react-leaflet";
 
 import Histogram from "./Histogram";
 
@@ -18,7 +19,6 @@ import happy from "../../res/laugh-beam-regular.svg";
 import angry from "../../res/angry-regular.svg";
 import sad from "../../res/sad-tear-regular.svg";
 import anxious from "../../res/grimace-regular.svg";
-import map from "../../res/map.png";
 
 const useStyles = makeStyles(theme => ({
   row: {
@@ -102,9 +102,7 @@ function MoodPanel({ handleNext }) {
         flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundImage: `url(${map})`,
         width: "100%",
-        height: "90vh",
         backgroundSize: "cover"
       }}
     >
@@ -120,6 +118,14 @@ function MoodPanel({ handleNext }) {
           <Histogram />
         </p>
       </Paper>
+
+      <LeafletMap style={{width: "100%", height: "50vh"}} center={[20,0]} zoom={2}>
+        <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+    </LeafletMap>
+
       <Paper
         style={{
           width: window.innerWidth <= 700 ? "80%" : "40%",
