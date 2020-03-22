@@ -81,6 +81,52 @@ function MoodPanel({
         manageability: 0,
         severity: 0,
     });
+    const [overallMood, setOverallMood] = useState(0);
+    const [bubbleChartData, setBubbleChartData] = useState();
+
+    useEffect(() => {
+        firebase
+            .firestore()
+            .collection('emotions')
+            .where('category', '==', selectedMood)
+            .get()
+            .then(function (querySnapshot) {
+                let avg = 0;
+                const data = {};
+                const children = [];
+                if (querySnapshot.size) {
+                    querySnapshot.forEach((doc) => {
+                        const d = doc.data();
+                        avg += d.value;
+                        if (!data[d.emotion]) {
+                            data[d.emotion] = {
+                                count: 0,
+                                value: 0,
+                            };
+                        }
+                        data[d.emotion] = {
+                            count: data[d.emotion].count + 1,
+                            value: data[d.emotion].value + d.value,
+                        }
+                    });
+                    avg /= querySnapshot.size;
+                }
+                Object.keys(data).forEach((key) => {
+                    children.push({
+                        name: key,
+                        size: data[key].count > 0 ? data[key].value / data[key].count : 0,
+                    })
+                });
+                setOverallMood(Math.round(avg));
+                setBubbleChartData({
+                    name: '',
+                    children
+                });
+            })
+            .catch(function (error) {
+                console.log('Error getting documents: ', error);
+            });
+    }, [selectedMood]);
 
     const handleInputChange = e => {
         const {name, value} = e.target
@@ -167,6 +213,7 @@ function MoodPanel({
                     name='severity'
                     onChange={handleSeverityChange}
                     value={formValues.severity}
+                    valueLabelDisplay="auto"
                 />
                 <div className={classes.row}>
                     <Button
@@ -184,8 +231,8 @@ function MoodPanel({
             <DialogTitle className={classes.row}>What are {selectedMood}s of others?</DialogTitle>
 
             <div className={classes.row}>
-                <Fearometer />
-                <BubbleChart />
+                <Fearometer currentValue={overallMood} />
+                <BubbleChart data={bubbleChartData} />
             </div>
             <Modal
                 className={classes.row}
