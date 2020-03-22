@@ -48,7 +48,7 @@ function Admission({
 }) {
     const classes = useStyles();
 
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = React.useState(1);
 
     const handleNext = () => {
         if (activeStep !== 0) {
@@ -60,10 +60,6 @@ function Admission({
         }
     };
 
-    const handleBack = () => {
-        setActiveStep(activeStep - 1);
-    };
-
     return (
         <>
             <CssBaseline />
@@ -71,21 +67,6 @@ function Admission({
                 <Paper className={classes.paper}>
                     <React.Fragment>
                         {getStepContent(activeStep)}
-                        <div className={classes.buttons}>
-                        {activeStep !== 0 && (
-                            <Button onClick={handleBack} className={classes.button}>
-                                Zurück
-                            </Button>
-                        )}
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleNext}
-                            className={classes.button}
-                        >
-                            {activeStep === 1 ? 'Beitragen' : 'Weiter'}
-                        </Button>
-                        </div>
                     </React.Fragment>
 
                 </Paper>

@@ -39,7 +39,7 @@ function BubbleChart() {
                 const bubbleChart = CirclePack();
                 bubbleChart
                     .data(data)
-                    .width(bubbleChartContainer.current.parentElement.clientWidth - 32)
+                    .width(300)
                     .height(500)
                     .size('size')
                     .color(d => color(d.name))

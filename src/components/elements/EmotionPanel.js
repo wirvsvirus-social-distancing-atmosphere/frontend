@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slider from '@material-ui/core/Slider';
 import Button from "@material-ui/core/Button";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import Modal from '@material-ui/core/Modal';
 
 import Fearometer from './Fearometer';
 import BubbleChart from './BubbleChart';
@@ -26,11 +29,45 @@ const useStyles = makeStyles(theme => ({
     button: {
         margin: theme.spacing(1),
     },
+    marginBottom: {
+        marginBottom: 20
+    },
+    selected: {
+        backgroundColor: 'cornflowerblue'
+    },
+    unselected: {
+        backgroundColor: 'lightgrey'
+    },
+    modalBody: {
+        position: 'absolute',
+        backgroundColor: theme.palette.background.paper,
+        padding: theme.spacing(2, 4, 3),
+    },
+    what: {
+        margin: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'lightblue',
+        fontWeight: 'bold'
+    }
 }));
 
-function MoodPanel() {
+const moods = {
+    'joy': happy,
+    'anger': angry,
+    'fear': anxious,
+    'grief': sad
+};
+
+function MoodPanel({
+    history,
+    mood = 'joy',
+}) {
     const classes = useStyles();
 
+    const [openModal, setOpenModal] = useState(false);
+    const [selectedMood, setSelectedMood] = useState(mood);
     const [formValues, setFormValues] = useState({
         what: '',
         likelihood: 0,
@@ -47,96 +84,135 @@ function MoodPanel() {
     const handleSeverityChange = (_e, newValue) => {
         setFormValues({...formValues, "severity": newValue});
     }
-    const handleLikelihoodChange = (_e, newValue) => {
-        setFormValues({...formValues, "likelihood": newValue});
-    }
-    const handleManageabilityChange = (_e, newValue) => {
-        setFormValues({...formValues, "manageability": newValue});
+
+    const handleOpenModal = () => {
+        if (formValues.what !== '') {
+            firebase
+                .firestore()
+                .collection('emotions')
+                .doc()
+                .set({
+                    category: selectedMood,
+                    emotion: formValues.what,
+                    value: formValues.severity,
+                    time: Date.now()})
+                .then(function(docRef) {
+                    console.log('doc', docRef);
+                })
+                .catch(function(error) {
+                console.error('Error adding document: ', error);
+                });
+            setOpenModal(true);
+        }
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
+    const handleNext = () => {
+        history.push({
+            pathname: '/screenb',
+            state: { emotion: formValues.what }
+        });
     }
 
     return (
         <>
-
-            <Fab
-                style={{ margin: '20px', backgroundColor: "green" }}
-                size='large'
-                color='primary'
-            >
-                <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${happy})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
-            </Fab>
-            <Fab
-                style={{ margin: '20px', backgroundColor: "orange" }}
-                size='large'
-                color='primary'
-            >
-                <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${angry})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
-            </Fab>
-            <Fab
-                style={{ margin: '20px', backgroundColor: "yellow" }}
-                size='large'
-                color='primary'
-            >
-                <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${sad})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
-            </Fab>
-            <Fab
-                style={{ margin: '20px', backgroundColor: "blue" }}
-                size='large'
-                color='primary'
-            >
-                <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${anxious})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
-            </Fab>
-            <DialogTitle className={classes.row}>Was befürchten Andere?</DialogTitle>
-            <BubbleChart />
-
+            <DialogTitle className={classes.row}>How is your mood?</DialogTitle>
             <div className={classes.row}>
-                <Fearometer />
+                {
+                    Object.keys(moods).map(item => {
+                        return (<Fab
+                            key={item}
+                            className={selectedMood === item ? classes.selected : classes.unselected}
+                            style={{ margin: '20px'}}
+                            size='large'
+                            color='primary'
+                            onClick={() => setSelectedMood(item)}
+                            component='div'
+                        >
+                            <div style={{backgroundSize: "contain", height: "50px", width: "50px", backgroundImage: `url(${moods[item]})`, backgroundPosition: "center",backgroundRepeat: "no-repeat"}} />
+                        </Fab>)
+                    })
+                }
             </div>
 
-            <form
-                className={classes.modalBody}
-            >
-                <Typography gutterBottom>
-                    Was könnte dir passieren?
+            <form>
+                <Typography align={'center'}>
+                    What could happen?
                 </Typography>
                 <TextField
                     id="what"
-                    placeholder="Z.B. Depression"
+                    placeholder="z.B. Depression"
                     fullWidth
                     margin="none"
                     name='what'
                     onChange={handleInputChange}
                     value={formValues.what}
+                    className={classes.marginBottom}
                 />
 
-                <Typography gutterBottom>
-                    Wie schlimm?
+                <Typography align={'center'}>
+                    How intense is that emotion?
                 </Typography>
                 <Slider
                     name='severity'
                     onChange={handleSeverityChange}
                     value={formValues.severity}
                 />
-
-                <Typography gutterBottom>
-                    Wie wahrscheinlich?
-                </Typography>
-                <Slider
-                    name='likelihood'
-                    onChange={handleLikelihoodChange}
-                    value={formValues.likelihood}
-                />
-
-                <Typography gutterBottom>
-                    Wie kontrollierbar?
-                </Typography>
-                <Slider
-                    name='manageability'
-                    onChange={handleManageabilityChange}
-                    value={formValues.manageability}
-                />
+                <div className={classes.row}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        onClick={handleOpenModal}
+                    >
+                        Communicate
+                    </Button>
+                </div>
+                
             </form>
+
+            <DialogTitle className={classes.row}>What are {selectedMood}s of others?</DialogTitle>
+
+            <div className={classes.row}>
+                <Fearometer />
+                <BubbleChart />
+            </div>
+            <Modal
+                className={classes.row}
+                open={openModal}
+                onClose={handleCloseModal}
+            >
+                <div className={classes.modalBody}>
+                    <div>
+                        Would you like to learn how others coped with {selectedMood} similar to
+                    </div>
+                    <div className={classes.what}>
+                        {formValues.what}
+                    </div>
+                    <div>
+                        <Button
+                            variant="contained"
+                            className={classes.button}
+                            onClick={handleCloseModal}
+                        >
+                            No, thanks
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}
+                            onClick={handleNext}
+                        >
+                            Sure
+                        </Button>
+                    </div>
+                </div>
+            </Modal>
         </>
     )
 }
 
-export default MoodPanel;
+export default withRouter(MoodPanel);
