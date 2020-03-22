@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft";
@@ -49,13 +49,15 @@ function getSteps() {
 }
 
 function Ranking(props) {
-  const [activeStep, setActiveStep] = React.useState(4);
+  const [activeStep, setActiveStep] = React.useState(0);
   const classes = useStyles();
   const steps = getSteps();
   const handleNext = () => {
-    props.history.push({
-      pathname: '/',
-    });
+    activeStep === steps.length - 1
+      ? props.history.push({
+          pathname: "/"
+        })
+      : setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
   function showAufmerksamkeit() {
@@ -70,7 +72,14 @@ function Ranking(props) {
               return (
                 <li>
                   <div className="collapsible-header">
-                    {item.name + " (" + item.value + "%)"}
+                    {item.name +
+                      " (" +
+                      (
+                        (item.value /
+                          props.data.totalItemsPerCategory.aufmerksamkeit) *
+                        100
+                      ).toFixed(2) +
+                      "%)"}
                   </div>
                 </li>
               );
@@ -105,7 +114,14 @@ function Ranking(props) {
               return (
                 <li>
                   <div className="collapsible-header">
-                    {item.name + " (" + item.value + "%)"}
+                    {item.name +
+                      " (" +
+                      (
+                        (item.value /
+                          props.data.totalItemsPerCategory.umdeutung) *
+                        100
+                      ).toFixed(2) +
+                      "%)"}
                   </div>
                 </li>
               );
@@ -140,7 +156,14 @@ function Ranking(props) {
               return (
                 <li>
                   <div className="collapsible-header">
-                    {item.name + " (" + item.value + "%)"}
+                    {item.name +
+                      " (" +
+                      (
+                        (item.value /
+                          props.data.totalItemsPerCategory.reaktion) *
+                        100
+                      ).toFixed(2) +
+                      "%)"}
                   </div>
                 </li>
               );
@@ -175,7 +198,14 @@ function Ranking(props) {
               return (
                 <li>
                   <div className="collapsible-header">
-                    {item.name + " (" + item.value + "%)"}
+                    {item.name +
+                      " (" +
+                      (
+                        (item.value /
+                          props.data.totalItemsPerCategory.modifikation) *
+                        100
+                      ).toFixed(2) +
+                      "%)"}
                   </div>
                 </li>
               );
@@ -233,7 +263,14 @@ function Ranking(props) {
                 return (
                   <li>
                     <div className="collapsible-header">
-                      {item.name + " (" + item.value + "%)"}
+                      {item.name +
+                        " (" +
+                        (
+                          (item.value /
+                            props.data.totalItemsPerCategory.selektion) *
+                          100
+                        ).toFixed(2) +
+                        "%)"}
                     </div>
                   </li>
                 );
@@ -277,7 +314,9 @@ function Ranking(props) {
             onClick={handleNext}
             className={classes.button}
           >
-            {activeStep === steps.length - 1 ? "Back" : "Next"}
+            {activeStep === steps.length - 1
+              ? 'Go to "How people feel"'
+              : "Next"}
           </Button>
         </div>
       </div>
