@@ -12,51 +12,35 @@ function ScreenB() {
     selektion: [
       {
         name: "Zuhause bleiben",
-        value: 20.2
-      },
-      { name: "Zocken is geil.", value: 39 },
-      {
-        name: "Zuhause bleiben",
-        value: 20
-      },
-      { name: "Zocken is geil.", value: 39 },
-      {
-        name: "Zuhause bleiben",
-        value: 20
-      },
-      { name: "Zocken is geil.", value: 39 },
-      {
-        name: "Zuhause bleiben",
-        value: 20
-      },
-      { name: "Zuhause bleiben", value: 39 }
+        value: 100
+      }
     ],
     modifikation: [
       {
-        name: " Desinfektion",
-        value: 20
+        name: "Desinfektion",
+        value: 85.7
       },
-      { name: "Hände waschen", value: 4 }
+      { name: "Hände waschen", value: 14.3 }
     ],
     aufmerksamkeit: [
       {
         name: "Netflix",
         value: 15
       },
-      { name: "Kuscheln", value: 14 },
+      { name: "Kuscheln", value: 61 },
       { name: "Offline", value: 24 }
     ],
     umdeutung: [
       {
         name: "Zeit für Familie",
-        value: 34
+        value: 61.6
       },
-      { name: "Nachbarn helfen", value: 39 }
+      { name: "Nachbarn helfen", value: 38.4 }
     ],
     reaktion: [
       {
         name: "Yoga/Meditation",
-        value: 20
+        value: 100
       }
     ]
   });

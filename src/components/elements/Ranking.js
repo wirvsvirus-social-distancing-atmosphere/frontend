@@ -62,14 +62,6 @@ function Ranking(props) {
     if (activeStep >= 2) {
       return (
         <>
-          Aufmerksamkeit
-          <Tooltip
-            disableFocusListener
-            disableTouchListener
-            title="Lenkung der Aufmerksamkeit: Hilft es mir, wenn ich mich auf eine Sache konzentriere? (Bsp: Ich schaue Netflix, um mich abzulenken)"
-          >
-            <HelpOutlineIcon fontSize="small" />
-          </Tooltip>
           <ul
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
@@ -106,14 +98,6 @@ function Ranking(props) {
     if (activeStep >= 3) {
       return (
         <>
-          Umdeutung
-          <Tooltip
-            disableFocusListener
-            disableTouchListener
-            title="Kognitive Neubewertung: Wie kann ich die Situation noch sehen? (Bsp: positiv gesehen knüpfe ich auch in Isolation virtuelle neue Kontakte)"
-          >
-            <HelpOutlineIcon fontSize="small" />
-          </Tooltip>
           <ul
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
@@ -150,15 +134,6 @@ function Ranking(props) {
     if (activeStep >= 4) {
       return (
         <>
-          {" "}
-          Reaktion
-          <Tooltip
-            disableFocusListener
-            disableTouchListener
-            title="Modulation der emotionalen Reaktion: Wie kann ich meine Reaktion steuern? (Bsp: Yoge hilft mir, mein Stresslevel zu senken)"
-          >
-            <HelpOutlineIcon fontSize="small" />
-          </Tooltip>
           <ul
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
@@ -195,14 +170,6 @@ function Ranking(props) {
     if (activeStep >= 1) {
       return (
         <>
-          Modifikation
-          <Tooltip
-            disableFocusListener
-            disableTouchListener
-            title="Situationsmodifikation: Wie kann ich die Situation verändern? (Bsp: mache einen Videoanruf, statt einen Freund zu treffen)"
-          >
-            <HelpOutlineIcon fontSize="small" />
-          </Tooltip>
           <ul
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
@@ -238,6 +205,23 @@ function Ranking(props) {
   function saveNewItem(e, category) {
     if (e.key === "Enter") {
       props.saveNewItem(e.target.value, category);
+      e.target.value = null;
+    }
+  }
+  function getTooltipTitle(label) {
+    switch (label) {
+      case "Selektion":
+        return "Situationsauswahl: Stelle ich mich der Situation oder vermeide ich sie? (Bsp: Ich bliebe zuhause)";
+      case "Modifikation":
+        return "Situationsmodifikation: Wie kann ich die Situation verändern? (Bsp: mache einen Videoanruf, statt einen Freund zu treffen)";
+      case "Aufmerksamkeit":
+        return "Lenkung der Aufmerksamkeit: Hilft es mir, wenn ich mich auf eine Sache konzentriere? (Bsp: Ich schaue Netflix, um mich abzulenken)";
+      case "Umdeutung":
+        return "Kognitive Neubewertung: Wie kann ich die Situation noch sehen? (Bsp: positiv gesehen knüpfe ich auch in Isolation virtuelle neue Kontakte)";
+      case "Reaktion":
+        return "Modulation der emotionalen Reaktion: Wie kann ich meine Reaktion steuern? (Bsp: Yoge hilft mir, mein Stresslevel zu senken)";
+      default:
+        return;
     }
   }
   return (
@@ -251,21 +235,22 @@ function Ranking(props) {
           <Stepper alternativeLabel activeStep={activeStep}>
             {steps.map((label, index) => (
               <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+                <StepLabel>
+                  {label}{" "}
+                  <Tooltip
+                    disableFocusListener
+                    disableTouchListener
+                    title={getTooltipTitle(label)}
+                  >
+                    <HelpOutlineIcon fontSize="small" />
+                  </Tooltip>
+                </StepLabel>
               </Step>
             ))}
           </Stepper>
         </div>
         <div className="row">
           <div className="col m3" style={{ width: "calc(100% / 5)" }}>
-            Selektion
-            <Tooltip
-              disableFocusListener
-              disableTouchListener
-              title="Situationsauswahl: Stelle ich mich der Situation oder vermeide ich sie? (Bsp: Ich bliebe zuhause)"
-            >
-              <HelpOutlineIcon fontSize="small" />
-            </Tooltip>
             <ul
               className="collapsible"
               style={{ height: "375px", overflow: "auto" }}
