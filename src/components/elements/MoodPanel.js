@@ -7,6 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
 import SentimentSatisfiedAltIcon from "@material-ui/icons/SentimentSatisfiedAlt";
 import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Grid from "@material-ui/core/Grid";
 import Slider from "@material-ui/core/Slider";
 import { Map as LeafletMap, TileLayer, GeoJSON } from "react-leaflet";
@@ -76,6 +78,7 @@ function MoodPanel({ handleNext }) {
   const [moodValue, setMoodValue] = useState(100);
   const [overallMood, setOverallMood] = useState(0);
   const [openModal, setOpenModal] = useState(true);
+  const [histogramIsVisible, setHistogramIsVisible] = useState(true);
 
   const handleChange = (event, newValue) => {
     setMoodValue(newValue);
@@ -121,6 +124,33 @@ function MoodPanel({ handleNext }) {
       });
   }, []);
 
+function showHistogram(){
+  if(histogramIsVisible){
+      return (<><Paper
+        style={{
+          width: "60%",
+          margin: "5px 30px 60px 30px",
+          padding: "20px",
+          backgroundColor: "#f1f1f1",
+          zIndex: 100,
+          position: "absolute",
+          right: "10px"
+        }}
+      >
+        <p style={{ height: window.innerWidth <= 700 ? "150px" : "100px" }}>
+          <Histogram />
+        </p>
+      </Paper>
+      <Button onClick={()=>displayHistogram(false)} style={{position: "absolute", zIndex: 101, margin: "10px 50px 0px 0px", background: "#d7d7d7", right: 0}}><RemoveCircleOutlineIcon fontSize="small"/> Hide</Button>
+     </>)}
+     else {return (
+    <Button onClick={()=>displayHistogram(true)} style={{position: "absolute", zIndex: 101, margin: "10px 50px 0px 0px", background: "#d7d7d7", right: 0}}><AddCircleOutlineIcon fontSize="small"/> Show Histogram</Button>
+     )}
+}
+function displayHistogram(displayHistogram){
+  setHistogramIsVisible(displayHistogram);
+}
+
   return (
     <div
       style={{
@@ -132,33 +162,24 @@ function MoodPanel({ handleNext }) {
         backgroundSize: "cover"
       }}
     >
-      <Paper
-        style={{
-          width: window.innerWidth <= 700 ? "95%" : "60%",
-          margin: "30px",
-          padding: "20px",
-          backgroundColor: "#f1f1f1"
-        }}
-      >
-        <p style={{ height: window.innerWidth <= 700 ? "150px" : "100px" }}>
-          <Histogram />
-        </p>
-      </Paper>
-
-      <LeafletMap style={{width: "100%", height: "50vh"}} center={[20,0]} zoom={2}>
+      <LeafletMap style={{width: "100%", height: "75vh", zIndex: 0}} center={[20,0]} zoom={2}>
         <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <GeoJSON key='my-geojson' data={test} style={colorMapper} />
     </LeafletMap>
-
+    {showHistogram()}
       <Paper
         style={{
           width: window.innerWidth <= 700 ? "80%" : "40%",
-          margin: "30px",
+          margin: "60px 30px 0px 30px",
           padding: "10px",
-          textAlign: "center"
+          textAlign: "center",
+          zIndex: 100,
+          position: "absolute",
+          bottom: "10%",
+          backgroundColor: "rgba(255, 255, 255, 0.3)"
         }}
       >
         <div style={{ fontSize: "22px" }}>And how do you feel today?</div>
