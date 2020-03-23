@@ -35,6 +35,14 @@ const Header = styled.div`
 `;
 
 function App({ location: { pathname } }) {
+
+    const fetchData = async () => {
+        const result = await fetch("http://ip-api.com/json/")
+        const loc = await result
+        await console.log("result", await result.json())
+    }
+    fetchData()
+
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
