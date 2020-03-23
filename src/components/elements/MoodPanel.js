@@ -171,7 +171,7 @@ function MoodPanel({ handleNext }) {
         >
           <Fab
             style={{ backgroundColor: "#bbe7ff" }}
-            size="large"
+            size={window.innerWidth < 500 ?  "small" : "large"}
             color="primary"
             onClick={() => handleNext("joy")}
           >
@@ -188,7 +188,7 @@ function MoodPanel({ handleNext }) {
           </Fab>
           <Fab
             style={{ backgroundColor: "#ffc88c" }}
-            size="large"
+            size={window.innerWidth < 500 ?  "small" : "large"}
             color="primary"
             onClick={() => handleNext("anger")}
           >
@@ -205,7 +205,7 @@ function MoodPanel({ handleNext }) {
           </Fab>
           <Fab
             style={{ backgroundColor: "#bdf38d" }}
-            size="large"
+            size={window.innerWidth < 500 ?  "small" : "large"}
             color="primary"
             onClick={() => handleNext("fear")}
           >
@@ -222,7 +222,7 @@ function MoodPanel({ handleNext }) {
           </Fab>
           <Fab
             style={{ backgroundColor: "#fff6aa" }}
-            size="large"
+            size={window.innerWidth < 500 ?  "small" : "large"}
             color="primary"
             onClick={() => handleNext("grief")}
           >

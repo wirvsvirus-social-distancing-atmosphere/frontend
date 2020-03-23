@@ -299,8 +299,13 @@ function MoodPanel({ history, mood = "joy" }) {
                       ? classes.selected
                       : classes.unselected
                   }
-                  style={{ margin: "20px" }}
-                  size="large"
+                  style={{
+                    margin:
+                      window.innerWidth < 500
+                        ? "0px 5px 20px 5px"
+                        : "0px 20px 20px 20px"
+                  }}
+                  size={window.innerWidth < 500 ? "small" : "large"}
                   color="primary"
                   onClick={() => setSelectedMood(item)}
                   component="div"
@@ -358,8 +363,8 @@ function MoodPanel({ history, mood = "joy" }) {
           </DialogTitle>
 
           <div className={classes.row}>
-            <Fearometer currentValue={overallMood} />
-            <BubbleChart data={bubbleChartData} />
+            <Fearometer currentValue={overallMood} style={{ margin: "5%" }} />
+            <BubbleChart data={bubbleChartData} style={{ margin: "5%" }} />
           </div>
           <Modal
             className={classes.row}
