@@ -1,89 +1,8 @@
 import {GeoJSON, Map as LeafletMap, TileLayer} from "react-leaflet";
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import geoJson from "../../res/geo";
-
-const testEmotions = [
-    {
-        emotion: "fear",
-        time: 123234324,
-        value: 78,
-    },
-    {
-        emotion: "fear",
-        time: 123234324,
-        value: 78,
-        geo: {country: "France"},
-    },
-    {
-        emotion: "grief",
-        time: 123234324,
-        value: 78,
-        geo: {country: "France"},
-    },
-    {
-        emotion: "fear",
-        time: 123234324,
-        value: 78,
-        geo: {country: "France"},
-    },
-    {
-        emotion: "anger",
-        time: 123234324,
-        value: 78,
-        geo: {country: "France"},
-    },
-    {
-        emotion: "fear",
-        time: 123234324,
-        value: 78,
-        geo: {country: "France"},
-    },
-    {
-        emotion: "anger",
-        time: 123234324,
-        value: 78,
-        geo: {country: "Germany"},
-    },
-];
-
-const countries = [];
-geoJson.features.map(feature => countries.push([]));
-testEmotions.map((item) => {
-    if (item.geo) {
-        const countryIndex = geoJson.features.findIndex((feature) => feature.properties.name === item.geo.country)
-        countries[countryIndex].push({emotion: item.emotion, value: item.value})
-    }
-});
-countries.map((country, index) => {
-    const fear = [];
-    const grief = [];
-    const anger = [];
-    const joy = [];
-
-    country.map(emotion => {
-        if (emotion.emotion === "fear") {
-            fear.push(emotion.value)
-        }
-        if (emotion.emotion === "anger") {
-            anger.push(emotion.value)
-        }
-        if (emotion.emotion === "grief") {
-            grief.push(emotion.value)
-        }
-        if (emotion.emotion === "joy") {
-            joy.push(emotion.value)
-        }
-    });
-    const sums = [
-        {name: "fear", value: fear.reduce((a, b) => a + b, 0) * fear.length},
-        {name: "anger", value: anger.reduce((a, b) => a + b, 0) * anger.length},
-        {name: "grief", value: grief.reduce((a, b) => a + b, 0) * grief.length},
-        {name: "joy", value: joy.reduce((a, b) => a + b, 0) * joy.length},
-    ];
-    const dominantEmotion = sums.reduce((max, emotion) => max.value > emotion.value ? max : emotion);
-    geoJson.features[index]["emotion"] = dominantEmotion.name;
-})
-
+import firebase from "../../utils/firebase";
 
 const colors = {
     fear: '#bbe7ff',
@@ -101,6 +20,68 @@ const colorMapper = feature => {
 }
 
 export default () => {
+
+    const [emotions, setEmotions] = useState([]);
+    useEffect(() => {
+        const data = []
+        firebase
+          .firestore()
+          .collection("emotions")
+          .get()
+          .then(function(querySnapshot) {
+            querySnapshot.forEach(doc => {
+                data.push(doc.data());
+            });
+            setEmotions(data);
+          })
+          .catch(function(error) {
+            console.log("Error getting documents: ", error);
+          });
+      }, []);
+
+    const countries = [];
+    geoJson.features.map(feature => countries.push([]));
+    emotions.map((item) => {
+        if (item.geo) {
+            let countryIndex;
+            if (item.geo.region) {
+                countryIndex = geoJson.features.findIndex((feature) => feature.properties.name === item.geo.country 
+                    && feature.properties.region === item.geo.region);
+            } else {
+                countryIndex = geoJson.features.findIndex((feature) => feature.properties.name === item.geo.country)
+            }
+            countries[countryIndex].push({emotion: item.category, value: item.value})
+        }
+    });
+    countries.map((country, index) => {
+        const fear = [];
+        const grief = [];
+        const anger = [];
+        const joy = [];
+
+        country.map(emotion => {
+            if (emotion.emotion === "fear") {
+                fear.push(emotion.value)
+            }
+            if (emotion.emotion === "anger") {
+                anger.push(emotion.value)
+            }
+            if (emotion.emotion === "grief") {
+                grief.push(emotion.value)
+            }
+            if (emotion.emotion === "joy") {
+                joy.push(emotion.value)
+            }
+        });
+        const sums = [
+            {name: "fear", value: fear.length ? fear.reduce((a, b) => a + b, 0) / fear.length : 0},
+            {name: "anger", value: anger.length ? anger.reduce((a, b) => a + b, 0) / anger.length : 0},
+            {name: "grief", value: grief.length ? grief.reduce((a, b) => a + b, 0) / grief.length : 0},
+            {name: "joy", value: joy.length ? joy.reduce((a, b) => a + b, 0) / joy.length : 0},
+        ];
+        const dominantEmotion = sums.reduce((max, emotion) => max.value > emotion.value ? max : emotion);
+        geoJson.features[index]["emotion"] = dominantEmotion.name;
+    })
 
     return <LeafletMap style={{width: "100%", height: "80vh", zIndex: 0}} center={[20, 0]} zoom={2}>
         <TileLayer

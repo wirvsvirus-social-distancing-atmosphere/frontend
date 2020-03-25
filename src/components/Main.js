@@ -1,17 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter, Route, Switch } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Tabs from "@material-ui/core/Tabs";
-import Typography from "@material-ui/core/Typography";
 import styled from "styled-components";
 
 import Admission from "./scenes/Admission/Admission";
 import ScreenB from "./scenes/ScreenB/ScreenB";
 import LinkTab from "./elements/LinkTab";
 import "./Main.css";
+import MoodContext from '../state/MoodContext';
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -36,15 +35,9 @@ const Header = styled.div`
 
 function App({ location: { pathname } }) {
 
-    const fetchData = async () => {
-        const result = await fetch("http://ip-api.com/json/")
-        const loc = await result
-        await console.log("result", await result.json())
-    }
-    fetchData()
-
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const [hasMoodSubmitted, setHasMoodSubmitted] = useState(false);
 
   useEffect(() => {
     setValue(pathname === "/" ? 0 : 1);
@@ -78,8 +71,8 @@ function App({ location: { pathname } }) {
                 onChange={handleChange}
                 aria-label="nav tabs example"
               >
-                <LinkTab label="How people feel" href="/" component="a" />
-                <LinkTab label="How to cope" href="/howtocope" />
+                <LinkTab label="How people feel" to="/" />
+                <LinkTab label="How to cope" to="/howtocope" />
               </Tabs>
             </Toolbar>
           </Header>
@@ -106,8 +99,8 @@ function App({ location: { pathname } }) {
               onChange={handleChange}
               aria-label="nav tabs example"
             >
-              <LinkTab label="How people feel" href="/" component="a" />
-              <LinkTab label="How to cope" href="/howtocope" />
+              <LinkTab label="How people feel" to="/" />
+              <LinkTab label="How to cope" to="/howtocope" />
             </Tabs>
           </Toolbar>
         </Header>
@@ -117,15 +110,16 @@ function App({ location: { pathname } }) {
   return (
     <div className={classes.main}>
       {displayHeader()}
-
-      <Switch>
-        <Route exact path="/">
-          <Admission />
-        </Route>
-        <Route path="/howtocope">
-          <ScreenB />
-        </Route>
-      </Switch>
+      <MoodContext.Provider value={hasMoodSubmitted}>
+        <Switch>
+          <Route exact path="/">
+            <Admission onMoodSubmit={setHasMoodSubmitted} />
+          </Route>
+          <Route path="/howtocope">
+            <ScreenB />
+          </Route>
+        </Switch>
+      </MoodContext.Provider>
     </div>
   );
 }

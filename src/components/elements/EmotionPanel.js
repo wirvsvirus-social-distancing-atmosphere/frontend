@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -13,6 +13,7 @@ import Fearometer from "./Fearometer";
 import BubbleChart from "./BubbleChart";
 import firebase from "../../utils/firebase";
 
+import LocationContext from '../../state/LocationContext';
 import angry from "../../res/angry-regular.svg";
 import sad from "../../res/sad-tear-regular.svg";
 import happy from "../../res/laugh-beam-regular.svg";
@@ -69,6 +70,8 @@ const moods = {
 
 function MoodPanel({ history, mood = "joy" }) {
   const classes = useStyles();
+
+  const location = useContext(LocationContext);
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedMood, setSelectedMood] = useState(mood);
@@ -137,6 +140,7 @@ function MoodPanel({ history, mood = "joy" }) {
 
   const handleOpenModal = () => {
     if (formValues.what !== "") {
+      const { country, region } = location;
       firebase
         .firestore()
         .collection("emotions")
@@ -145,6 +149,7 @@ function MoodPanel({ history, mood = "joy" }) {
           category: selectedMood,
           emotion: formValues.what,
           value: formValues.severity,
+          geo: { country, region },
           time: Date.now()
         })
         .then(function(docRef) {
