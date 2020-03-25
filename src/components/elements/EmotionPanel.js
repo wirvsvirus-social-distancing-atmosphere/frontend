@@ -181,7 +181,7 @@ function MoodPanel({ history, mood = "joy" }) {
             item
             style={{ width: "46%", marginLeft: "2%", marginRight: "3%" }}
           >
-            <DialogTitle className={classes.row}>How is your mood?</DialogTitle>
+            <DialogTitle className={classes.row}>What's your emotion today?</DialogTitle>
             <div className={classes.row}>
               {Object.keys(moods).map(item => {
                 return (
@@ -214,10 +214,10 @@ function MoodPanel({ history, mood = "joy" }) {
             </div>
 
             <form>
-              <Typography align={"center"}>What could happen?</Typography>
+              <Typography align={"center"}>What is it about?</Typography>
               <TextField
                 id="what"
-                placeholder="e.g. Depression"
+                placeholder="e.g. fear of isolation, happiness about more leisure time, etc."
                 fullWidth
                 margin="none"
                 name="what"
@@ -293,7 +293,7 @@ function MoodPanel({ history, mood = "joy" }) {
     } else {
       return (
         <>
-          <DialogTitle className={classes.row}>How is your mood?</DialogTitle>
+          <DialogTitle className={classes.row}>What's your emotion today?</DialogTitle>
           <div className={classes.row}>
             {Object.keys(moods).map(item => {
               return (
@@ -331,10 +331,10 @@ function MoodPanel({ history, mood = "joy" }) {
           </div>
 
           <form>
-            <Typography align={"center"}>What could happen?</Typography>
+            <Typography align={"center"}>What is it about?</Typography>
             <TextField
               id="what"
-              placeholder="e.g. Depression"
+              placeholder="e.g. fear of isolation, happiness about more leisure time, etc."
               fullWidth
               margin="none"
               name="what"
