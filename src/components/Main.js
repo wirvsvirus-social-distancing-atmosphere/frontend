@@ -10,7 +10,11 @@ import Admission from "./scenes/Admission/Admission";
 import ScreenB from "./scenes/ScreenB/ScreenB";
 import LinkTab from "./elements/LinkTab";
 import "./Main.css";
+
 import MoodContext from '../state/MoodContext';
+import EmotionContext from '../state/EmotionContext';
+
+import emotionCategories from '../utils/constants';
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -33,11 +37,14 @@ const Header = styled.div`
   justify-content: center;
 `;
 
+const defaultEmotion = emotionCategories.FEAR;
+
 function App({ location: { pathname } }) {
 
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [hasMoodSubmitted, setHasMoodSubmitted] = useState(false);
+  const [selectedEmotion, setSelectedEmotion] = useState(defaultEmotion);
 
   useEffect(() => {
     setValue(pathname === "/" ? 0 : 1);
@@ -110,16 +117,18 @@ function App({ location: { pathname } }) {
   return (
     <div className={classes.main}>
       {displayHeader()}
-      <MoodContext.Provider value={hasMoodSubmitted}>
-        <Switch>
-          <Route exact path="/">
-            <Admission onMoodSubmit={setHasMoodSubmitted} />
-          </Route>
-          <Route path="/howtocope">
-            <ScreenB />
-          </Route>
-        </Switch>
-      </MoodContext.Provider>
+      <EmotionContext.Provider value={selectedEmotion}>
+        <MoodContext.Provider value={hasMoodSubmitted}>
+          <Switch>
+            <Route exact path="/">
+              <Admission onMoodSubmit={setHasMoodSubmitted} onEmotionSelect={setSelectedEmotion} />
+            </Route>
+            <Route path="/howtocope">
+              <ScreenB />
+            </Route>
+          </Switch>
+        </MoodContext.Provider>
+      </EmotionContext.Provider>
     </div>
   );
 }

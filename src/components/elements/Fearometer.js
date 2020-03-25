@@ -150,31 +150,6 @@ function show_thermometer(container, currentValue) {
       return domain[0] + v * step;
     });
 
-  var textCol = "rgb(230, 0, 0)",
-    textOffset = -4;
-  const POINTER_EXTENSION = 42;
-  var worry = { label: "Sorge", position: 10 };
-  var fear = { label: "Angst", position: 50 };
-  var panic = { label: "Panik", position: 90 };
-  // [worry, fear, panic].forEach(function (t) {
-  //     svg.append("line")
-  //         .attr("id", t.label + "Line")
-  //         .attr("x1", width / 2 - tubeWidth / 2 - POINTER_EXTENSION)
-  //         .attr("x2", width / 2 + tubeWidth / 2)
-  //         .attr("y1", scale(t.position))
-  //         .attr("y2", scale(t.position))
-  //         .style("stroke", tubeBorderColor)
-  //         .style("stroke-width", "1px")
-  //         .style("shape-rendering", "crispEdges");
-
-  //     svg.append("text")
-  //         .attr("x", width / 2 - tubeWidth / 2 - POINTER_EXTENSION)
-  //         .attr("y", scale(t.position) + textOffset)
-  //         .text(t.label)
-  //         .style("fill", textCol)
-  //         .style("font-size", "14px");
-  // });
-
   svg
     .append("text")
     .attr("x", bulb_cx)
