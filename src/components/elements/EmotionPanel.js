@@ -9,16 +9,20 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Modal from "@material-ui/core/Modal";
 import Grid from "@material-ui/core/Grid";
+import Fab from "@material-ui/core/Fab";
+
 import Fearometer from "./Fearometer";
 import BubbleChart from "./BubbleChart";
 import firebase from "../../utils/firebase";
+import emotionCategories from '../../utils/constants';
 
 import LocationContext from '../../state/LocationContext';
+import EmotionContext from '../../state/EmotionContext';
+
 import angry from "../../res/angry-regular.svg";
 import sad from "../../res/sad-tear-regular.svg";
 import happy from "../../res/laugh-beam-regular.svg";
 import anxious from "../../res/grimace-regular.svg";
-import Fab from "@material-ui/core/Fab";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,23 +66,21 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const moods = {
-  joy: happy,
-  anger: angry,
-  fear: anxious,
-  grief: sad
+  [emotionCategories.JOY]: happy,
+  [emotionCategories.ANGER]: angry,
+  [emotionCategories.FEAR]: anxious,
+  [emotionCategories.GRIEF]: sad
 };
 
-function MoodPanel({ history, mood = "joy" }) {
+function EmotionPanel({ history, onEmotionSelect }) {
   const classes = useStyles();
 
   const location = useContext(LocationContext);
-
+  const mood = useContext(EmotionContext);
+  console.log(mood);
   const [openModal, setOpenModal] = useState(false);
-  const [selectedMood, setSelectedMood] = useState(mood);
   const [formValues, setFormValues] = useState({
     what: "",
-    likelihood: 0,
-    manageability: 0,
     severity: 0
   });
   const [overallMood, setOverallMood] = useState(0);
@@ -88,7 +90,7 @@ function MoodPanel({ history, mood = "joy" }) {
     firebase
       .firestore()
       .collection("emotions")
-      .where("category", "==", selectedMood)
+      .where("category", "==", mood)
       .get()
       .then(function(querySnapshot) {
         let avg = 0;
@@ -126,7 +128,7 @@ function MoodPanel({ history, mood = "joy" }) {
       .catch(function(error) {
         console.log("Error getting documents: ", error);
       });
-  }, [selectedMood]);
+  }, [mood]);
 
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -138,7 +140,9 @@ function MoodPanel({ history, mood = "joy" }) {
     setFormValues({ ...formValues, severity: newValue });
   };
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (e) => {
+    e.preventDefault();
+    
     if (formValues.what !== "") {
       const { country, region } = location;
       firebase
@@ -146,7 +150,7 @@ function MoodPanel({ history, mood = "joy" }) {
         .collection("emotions")
         .doc()
         .set({
-          category: selectedMood,
+          category: mood,
           emotion: formValues.what,
           value: formValues.severity,
           geo: { country, region },
@@ -188,14 +192,14 @@ function MoodPanel({ history, mood = "joy" }) {
                   <Fab
                     key={item}
                     className={
-                      selectedMood === item
+                      mood === item
                         ? classes.selected
                         : classes.unselected
                     }
                     style={{ margin: "20px" }}
                     size="large"
                     color="primary"
-                    onClick={() => setSelectedMood(item)}
+                    onClick={() => onEmotionSelect(item)}
                     component="div"
                   >
                     <div
@@ -213,8 +217,10 @@ function MoodPanel({ history, mood = "joy" }) {
               })}
             </div>
 
-            <form>
-              <Typography align={"center"}>What is it about?</Typography>
+            <form
+              onSubmit={handleOpenModal}
+            >
+              <Typography align={"center"}>What could happen?</Typography>
               <TextField
                 id="what"
                 placeholder="e.g. fear of isolation, happiness about more leisure time, etc."
@@ -240,7 +246,6 @@ function MoodPanel({ history, mood = "joy" }) {
                   variant="contained"
                   color="primary"
                   className={classes.button}
-                  onClick={handleOpenModal}
                 >
                   Communicate
                 </Button>
@@ -250,7 +255,7 @@ function MoodPanel({ history, mood = "joy" }) {
 
           <Grid item style={{ width: "46%", marginLeft: "3%" }}>
             <DialogTitle className={classes.row}>
-              What are {selectedMood}s of others?
+              What are {mood}s of others?
             </DialogTitle>
 
             <div className={classes.row}>
@@ -264,7 +269,7 @@ function MoodPanel({ history, mood = "joy" }) {
             >
               <div className={classes.modalBody}>
                 <div>
-                  Would you like to learn how others coped with {selectedMood}{" "}
+                  Would you like to learn how others coped with {mood}{" "}
                   similar to
                 </div>
                 <div className={classes.what}>{formValues.what}</div>
@@ -300,7 +305,7 @@ function MoodPanel({ history, mood = "joy" }) {
                 <Fab
                   key={item}
                   className={
-                    selectedMood === item
+                    mood === item
                       ? classes.selected
                       : classes.unselected
                   }
@@ -312,7 +317,7 @@ function MoodPanel({ history, mood = "joy" }) {
                   }}
                   size={window.innerWidth < 500 ? "small" : "large"}
                   color="primary"
-                  onClick={() => setSelectedMood(item)}
+                  onClick={() => onEmotionSelect(item)}
                   component="div"
                 >
                   <div
@@ -330,8 +335,10 @@ function MoodPanel({ history, mood = "joy" }) {
             })}
           </div>
 
-          <form>
-            <Typography align={"center"}>What is it about?</Typography>
+          <form
+           onSubmit={handleOpenModal}
+          >
+            <Typography align={"center"}>What could happen?</Typography>
             <TextField
               id="what"
               placeholder="e.g. fear of isolation, happiness about more leisure time, etc."
@@ -357,14 +364,13 @@ function MoodPanel({ history, mood = "joy" }) {
                 variant="contained"
                 color="primary"
                 className={classes.button}
-                onClick={handleOpenModal}
               >
                 Communicate
               </Button>
             </div>
           </form>
           <DialogTitle className={classes.row}>
-            What are {selectedMood}s of others?
+            What are {mood}s of others?
           </DialogTitle>
 
           <div className={classes.row}>
@@ -378,7 +384,7 @@ function MoodPanel({ history, mood = "joy" }) {
           >
             <div className={classes.modalBody}>
               <div>
-                Would you like to learn how others coped with {selectedMood}{" "}
+                Would you like to learn how others coped with {mood}{" "}
                 similar to
               </div>
               <div className={classes.what}>{formValues.what}</div>
@@ -386,7 +392,6 @@ function MoodPanel({ history, mood = "joy" }) {
                 <Button
                   variant="contained"
                   className={classes.button}
-                  onClick={handleCloseModal}
                 >
                   No, thanks
                 </Button>
@@ -408,4 +413,4 @@ function MoodPanel({ history, mood = "joy" }) {
   return <div className={classes.root}>{showContent()}</div>;
 }
 
-export default withRouter(MoodPanel);
+export default withRouter(EmotionPanel);

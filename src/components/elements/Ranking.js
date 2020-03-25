@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SubdirectoryArrowLeftIcon from "@material-ui/icons/SubdirectoryArrowLeft";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
@@ -69,7 +68,7 @@ function Ranking(props) {
           >
             {props.data && props.data.aufmerksamkeit.map(item => {
               return (
-                <li>
+                <li key={ item.name }>
                   <div className="collapsible-header">
                     {item.name +
                       " (" +
@@ -114,7 +113,7 @@ function Ranking(props) {
           >
             {props.data && props.data.umdeutung.map(item => {
               return (
-                <li>
+                <li key={ item.name }>
                   <div className="collapsible-header">
                     {item.name +
                       " (" +
@@ -159,7 +158,7 @@ function Ranking(props) {
           >
             {props.data && props.data.reaktion.map(item => {
               return (
-                <li>
+                <li key={ item.name }>
                   <div className="collapsible-header">
                     {item.name +
                       " (" +
@@ -204,7 +203,7 @@ function Ranking(props) {
           >
             {props.data && props.data.modifikation.map(item => {
               return (
-                <li>
+                <li key={ item.name }>
                   <div className="collapsible-header">
                     {item.name +
                       " (" +
@@ -250,7 +249,7 @@ function Ranking(props) {
           >
             {props.data && props.data.selektion.map(item => {
               return (
-                <li>
+                <li key={ item.name }>
                   <div className="collapsible-header">
                     {item.name +
                       " (" +

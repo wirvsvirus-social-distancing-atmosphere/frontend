@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -32,24 +32,27 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Admission({
-    onMoodSubmit
+    onMoodSubmit,
+    onEmotionSelect
 }) {
     const classes = useStyles();
 
     const [activeStep, setActiveStep] = React.useState(0);
-    const [selectedMood, setSelectedMood] = useState();
 
-    const handleNext = (mood) => {
-        setSelectedMood(mood);
+    const handleNext = () => {
         setActiveStep(1);
     };
 
     const getStepContent = (step) => {
         switch (step) {
           case 0:
-            return <MoodPanel handleNext={ handleNext } onMoodSubmit={ onMoodSubmit } />;
+            return <MoodPanel
+              handleNext={ handleNext }
+              onMoodSubmit={ onMoodSubmit }
+              onEmotionSelect={ onEmotionSelect }
+            />;
           case 1:
-            return <EmotionPanel mood={selectedMood} />;
+            return <EmotionPanel onEmotionSelect={ onEmotionSelect } />;
           default:
             throw new Error('Unknown step');
         }

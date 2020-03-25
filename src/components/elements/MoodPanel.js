@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { Paper } from "@material-ui/core";
@@ -11,17 +11,19 @@ import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Grid from "@material-ui/core/Grid";
 import Slider from "@material-ui/core/Slider";
-
-import Histogram from "./Histogram";
+import Fab from "@material-ui/core/Fab";
 
 import MoodContext from "../../state/MoodContext";
+
 import firebase from "../../utils/firebase";
-import Fab from "@material-ui/core/Fab";
+import emotionCategories from '../../utils/constants';
+
 import happy from "../../res/laugh-beam-regular.svg";
 import angry from "../../res/angry-regular.svg";
 import sad from "../../res/sad-tear-regular.svg";
 import anxious from "../../res/grimace-regular.svg";
 import Map from "./Map";
+import Histogram from "./Histogram";
 
 const useStyles = makeStyles(theme => ({
   row: {
@@ -47,7 +49,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function MoodPanel({ handleNext, onMoodSubmit }) {
+function MoodPanel({ handleNext, onMoodSubmit, onEmotionSelect }) {
   const classes = useStyles();
 
   const hasMoodSubmittedOnce = useContext(MoodContext);
@@ -81,26 +83,10 @@ function MoodPanel({ handleNext, onMoodSubmit }) {
     onMoodSubmit(true);
   };
 
-  useEffect(() => {
-    // firebase
-    //   .firestore()
-    //   .collection("mood")
-    //   .get()
-    //   .then(function(querySnapshot) {
-    //     let avg = 0;
-    //     if (querySnapshot.size) {
-    //       querySnapshot.forEach(doc => {
-    //         const d = doc.data();
-    //         avg += d.value;
-    //       });
-    //       avg /= querySnapshot.size;
-    //     }
-    //     setOverallMood(Math.round(avg));
-    //   })
-    //   .catch(function(error) {
-    //     console.log("Error getting documents: ", error);
-    //   });
-  }, []);
+  const handleEmotionSelect = (emotion) => {
+    onEmotionSelect(emotion);
+    handleNext();
+  }
 
   function showHistogram() {
     if (histogramIsVisible) {
@@ -194,7 +180,7 @@ function MoodPanel({ handleNext, onMoodSubmit }) {
             style={{ backgroundColor: "#bbe7ff" }}
             size={window.innerWidth < 500 ? "small" : "large"}
             color="primary"
-            onClick={() => handleNext("joy")}
+            onClick={() => handleEmotionSelect(emotionCategories.JOY)}
           >
             <div
               style={{
@@ -211,7 +197,7 @@ function MoodPanel({ handleNext, onMoodSubmit }) {
             style={{ backgroundColor: "#ffc88c" }}
             size={window.innerWidth < 500 ? "small" : "large"}
             color="primary"
-            onClick={() => handleNext("anger")}
+            onClick={() => handleEmotionSelect(emotionCategories.ANGER)}
           >
             <div
               style={{
@@ -228,7 +214,7 @@ function MoodPanel({ handleNext, onMoodSubmit }) {
             style={{ backgroundColor: "#bdf38d" }}
             size={window.innerWidth < 500 ? "small" : "large"}
             color="primary"
-            onClick={() => handleNext("fear")}
+            onClick={() => handleEmotionSelect(emotionCategories.FEAR)}
           >
             <div
               style={{
@@ -245,7 +231,7 @@ function MoodPanel({ handleNext, onMoodSubmit }) {
             style={{ backgroundColor: "#fff6aa" }}
             size={window.innerWidth < 500 ? "small" : "large"}
             color="primary"
-            onClick={() => handleNext("grief")}
+            onClick={() => handleEmotionSelect(emotionCategories.GRIEF)}
           >
             <div
               style={{

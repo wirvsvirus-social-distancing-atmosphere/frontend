@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import Ranking from "../../elements/Ranking";
 import saveRegulationToFirestore from "../../../services/saveRegulationToFirestore";
 import firebase from "../../../utils/firebase";
 import { withRouter } from "react-router-dom";
 
-function ScreenB({ history }) {
-  const [firestoreData, setFirestoreData] = React.useState();
+import EmotionContext from '../../../state/EmotionContext';
 
-  console.log("history", history.location.state);
-  const emotion = history.location.state
-    ? history.location.state.emotion
-    : "fear";
+function ScreenB() {
+  const mood = useContext(EmotionContext);
+
+  const [firestoreData, setFirestoreData] = React.useState();
 
   function getPercentagePerItem(data) {
     let newData = {
@@ -46,7 +45,7 @@ function ScreenB({ history }) {
 
   function saveNewItem(name, category) {
     saveRegulationToFirestore(
-      { category: category, emotion: emotion, name: name },
+      { category, emotion: mood, name },
       () => {
         getFirestoreData(category);
       }
@@ -59,7 +58,7 @@ function ScreenB({ history }) {
         .firestore()
         .collection("regulation")
         .where("category", "==", category)
-        .where("emotion", "==", emotion)
+        .where("emotion", "==", mood)
         .get()
         .then(function(querySnapshot) {
           let tmp = { ...firestoreData };
@@ -81,7 +80,7 @@ function ScreenB({ history }) {
       firebase
         .firestore()
         .collection("regulation")
-        .where("emotion", "==", emotion)
+        .where("emotion", "==", mood)
         .get()
         .then(function(querySnapshot) {
           let resultArray = [];
@@ -120,7 +119,7 @@ function ScreenB({ history }) {
       sortedData.reaktion.sort((a, b) => (a.value < b.value ? 1 : -1));
     }
     return (
-      <Ranking emotion={emotion} data={sortedData} saveNewItem={saveNewItem} />
+      <Ranking emotion={mood} data={sortedData} saveNewItem={saveNewItem} />
     );
   }
 

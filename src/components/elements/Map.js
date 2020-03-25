@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 
 import geoJson from "../../res/geo";
 import firebase from "../../utils/firebase";
+import emotionCategories from '../../utils/constants';
 
 const colors = {
-    fear: '#bbe7ff',
-    anger: '#ffc88c',
-    joy: '#bdf38d',
-    grief: '#fff6aa'
+    [emotionCategories.JOY]: '#bdf38d',
+    [emotionCategories.ANGER]: '#ffc88c',
+    [emotionCategories.FEAR]: '#bbe7ff',
+    [emotionCategories.GRIEF]: '#fff6aa'
 };
 
 const colorMapper = feature => {
@@ -60,24 +61,24 @@ export default () => {
         const joy = [];
 
         country.map(emotion => {
-            if (emotion.emotion === "fear") {
+            if (emotion.emotion === emotionCategories.FEAR) {
                 fear.push(emotion.value)
             }
-            if (emotion.emotion === "anger") {
+            if (emotion.emotion === emotionCategories.ANGER) {
                 anger.push(emotion.value)
             }
-            if (emotion.emotion === "grief") {
+            if (emotion.emotion === emotionCategories.GRIEF) {
                 grief.push(emotion.value)
             }
-            if (emotion.emotion === "joy") {
+            if (emotion.emotion === emotionCategories.JOY) {
                 joy.push(emotion.value)
             }
         });
         const sums = [
-            {name: "fear", value: fear.length ? fear.reduce((a, b) => a + b, 0) / fear.length : 0},
-            {name: "anger", value: anger.length ? anger.reduce((a, b) => a + b, 0) / anger.length : 0},
-            {name: "grief", value: grief.length ? grief.reduce((a, b) => a + b, 0) / grief.length : 0},
-            {name: "joy", value: joy.length ? joy.reduce((a, b) => a + b, 0) / joy.length : 0},
+            {name: emotionCategories.FEAR, value: fear.length ? fear.reduce((a, b) => a + b, 0) / fear.length : 0},
+            {name: emotionCategories.ANGER, value: anger.length ? anger.reduce((a, b) => a + b, 0) / anger.length : 0},
+            {name: emotionCategories.GRIEF, value: grief.length ? grief.reduce((a, b) => a + b, 0) / grief.length : 0},
+            {name: emotionCategories.JOY, value: joy.length ? joy.reduce((a, b) => a + b, 0) / joy.length : 0},
         ];
         const dominantEmotion = sums.reduce((max, emotion) => max.value > emotion.value ? max : emotion);
         geoJson.features[index]["emotion"] = dominantEmotion.name;
