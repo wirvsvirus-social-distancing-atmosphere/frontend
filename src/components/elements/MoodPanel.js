@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { Paper } from "@material-ui/core";
@@ -11,11 +11,10 @@ import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Grid from "@material-ui/core/Grid";
 import Slider from "@material-ui/core/Slider";
-import { Map as LeafletMap, TileLayer, GeoJSON } from "react-leaflet";
-import geoJson from "../../res/geo.json";
 
 import Histogram from "./Histogram";
 
+import MoodContext from "../../state/MoodContext";
 import firebase from "../../utils/firebase";
 import Fab from "@material-ui/core/Fab";
 import happy from "../../res/laugh-beam-regular.svg";
@@ -48,12 +47,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function MoodPanel({ handleNext }) {
+function MoodPanel({ handleNext, onMoodSubmit }) {
   const classes = useStyles();
 
+  const hasMoodSubmittedOnce = useContext(MoodContext);
+
   const [moodValue, setMoodValue] = useState(100);
-  const [overallMood, setOverallMood] = useState(0);
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(!hasMoodSubmittedOnce);
   const [histogramIsVisible, setHistogramIsVisible] = useState(true);
 
   const handleChange = (event, newValue) => {
@@ -62,6 +62,7 @@ function MoodPanel({ handleNext }) {
 
   const handleCloseModal = () => {
     setOpenModal(false);
+    onMoodSubmit(true);
   };
 
   const handleSubmit = () => {
@@ -77,27 +78,28 @@ function MoodPanel({ handleNext }) {
         console.error("Error adding document: ", error);
       });
     handleCloseModal();
+    onMoodSubmit(true);
   };
 
   useEffect(() => {
-    firebase
-      .firestore()
-      .collection("mood")
-      .get()
-      .then(function(querySnapshot) {
-        let avg = 0;
-        if (querySnapshot.size) {
-          querySnapshot.forEach(doc => {
-            const d = doc.data();
-            avg += d.value;
-          });
-          avg /= querySnapshot.size;
-        }
-        setOverallMood(Math.round(avg));
-      })
-      .catch(function(error) {
-        console.log("Error getting documents: ", error);
-      });
+    // firebase
+    //   .firestore()
+    //   .collection("mood")
+    //   .get()
+    //   .then(function(querySnapshot) {
+    //     let avg = 0;
+    //     if (querySnapshot.size) {
+    //       querySnapshot.forEach(doc => {
+    //         const d = doc.data();
+    //         avg += d.value;
+    //       });
+    //       avg /= querySnapshot.size;
+    //     }
+    //     setOverallMood(Math.round(avg));
+    //   })
+    //   .catch(function(error) {
+    //     console.log("Error getting documents: ", error);
+    //   });
   }, []);
 
   function showHistogram() {

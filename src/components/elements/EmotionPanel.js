@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -13,6 +13,7 @@ import Fearometer from "./Fearometer";
 import BubbleChart from "./BubbleChart";
 import firebase from "../../utils/firebase";
 
+import LocationContext from '../../state/LocationContext';
 import angry from "../../res/angry-regular.svg";
 import sad from "../../res/sad-tear-regular.svg";
 import happy from "../../res/laugh-beam-regular.svg";
@@ -69,6 +70,8 @@ const moods = {
 
 function MoodPanel({ history, mood = "joy" }) {
   const classes = useStyles();
+
+  const location = useContext(LocationContext);
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedMood, setSelectedMood] = useState(mood);
@@ -137,6 +140,7 @@ function MoodPanel({ history, mood = "joy" }) {
 
   const handleOpenModal = () => {
     if (formValues.what !== "") {
+      const { country, region } = location;
       firebase
         .firestore()
         .collection("emotions")
@@ -145,6 +149,7 @@ function MoodPanel({ history, mood = "joy" }) {
           category: selectedMood,
           emotion: formValues.what,
           value: formValues.severity,
+          geo: { country, region },
           time: Date.now()
         })
         .then(function(docRef) {
@@ -176,7 +181,7 @@ function MoodPanel({ history, mood = "joy" }) {
             item
             style={{ width: "46%", marginLeft: "2%", marginRight: "3%" }}
           >
-            <DialogTitle className={classes.row}>How is your mood?</DialogTitle>
+            <DialogTitle className={classes.row}>What's your emotion today?</DialogTitle>
             <div className={classes.row}>
               {Object.keys(moods).map(item => {
                 return (
@@ -209,10 +214,10 @@ function MoodPanel({ history, mood = "joy" }) {
             </div>
 
             <form>
-              <Typography align={"center"}>What could happen?</Typography>
+              <Typography align={"center"}>What is it about?</Typography>
               <TextField
                 id="what"
-                placeholder="e.g. Depression"
+                placeholder="e.g. fear of isolation, happiness about more leisure time, etc."
                 fullWidth
                 margin="none"
                 name="what"
@@ -288,7 +293,7 @@ function MoodPanel({ history, mood = "joy" }) {
     } else {
       return (
         <>
-          <DialogTitle className={classes.row}>How is your mood?</DialogTitle>
+          <DialogTitle className={classes.row}>What's your emotion today?</DialogTitle>
           <div className={classes.row}>
             {Object.keys(moods).map(item => {
               return (
@@ -326,10 +331,10 @@ function MoodPanel({ history, mood = "joy" }) {
           </div>
 
           <form>
-            <Typography align={"center"}>What could happen?</Typography>
+            <Typography align={"center"}>What is it about?</Typography>
             <TextField
               id="what"
-              placeholder="e.g. Depression"
+              placeholder="e.g. fear of isolation, happiness about more leisure time, etc."
               fullWidth
               margin="none"
               name="what"

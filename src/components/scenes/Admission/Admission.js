@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import Button from "@material-ui/core/Button";
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
@@ -33,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Admission({
-    history,
+    onMoodSubmit
 }) {
     const classes = useStyles();
 
@@ -48,9 +47,9 @@ function Admission({
     const getStepContent = (step) => {
         switch (step) {
           case 0:
-            return <MoodPanel handleNext={ handleNext }/>;
+            return <MoodPanel handleNext={ handleNext } onMoodSubmit={ onMoodSubmit } />;
           case 1:
-            return <EmotionPanel mood={selectedMood}/>;
+            return <EmotionPanel mood={selectedMood} />;
           default:
             throw new Error('Unknown step');
         }
@@ -61,14 +60,10 @@ function Admission({
             <CssBaseline />
             <main className={classes.layout}>
                 <Paper className={classes.paper}>
-                    <React.Fragment>
-                        {getStepContent(activeStep)}
-                    </React.Fragment>
-
+                    {getStepContent(activeStep)}
                 </Paper>
             </main>
         </>
-
     );
 }
 
