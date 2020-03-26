@@ -18,6 +18,7 @@ import emotionCategories from '../../utils/constants';
 
 import LocationContext from '../../state/LocationContext';
 import EmotionContext from '../../state/EmotionContext';
+import EmotionDataContext from '../../state/EmotionDataContext';
 
 import angry from "../../res/angry-regular.svg";
 import sad from "../../res/sad-tear-regular.svg";

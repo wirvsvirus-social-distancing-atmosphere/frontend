@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, {useContext, useState} from "react";
+import {makeStyles} from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
-import { Paper } from "@material-ui/core";
+import {Paper} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -28,284 +28,317 @@ import Histogram from "./Histogram";
 
 
 const useStyles = makeStyles(theme => ({
-  row: {
-    display: "flex",
-    alignItems: "center",
-    flexWrap: "wrap",
-    justifyContent: "center"
-  },
-  button: {
-    margin: theme.spacing(1)
-  },
-  modalBody: {
-    position: "absolute",
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(2, 4, 3),
-    maxWidth: 300
-  },
-  textBlock: {
-    margin: 10,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
-  }
+    row: {
+        display: "flex",
+        alignItems: "center",
+        flexWrap: "wrap",
+        justifyContent: "center"
+    },
+    button: {
+        margin: theme.spacing(1)
+    },
+    modalBody: {
+        position: "absolute",
+        backgroundColor: theme.palette.background.paper,
+        padding: theme.spacing(2, 4, 3),
+        maxWidth: 300
+    },
+    textBlock: {
+        margin: 10,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    }
 }));
 
-function MoodPanel({ handleNext, onMoodSubmit, onEmotionSelect }) {
-  const classes = useStyles();
+function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
+    const classes = useStyles();
 
-  const hasMoodSubmittedOnce = useContext(MoodContext);
-  const location = useContext(LocationContext);
+    const hasMoodSubmittedOnce = useContext(MoodContext);
+    const location = useContext(LocationContext);
 
-  const [moodValue, setMoodValue] = useState(100);
-  const [openModal, setOpenModal] = useState(!hasMoodSubmittedOnce);
-  const [histogramIsVisible, setHistogramIsVisible] = useState(true);
+    const [moodValue, setMoodValue] = useState(100);
+    const [openModal, setOpenModal] = useState(!hasMoodSubmittedOnce);
+    const [histogramIsVisible, setHistogramIsVisible] = useState(true);
 
-  const handleChange = (event, newValue) => {
-    setMoodValue(newValue);
-  };
+    const [toggleShowMode, setToggleShowMode] = useState("mood");
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    onMoodSubmit(true);
-  };
+    const handleChange = (event, newValue) => {
+        setMoodValue(newValue);
+    };
 
-  const handleSubmit = () => {
-      const { country, region } = location;
-    firebase
-      .firestore()
-      .collection("mood")
-      .doc()
-      .set({
-          value: moodValue,
-          time: Date.now(),
-          geo: { country, region },
-      })
-      .then(function(docRef) {
-        console.log("doc", docRef);
-      })
-      .catch(function(error) {
-        console.error("Error adding document: ", error);
-      });
-    handleCloseModal();
-    onMoodSubmit(true);
-  };
+    const handleCloseModal = () => {
+        setOpenModal(false);
+        onMoodSubmit(true);
+    };
 
-  const handleEmotionSelect = (emotion) => {
-    onEmotionSelect(emotion);
-    handleNext();
-  }
+    const handleSubmit = () => {
+        const {country, region} = location;
+        firebase
+            .firestore()
+            .collection("mood")
+            .doc()
+            .set({
+                value: moodValue,
+                time: Date.now(),
+                geo: {country, region},
+            })
+            .then(function (docRef) {
+                console.log("doc", docRef);
+            })
+            .catch(function (error) {
+                console.error("Error adding document: ", error);
+            });
+        handleCloseModal();
+        onMoodSubmit(true);
+    };
 
-  function showHistogram() {
-    if (histogramIsVisible) {
-      return (
-        <>
-          <Paper
-            style={{
-              width: "60%",
-              margin: "5px 30px 60px 30px",
-              padding: "20px",
-              backgroundColor: "#f1f1f1",
-              zIndex: 100,
-              position: "absolute"
-            }}
-          >
-            <p style={{ height: window.innerWidth <= 700 ? "150px" : "100px" }}>
-              <Histogram />
-            </p>
-          </Paper>
-          <Button
-            onClick={() => displayHistogram(false)}
-            style={{
-              position: "absolute",
-              zIndex: 101,
-              marginTop: "5px",
-              background: "#d7d7d7",
-              width: "60%",
-              height: "2em"
-            }}
-          >
-            <ExpandLessIcon fontSize="small" />
-          </Button>
-        </>
-      );
-    } else {
-      return (
-        <Button
-          onClick={() => displayHistogram(true)}
-          style={{
-            position: "absolute",
-            zIndex: 101,
-            marginTop: "5px",
-            background: "#d7d7d7",
-            width: "60%",
-            height: "2em"
-          }}
-        >
-          <ExpandMoreIcon fontSize="small" />
-        </Button>
-      );
+    const handleEmotionSelect = (emotion) => {
+        onEmotionSelect(emotion);
+        handleNext();
     }
-  }
-  function displayHistogram(displayHistogram) {
-    setHistogramIsVisible(displayHistogram);
-  }
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "center",
-        width: "100%",
-        backgroundSize: "cover",
-        position: "relative"
-      }}
-    >
-      <Map />
-      {showHistogram()}
-      <Paper
-        style={{
-          width: window.innerWidth <= 700 ? "80%" : "40%",
-          textAlign: "center",
-          zIndex: 100,
+    function showHistogram() {
+        if (histogramIsVisible) {
+            return (
+                <>
+                    <Paper
+                        style={{
+                            width: "60%",
+                            margin: "5px 30px 60px 30px",
+                            padding: "20px",
+                            backgroundColor: "#f1f1f1",
+                            zIndex: 100,
+                            position: "absolute"
+                        }}
+                    >
+                        <p style={{height: window.innerWidth <= 700 ? "150px" : "100px"}}>
+                            <Histogram/>
+                        </p>
+                    </Paper>
+                    <Button
+                        onClick={() => displayHistogram(false)}
+                        style={{
+                            position: "absolute",
+                            zIndex: 101,
+                            marginTop: "5px",
+                            background: "#d7d7d7",
+                            width: "60%",
+                            height: "2em"
+                        }}
+                    >
+                        <ExpandLessIcon fontSize="small"/>
+                    </Button>
+                </>
+            );
+        } else {
+            return (
+                <Button
+                    onClick={() => displayHistogram(true)}
+                    style={{
+                        position: "absolute",
+                        zIndex: 101,
+                        marginTop: "5px",
+                        background: "#d7d7d7",
+                        width: "60%",
+                        height: "2em"
+                    }}
+                >
+                    <ExpandMoreIcon fontSize="small"/>
+                </Button>
+            );
+        }
+    }
 
-          position: "absolute",
-          bottom: window.innerWidth <= 750 ? "20px" : "5px",
-          backgroundColor: "rgba(255, 255, 255, 0.3)"
-        }}
-      >
-        <div style={{ fontSize: "22px" }}>And how do you feel today?</div>
+    function displayHistogram(displayHistogram) {
+        setHistogramIsVisible(displayHistogram);
+    }
+
+    return (
         <div
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            margin: "10px"
-          }}
-        >
-          <Fab
-            style={{ backgroundColor: "#bdf38d" }}
-            size={window.innerWidth < 500 ? "small" : "large"}
-            color="primary"
-            onClick={() => handleEmotionSelect(emotionCategories.JOY)}
-          >
-            <div
-              style={{
-                backgroundSize: "contain",
-                height: "50px",
-                width: "50px",
-                backgroundImage: `url(${happy})`,
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat"
-              }}
-            />
-          </Fab>
-          <Fab
-            style={{ backgroundColor: "#ffc88c" }}
-            size={window.innerWidth < 500 ? "small" : "large"}
-            color="primary"
-            onClick={() => handleEmotionSelect(emotionCategories.ANGER)}
-          >
-            <div
-              style={{
-                backgroundSize: "contain",
-                height: "50px",
-                width: "50px",
-                backgroundImage: `url(${angry})`,
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat"
-              }}
-            />
-          </Fab>
-          <Fab
-            style={{ backgroundColor: "#bbe7ff" }}
-            size={window.innerWidth < 500 ? "small" : "large"}
-            color="primary"
-            onClick={() => handleEmotionSelect(emotionCategories.FEAR)}
-          >
-            <div
-              style={{
-                backgroundSize: "contain",
-                height: "50px",
-                width: "50px",
-                backgroundImage: `url(${anxious})`,
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat"
-              }}
-            />
-          </Fab>
-          <Fab
-            style={{ backgroundColor: "rgba(240,107,255,0.67)" }}
-            size={window.innerWidth < 500 ? "small" : "large"}
-            color="primary"
-            onClick={() => handleEmotionSelect(emotionCategories.GRIEF)}
-          >
-            <div
-              style={{
-                backgroundSize: "contain",
-                height: "50px",
-                width: "50px",
-                backgroundImage: `url(${sad})`,
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat"
-              }}
-            />
-          </Fab>
-        </div>
-      </Paper>
-      <Modal
-        className={classes.row}
-        open={openModal}
-        onClose={handleCloseModal}
-      >
-        <div className={classes.modalBody}>
-          <Toolbar
             style={{
-              display: "flex",
-              justifyContent: "center",
-              backgroundColor: "cornflowerblue"
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+                backgroundSize: "cover",
+                position: "relative"
             }}
-          >
-            <Typography style={{ color: "white" }} align={"center"}>
-              MOODOMETER
-            </Typography>
-          </Toolbar>
-          <div className={classes.textBlock}>Hello!</div>
-          <div className={classes.textBlock}>
-            Anonymously share your mood, thoughts and feelings with others.
-          </div>
-          <div className={classes.textBlock}>How is your mood?</div>
-          <Grid container spacing={2} style={{ alignItems: "center" }}>
-            <Grid item>
-              <SentimentVeryDissatisfiedIcon />
-            </Grid>
-            <Grid item xs>
-              <Slider
-                value={moodValue}
-                onChange={handleChange}
-                aria-labelledby="continuous-slider"
-                valueLabelDisplay="auto"
-              />
-            </Grid>
-            <Grid item>
-              <SentimentSatisfiedAltIcon />
-            </Grid>
-          </Grid>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={handleSubmit}
+        >
+            <Map toggleShowMode={toggleShowMode}/>
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "10px",
+                borderRadius: "15px",
+                //width: window.innerWidth <= 700 ? "80%" : "40%",
+                textAlign: "center",
+
+                position: "absolute",
+                //bottom: window.innerWidth <= 750 ? "20px" : "5px",
+                right: "5px",
+                //backgroundColor: "rgba(255, 255, 255, 0.3)"
+            }}>
+                <Fab
+                    style={{backgroundColor: "#4b8ef3", marginBottom: "10px"}}
+                    size={window.innerWidth < 500 ? "small" : "large"}
+                    color="primary"
+                    onClick={() => setToggleShowMode("mood")}
+                >
+                    <span style={{fontSize: "0.7rem"}}>Mood</span>
+                </Fab>
+                <Fab
+                    style={{backgroundColor: "#f370b3"}}
+                    size={window.innerWidth < 500 ? "small" : "large"}
+                    color="primary"
+                    onClick={() => setToggleShowMode("emotion")}
+                >
+                    <span style={{fontSize: "0.7rem"}}>Emotion</span>
+                </Fab>
+            </div>
+            {showHistogram()}
+            <Paper
+                style={{
+                    width: window.innerWidth <= 700 ? "80%" : "40%",
+                    textAlign: "center",
+                    zIndex: 100,
+
+                    position: "absolute",
+                    bottom: window.innerWidth <= 750 ? "20px" : "5px",
+                    backgroundColor: "rgba(255, 255, 255, 0.3)"
+                }}
             >
-              Share
-            </Button>
-          </div>
+                <div style={{fontSize: "22px"}}>And how do you feel today?</div>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-around",
+                        margin: "10px"
+                    }}
+                >
+                    <Fab
+                        style={{backgroundColor: "#bdf38d"}}
+                        size={window.innerWidth < 500 ? "small" : "large"}
+                        color="primary"
+                        onClick={() => handleEmotionSelect(emotionCategories.JOY)}
+                    >
+                        <div
+                            style={{
+                                backgroundSize: "contain",
+                                height: "50px",
+                                width: "50px",
+                                backgroundImage: `url(${happy})`,
+                                backgroundPosition: "center",
+                                backgroundRepeat: "no-repeat"
+                            }}
+                        />
+                    </Fab>
+                    <Fab
+                        style={{backgroundColor: "#ffc88c"}}
+                        size={window.innerWidth < 500 ? "small" : "large"}
+                        color="primary"
+                        onClick={() => handleEmotionSelect(emotionCategories.ANGER)}
+                    >
+                        <div
+                            style={{
+                                backgroundSize: "contain",
+                                height: "50px",
+                                width: "50px",
+                                backgroundImage: `url(${angry})`,
+                                backgroundPosition: "center",
+                                backgroundRepeat: "no-repeat"
+                            }}
+                        />
+                    </Fab>
+                    <Fab
+                        style={{backgroundColor: "#bbe7ff"}}
+                        size={window.innerWidth < 500 ? "small" : "large"}
+                        color="primary"
+                        onClick={() => handleEmotionSelect(emotionCategories.FEAR)}
+                    >
+                        <div
+                            style={{
+                                backgroundSize: "contain",
+                                height: "50px",
+                                width: "50px",
+                                backgroundImage: `url(${anxious})`,
+                                backgroundPosition: "center",
+                                backgroundRepeat: "no-repeat"
+                            }}
+                        />
+                    </Fab>
+                    <Fab
+                        style={{backgroundColor: "rgba(240,107,255,0.67)"}}
+                        size={window.innerWidth < 500 ? "small" : "large"}
+                        color="primary"
+                        onClick={() => handleEmotionSelect(emotionCategories.GRIEF)}
+                    >
+                        <div
+                            style={{
+                                backgroundSize: "contain",
+                                height: "50px",
+                                width: "50px",
+                                backgroundImage: `url(${sad})`,
+                                backgroundPosition: "center",
+                                backgroundRepeat: "no-repeat"
+                            }}
+                        />
+                    </Fab>
+                </div>
+            </Paper>
+            <Modal
+                className={classes.row}
+                open={openModal}
+                onClose={handleCloseModal}
+            >
+                <div className={classes.modalBody}>
+                    <Toolbar
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            backgroundColor: "cornflowerblue"
+                        }}
+                    >
+                        <Typography style={{color: "white"}} align={"center"}>
+                            MOODOMETER
+                        </Typography>
+                    </Toolbar>
+                    <div className={classes.textBlock}>Hello!</div>
+                    <div className={classes.textBlock}>
+                        Anonymously share your mood, thoughts and feelings with others.
+                    </div>
+                    <div className={classes.textBlock}>How is your mood?</div>
+                    <Grid container spacing={2} style={{alignItems: "center"}}>
+                        <Grid item>
+                            <SentimentVeryDissatisfiedIcon/>
+                        </Grid>
+                        <Grid item xs>
+                            <Slider
+                                value={moodValue}
+                                onChange={handleChange}
+                                aria-labelledby="continuous-slider"
+                                valueLabelDisplay="auto"
+                            />
+                        </Grid>
+                        <Grid item>
+                            <SentimentSatisfiedAltIcon/>
+                        </Grid>
+                    </Grid>
+                    <div style={{display: "flex", justifyContent: "center"}}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}
+                            onClick={handleSubmit}
+                        >
+                            Share
+                        </Button>
+                    </div>
+                </div>
+            </Modal>
         </div>
-      </Modal>
-    </div>
-  );
+    );
 }
 
 export default MoodPanel;
