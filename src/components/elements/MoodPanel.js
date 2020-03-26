@@ -14,6 +14,7 @@ import Slider from "@material-ui/core/Slider";
 import Fab from "@material-ui/core/Fab";
 
 import MoodContext from "../../state/MoodContext";
+import LocationContext from "../../state/LocationContext";
 
 import firebase from "../../utils/firebase";
 import emotionCategories from '../../utils/constants';
@@ -24,6 +25,7 @@ import sad from "../../res/sad-tear-regular.svg";
 import anxious from "../../res/grimace-regular.svg";
 import Map from "./Map";
 import Histogram from "./Histogram";
+
 
 const useStyles = makeStyles(theme => ({
   row: {
@@ -53,6 +55,7 @@ function MoodPanel({ handleNext, onMoodSubmit, onEmotionSelect }) {
   const classes = useStyles();
 
   const hasMoodSubmittedOnce = useContext(MoodContext);
+  const location = useContext(LocationContext);
 
   const [moodValue, setMoodValue] = useState(100);
   const [openModal, setOpenModal] = useState(!hasMoodSubmittedOnce);
@@ -68,11 +71,16 @@ function MoodPanel({ handleNext, onMoodSubmit, onEmotionSelect }) {
   };
 
   const handleSubmit = () => {
+      const { country, region } = location;
     firebase
       .firestore()
       .collection("mood")
       .doc()
-      .set({ value: moodValue, time: Date.now() })
+      .set({
+          value: moodValue,
+          time: Date.now(),
+          geo: { country, region },
+      })
       .then(function(docRef) {
         console.log("doc", docRef);
       })

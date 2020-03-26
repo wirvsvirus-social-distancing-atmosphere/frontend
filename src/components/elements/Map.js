@@ -94,12 +94,19 @@ export default () => {
         geoJson.features[index]["emotion"] = dominantEmotion.name;
     })
 
+    const onClickFeature = (feature, layer) => {
+        layer.on('click', function (e) {
+            // e = event
+            console.log("feature", feature.properties.name);
+        });
+
+    }
 
     return <LeafletMap style={{width: "100%", height: "80vh", zIndex: 0}} center={[20, 0]} zoom={2}>
         <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <GeoJSON key='my-geojson' data={geoJson} style={colorMapper}/>
+        <GeoJSON key='my-geojson' data={geoJson} style={colorMapper} onEachFeature={onClickFeature}/>
     </LeafletMap>
 }

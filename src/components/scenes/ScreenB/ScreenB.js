@@ -5,9 +5,12 @@ import firebase from "../../../utils/firebase";
 import { withRouter } from "react-router-dom";
 
 import EmotionContext from '../../../state/EmotionContext';
+import LocationContext from '../../../state/LocationContext';
 
 function ScreenB() {
   const mood = useContext(EmotionContext);
+  const location = useContext(LocationContext);
+
 
   const [firestoreData, setFirestoreData] = React.useState();
 
@@ -44,8 +47,13 @@ function ScreenB() {
   }
 
   function saveNewItem(name, category) {
+      const { country, region } = location;
     saveRegulationToFirestore(
-      { category, emotion: mood, name },
+      {
+          category, emotion: mood,
+          name,
+          geo: { country, region },
+      },
       () => {
         getFirestoreData(category);
       }
