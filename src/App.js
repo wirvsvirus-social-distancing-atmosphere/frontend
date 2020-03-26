@@ -10,11 +10,14 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetch("http://ip-api.com/json/")
+      await fetch("https://ipapi.co/json/")
         .then(response => {
           return response.json();
         })
         .then((data) => {
+          data.region = data.region_code
+          data.country = data.country_name
+          console.log("result", data.region, data.country)
           setLocation(data);
         });
     }

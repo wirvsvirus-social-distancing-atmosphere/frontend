@@ -94,7 +94,6 @@ function ScreenB() {
               resultArray[category].push(doc.data().name);
             }
           });
-          console.log("resultArray", resultArray);
           setFirestoreData(resultArray);
         })
         .catch(function(error) {

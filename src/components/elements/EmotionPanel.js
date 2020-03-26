@@ -77,7 +77,6 @@ function EmotionPanel({ history, onEmotionSelect }) {
 
   const location = useContext(LocationContext);
   const mood = useContext(EmotionContext);
-  console.log(mood);
   const [openModal, setOpenModal] = useState(false);
   const [formValues, setFormValues] = useState({
     what: "",
@@ -142,8 +141,8 @@ function EmotionPanel({ history, onEmotionSelect }) {
 
   const handleOpenModal = (e) => {
     e.preventDefault();
-    
     if (formValues.what !== "") {
+      console.log("da2", location.country);
       const { country, region } = location;
       firebase
         .firestore()
@@ -246,6 +245,7 @@ function EmotionPanel({ history, onEmotionSelect }) {
                   variant="contained"
                   color="primary"
                   className={classes.button}
+                  onClick={handleOpenModal}
                 >
                   Communicate
                 </Button>
