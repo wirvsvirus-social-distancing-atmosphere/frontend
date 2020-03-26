@@ -228,7 +228,7 @@ function MoodPanel({ handleNext, onMoodSubmit, onEmotionSelect }) {
             />
           </Fab>
           <Fab
-            style={{ backgroundColor: "#fff6aa" }}
+            style={{ backgroundColor: "rgba(240,107,255,0.67)" }}
             size={window.innerWidth < 500 ? "small" : "large"}
             color="primary"
             onClick={() => handleEmotionSelect(emotionCategories.GRIEF)}

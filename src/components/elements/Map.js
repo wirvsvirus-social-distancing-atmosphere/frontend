@@ -9,7 +9,7 @@ const colors = {
     [emotionCategories.JOY]: '#bdf38d',
     [emotionCategories.ANGER]: '#ffc88c',
     [emotionCategories.FEAR]: '#bbe7ff',
-    [emotionCategories.GRIEF]: '#fff6aa'
+    [emotionCategories.GRIEF]: '#e938ff'
 };
 
 const colorMapper = feature => {
