@@ -45,13 +45,12 @@ export default () => {
     emotions.map((item) => {
         if (item.geo) {
             let countryIndex;
-            if (item.geo.region) {
+            if (item.geo.country === "Germany" && item.geo.region) { //geojson only contains region polygons for germany
                 countryIndex = geoJson.features.findIndex((feature) => feature.properties.name === item.geo.country
                     && feature.properties.region === item.geo.region);
             } else {
                 countryIndex = geoJson.features.findIndex((feature) => feature.properties.name === item.geo.country)
             }
-
             if (countryIndex !== -1) {
                 countries[countryIndex].push({emotion: item.category, value: item.value})
             }
@@ -78,17 +77,18 @@ export default () => {
                 joy.push(emotion.value)
             }
         });
+
         const sums = [
-            {name: emotionCategories.FEAR, value: fear.length ? fear.reduce((a, b) => a + b, 0) / fear.length : 0},
+            {name: emotionCategories.FEAR, value: fear.length ? fear.reduce((a, b) => a + b, 0) * fear.length : 0},
             {
                 name: emotionCategories.ANGER,
-                value: anger.length ? anger.reduce((a, b) => a + b, 0) / anger.length : 0
+                value: anger.length ? anger.reduce((a, b) => a + b, 0) * anger.length : 0
             },
             {
                 name: emotionCategories.GRIEF,
-                value: grief.length ? grief.reduce((a, b) => a + b, 0) / grief.length : 0
+                value: grief.length ? grief.reduce((a, b) => a + b, 0) * grief.length : 0
             },
-            {name: emotionCategories.JOY, value: joy.length ? joy.reduce((a, b) => a + b, 0) / joy.length : 0},
+            {name: emotionCategories.JOY, value: joy.length ? joy.reduce((a, b) => a + b, 0) * joy.length : 0},
         ];
         const dominantEmotion = sums.reduce((max, emotion) => max.value > emotion.value ? max : emotion);
         geoJson.features[index]["emotion"] = dominantEmotion.name;

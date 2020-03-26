@@ -177,7 +177,7 @@ function MoodPanel({ handleNext, onMoodSubmit, onEmotionSelect }) {
           }}
         >
           <Fab
-            style={{ backgroundColor: "#bbe7ff" }}
+            style={{ backgroundColor: "#bdf38d" }}
             size={window.innerWidth < 500 ? "small" : "large"}
             color="primary"
             onClick={() => handleEmotionSelect(emotionCategories.JOY)}
@@ -211,7 +211,7 @@ function MoodPanel({ handleNext, onMoodSubmit, onEmotionSelect }) {
             />
           </Fab>
           <Fab
-            style={{ backgroundColor: "#bdf38d" }}
+            style={{ backgroundColor: "#bbe7ff" }}
             size={window.innerWidth < 500 ? "small" : "large"}
             color="primary"
             onClick={() => handleEmotionSelect(emotionCategories.FEAR)}

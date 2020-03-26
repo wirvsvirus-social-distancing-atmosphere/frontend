@@ -142,7 +142,6 @@ function EmotionPanel({ history, onEmotionSelect }) {
   const handleOpenModal = (e) => {
     e.preventDefault();
     if (formValues.what !== "") {
-      console.log("da2", location.country);
       const { country, region } = location;
       firebase
         .firestore()
