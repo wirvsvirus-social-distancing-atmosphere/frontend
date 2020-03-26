@@ -363,6 +363,7 @@ function EmotionPanel({ history, onEmotionSelect }) {
                 variant="contained"
                 color="primary"
                 className={classes.button}
+                onClick={handleOpenModal}
               >
                 Communicate
               </Button>
