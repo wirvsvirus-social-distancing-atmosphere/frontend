@@ -1,4 +1,4 @@
-import {GeoJSON, Map as LeafletMap, TileLayer} from "react-leaflet";
+import {GeoJSON, Map as LeafletMap, Popup, TileLayer} from "react-leaflet";
 import React, {useEffect, useState} from "react";
 
 import geoJson from "../../res/geo";
@@ -23,6 +23,7 @@ const colorMapper = feature => {
 export default () => {
 
     const [emotions, setEmotions] = useState([]);
+    const [distribution, setDistribution] = useState([]);
     useEffect(() => {
         const data = []
         firebase
@@ -79,25 +80,40 @@ export default () => {
         });
 
         const sums = [
-            {name: emotionCategories.FEAR, value: fear.length ? fear.reduce((a, b) => a + b, 0) * fear.length : 0},
+            {   name: emotionCategories.FEAR,
+                value: fear.length ? fear.reduce((a, b) => a + b, 0) * fear.length : 0,
+                length: fear.length,
+            },
             {
                 name: emotionCategories.ANGER,
-                value: anger.length ? anger.reduce((a, b) => a + b, 0) * anger.length : 0
+                value: anger.length ? anger.reduce((a, b) => a + b, 0) * anger.length : 0,
+                length: anger.length,
             },
             {
                 name: emotionCategories.GRIEF,
-                value: grief.length ? grief.reduce((a, b) => a + b, 0) * grief.length : 0
+                value: grief.length ? grief.reduce((a, b) => a + b, 0) * grief.length : 0,
+                length: grief.length,
             },
-            {name: emotionCategories.JOY, value: joy.length ? joy.reduce((a, b) => a + b, 0) * joy.length : 0},
+            {   name: emotionCategories.JOY,
+                value: joy.length ? joy.reduce((a, b) => a + b, 0) * joy.length : 0,
+                length: joy.length,
+            },
         ];
         const dominantEmotion = sums.reduce((max, emotion) => max.value > emotion.value ? max : emotion);
         geoJson.features[index]["emotion"] = dominantEmotion.name;
+        geoJson.features[index]["values"] = dominantEmotion.value;
+        geoJson.features[index]["distribution"] = sums;
     })
 
     const onClickFeature = (feature, layer) => {
         layer.on('click', function (e) {
-            // e = event
-            console.log("feature", feature.properties.name);
+            const distribution = feature.distribution.map((emotion, index) => {
+                let average = emotion.value / emotion.length / emotion.length
+                average = isNaN(emotion.value / emotion.length) ? 0 : average
+                return <div key={index}><b>{emotion.name.charAt(0).toUpperCase() + emotion.name.slice(1)}:</b> {Math.round(average)} ({emotion.length} entries)</div>
+            })
+            setDistribution(distribution)
+
         });
 
     }
@@ -107,6 +123,8 @@ export default () => {
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <GeoJSON key='my-geojson' data={geoJson} style={colorMapper} onEachFeature={onClickFeature}/>
+        <GeoJSON key='my-geojson' data={geoJson} style={colorMapper} onEachFeature={onClickFeature}>
+            <Popup>{distribution.map(emotion => emotion)}</Popup>
+        </GeoJSON>
     </LeafletMap>
 }

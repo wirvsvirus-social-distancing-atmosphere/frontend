@@ -1,6 +1,6 @@
 export const emotionCategories = {
     FEAR: "fear",
-    JOY: "joy,",
+    JOY: "joy",
     ANGER: "anger",
     GRIEF: "grief",
 }
