@@ -31,7 +31,7 @@ function App() {
         fetchData();
     }, []);
 
-    useEffect(() => {
+    /*useEffect(() => {
         var now = Date.now();
         var nowRound = Math.round(now);
         const last4Weeks = nowRound - 2419200000 / 4; //TODO: <- expand to 4 weeks (= remove /4)
@@ -66,6 +66,44 @@ function App() {
                 });
                 setEmotionData(data);
             })
+            .catch(function (error) {
+                console.log("Error getting documents: ", error);
+                setError(error.message)
+            });
+    }, []);*/
+
+    useEffect(() => {
+        firebase
+            .firestore()
+            .collection("moodmeans")
+            .orderBy("time", "desc")
+            .limit(1)
+            .get()
+            .then(querySnapshot => {
+                let means = querySnapshot.docs[0].data()
+                const data = means.features;
+                console.log("moodmeansdata", means);
+                setMoodData(means);
+            })
+            .catch(function (error) {
+                console.log("Error getting documents: ", error);
+                setError(error.message)
+            });
+    }, []);
+
+    useEffect(() => {
+        firebase
+            .firestore()
+            .collection("emotionmeans")
+            .orderBy("time", "desc")
+            .limit(1)
+            .get()
+            .then(querySnapshot => {
+                    let means = querySnapshot.docs[0].data()
+                    const data = means.features;
+                    console.log("emotionmeansdata", data);
+                setEmotionData(data);
+                })
             .catch(function (error) {
                 console.log("Error getting documents: ", error);
                 setError(error.message)

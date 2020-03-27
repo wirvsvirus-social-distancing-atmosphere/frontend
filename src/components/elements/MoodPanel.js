@@ -61,7 +61,7 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
     const [openModal, setOpenModal] = useState(!hasMoodSubmittedOnce);
     const [histogramIsVisible, setHistogramIsVisible] = useState(true);
 
-    const [toggleShowMode, setToggleShowMode] = useState("mood");
+    const [toggleShowMode, setToggleShowMode] = useState("emotion");
 
     const handleChange = (event, newValue) => {
         setMoodValue(newValue);
