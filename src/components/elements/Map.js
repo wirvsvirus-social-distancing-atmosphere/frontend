@@ -16,12 +16,13 @@ const emotionColors = {
 };
 
 const moodColors = mood => {
+    console.log("mo",mood)
     return mood > 80 ? '#bdf38d' :
         mood > 60 ? '#c0f386' :
-            mood > 40 ? '#f3e989' :
+            mood > 40 ? '#fff6df' :
                 mood > 20 ? '#f3b376' :
                     mood ? '#f36e53' :
-                        "blue"
+                        "black"
 };
 
 const emotionColorMapper = feature => {

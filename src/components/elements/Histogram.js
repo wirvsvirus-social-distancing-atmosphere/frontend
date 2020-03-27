@@ -50,7 +50,6 @@ function Histogram() {
   useEffect(() => {
 
     if (moodData) {
-      console.log("histomood", moodData)
         const chartData = moodData.meansPerDay;
         const data = {
           labels: chartData.labels,
@@ -60,7 +59,7 @@ function Histogram() {
               backgroundColor: "rgb(54, 162, 235)",
               borderColor: "rgb(54, 162, 235)",
               cubicInterpolationMode: "monotone",
-              fill: false,
+              fill: true,
               data: chartData.data
             }
           ]

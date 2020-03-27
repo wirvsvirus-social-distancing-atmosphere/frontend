@@ -105,9 +105,9 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                     <Paper
                         style={{
                             width: "60%",
-                            margin: "5px 30px 60px 30px",
+                            margin: "5px 0px 60px 0px",
                             padding: "20px",
-                            backgroundColor: "#f1f1f1",
+                            backgroundColor: "rgba(241,241,241,0.74)",
                             zIndex: 100,
                             position: "absolute"
                         }}

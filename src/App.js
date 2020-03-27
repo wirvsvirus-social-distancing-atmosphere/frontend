@@ -82,7 +82,6 @@ function App() {
             .then(querySnapshot => {
                 let means = querySnapshot.docs[0].data()
                 const data = means.features;
-                console.log("moodmeansdata", means);
                 setMoodData(means);
             })
             .catch(function (error) {
@@ -99,11 +98,42 @@ function App() {
             .limit(1)
             .get()
             .then(querySnapshot => {
-                    let means = querySnapshot.docs[0].data()
-                    const data = means.features;
-                    console.log("emotionmeansdata", data);
+                let means = querySnapshot.docs[0].data()
+                const data = means.features;
                 setEmotionData(data);
-                })
+            })
+            .catch(function (error) {
+                console.log("Error getting documents: ", error);
+                setError(error.message)
+            });
+    }, []);
+
+    useEffect(() => {
+        firebase
+            .firestore()
+            .collection("functionstrigger")
+            .orderBy("time", "desc")
+            .limit(1)
+            .get()
+            .then(querySnapshot => {
+                let docs = querySnapshot.docs[0];
+                if(docs){
+                    let data = docs.data()
+                    let time = data.time;
+                    if (Date.now() - time > (4 * 3600000)) {
+                        firebase
+                            .firestore()
+                            .collection('functionstrigger')
+                            .doc()
+                            .set({time: Date.now()})
+                    }} else {
+                    firebase
+                        .firestore()
+                        .collection('functionstrigger')
+                        .doc()
+                        .set({time: Date.now()})
+                }
+            })
             .catch(function (error) {
                 console.log("Error getting documents: ", error);
                 setError(error.message)
@@ -111,7 +141,17 @@ function App() {
     }, []);
 
     const errorMessage = () => {
-        return <Paper style={{backgroundColor: "red", width: "200px", padding: "30px", fontSize: "20px", position: "absolute", textAlign: "center", zIndex: 1000, left: window.innerWidth/2 - 100, top: window.innerHeight/2}}>Firebase Error: {error}</Paper>
+        return <Paper style={{
+            backgroundColor: "red",
+            width: "200px",
+            padding: "30px",
+            fontSize: "20px",
+            position: "absolute",
+            textAlign: "center",
+            zIndex: 1000,
+            left: window.innerWidth / 2 - 100,
+            top: window.innerHeight / 2
+        }}>Firebase Error: {error}</Paper>
     }
 
     return (
