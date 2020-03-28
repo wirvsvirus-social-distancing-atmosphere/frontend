@@ -6,7 +6,6 @@ import EmotionDataContext from '../../state/EmotionDataContext';
 
 import geoJson from "../../res/geo";
 import emotionCategories from '../../utils/constants';
-import * as firebase from "firebase";
 
 const emotionColors = {
     [emotionCategories.JOY]: '#bdf38d',
@@ -16,12 +15,13 @@ const emotionColors = {
 };
 
 const moodColors = mood => {
-    return mood > 80 ? '#bdf38d' :
-        mood > 60 ? '#c0f386' :
-            mood > 40 ? '#fff6df' :
-                mood > 20 ? '#f3b376' :
-                    mood ? '#f36e53' :
-                        "black"
+    return mood > 80 ? '#2bf350' :
+        mood > 60 ? '#99f37d' :
+            mood > 50 ? '#ccff8b' :
+                mood > 40 ? '#fff6df' :
+                    mood > 20 ? '#f3b376' :
+                        mood ? '#f36e53' :
+                            "black"
 };
 
 const emotionColorMapper = feature => {
@@ -49,7 +49,9 @@ export default ({toggleShowMode}) => {
 
     if (toggleShowMode === "mood" && moodData) {
         moodData.features.map((country, index) => {
-            {console.log("mood", country)}
+            {
+                console.log("mood", country)
+            }
             geoJson.features[index]["mood"] = country.mood;
         })
     }
@@ -76,8 +78,8 @@ export default ({toggleShowMode}) => {
             }
             if (feature.mood) {
                 const mood = <div>
-                        <b>Average mood:</b> {feature.mood}
-                    </div>
+                    <b>Average mood:</b> {feature.mood}
+                </div>
                 setMood({country: feature.properties.name, mood: mood})
             }
         });

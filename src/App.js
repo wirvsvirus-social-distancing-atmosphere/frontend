@@ -17,7 +17,7 @@ function App() {
     const [emotionData, setEmotionData] = useState();
     const [error, setError] = useState();
 
-    useEffect(() => {
+    /*useEffect(() => {
         firebase
             .firestore()
             .collection("mood")
@@ -35,7 +35,7 @@ function App() {
                 console.log("Error getting documents: ", error);
                 setError(error.message)
             });
-    }, []);
+    }, []);*/
 
     useEffect(() => {
         const fetchData = async () => {
