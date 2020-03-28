@@ -7,6 +7,8 @@ import MoodDataContext from "./state/MoodDataContext";
 import EmotionDataContext from "./state/EmotionDataContext";
 import firebase from "./utils/firebase";
 import {Paper} from "@material-ui/core";
+import geosjson from './res/geo.json'
+import addFakeRegulationData from "./utils/addFakeRegulationData";
 
 function App() {
 
@@ -31,47 +33,6 @@ function App() {
         fetchData();
     }, []);
 
-    /*useEffect(() => {
-        var now = Date.now();
-        var nowRound = Math.round(now);
-        const last4Weeks = nowRound - 2419200000 / 4; //TODO: <- expand to 4 weeks (= remove /4)
-        firebase
-            .firestore()
-            .collection("mood")
-            .where("time", ">=", last4Weeks)
-            .get()
-            .then(function (querySnapshot) {
-                let items = [];
-                querySnapshot.forEach(function (doc) {
-                    items.push(doc.data());
-                });
-                setMoodData(items)
-
-            })
-            .catch(function (error) {
-                console.log("Error getting documents: ", error.message);
-                setError(error.message)
-            });
-    }, []);
-
-    useEffect(() => {
-        const data = []
-        firebase
-            .firestore()
-            .collection("emotions")
-            .get()
-            .then(function (querySnapshot) {
-                querySnapshot.forEach(doc => {
-                    data.push(doc.data());
-                });
-                setEmotionData(data);
-            })
-            .catch(function (error) {
-                console.log("Error getting documents: ", error);
-                setError(error.message)
-            });
-    }, []);*/
-
     useEffect(() => {
         firebase
             .firestore()
@@ -81,7 +42,6 @@ function App() {
             .get()
             .then(querySnapshot => {
                 let means = querySnapshot.docs[0].data()
-                const data = means.features;
                 setMoodData(means);
             })
             .catch(function (error) {
@@ -98,8 +58,7 @@ function App() {
             .limit(1)
             .get()
             .then(querySnapshot => {
-                let means = querySnapshot.docs[0].data()
-                const data = means.features;
+                let data = querySnapshot.docs[0].data()
                 setEmotionData(data);
             })
             .catch(function (error) {

@@ -16,7 +16,6 @@ const emotionColors = {
 };
 
 const moodColors = mood => {
-    console.log("mo",mood)
     return mood > 80 ? '#bdf38d' :
         mood > 60 ? '#c0f386' :
             mood > 40 ? '#fff6df' :
@@ -54,7 +53,7 @@ export default ({toggleShowMode}) => {
     }
 
     if (toggleShowMode === "emotion" && emotionData) {
-        emotionData.map((country, index) => {
+        emotionData.features.map((country, index) => {
             geoJson.features[index]["emotion"] = country.emotion;
             geoJson.features[index]["values"] = country.values;
             geoJson.features[index]["distribution"] = country.distribution;
