@@ -43,6 +43,7 @@ const moodColorMapper = feature => {
 export default ({toggleShowMode}) => {
 
     const [distribution, setDistribution] = useState({country: undefined, distribution: []});
+    const [mood, setMood] = useState({country: undefined, mood: undefined});
     const moodData = useContext(MoodDataContext);
     const emotionData = useContext(EmotionDataContext);
 
@@ -72,6 +73,12 @@ export default ({toggleShowMode}) => {
                 });
                 setDistribution({country: feature.properties.name, distribution: distribution})
             }
+            if (feature.mood) {
+                const mood = <div>
+                        <b>Average mood:</b> {feature.mood}
+                    </div>
+                setMood({country: feature.properties.name, mood: mood})
+            }
         });
 
     };
@@ -87,6 +94,10 @@ export default ({toggleShowMode}) => {
             {toggleShowMode === "emotion" && <Popup>
                 <span style={{fontSize: "16px"}}>{distribution.country}</span><br/><br/>
                 {distribution.distribution.map(emotion => emotion)}
+            </Popup>}
+            {toggleShowMode === "mood" && <Popup>
+                <span style={{fontSize: "16px"}}>{mood.country}</span><br/><br/>
+                {mood.mood}
             </Popup>}
         </GeoJSON>
     </LeafletMap>
