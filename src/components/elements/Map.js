@@ -49,6 +49,7 @@ export default ({toggleShowMode}) => {
 
     if (toggleShowMode === "mood" && moodData) {
         moodData.features.map((country, index) => {
+            {console.log("mood", country)}
             geoJson.features[index]["mood"] = country.mood;
         })
     }

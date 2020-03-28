@@ -18,6 +18,26 @@ function App() {
     const [error, setError] = useState();
 
     useEffect(() => {
+        firebase
+            .firestore()
+            .collection("mood")
+            .where("geo.country", "==", "Germany")
+            .get()
+            .then(querySnapshot => {
+                let avg = 0;
+                querySnapshot.forEach(doc => {
+                    avg += doc.data().value;
+                    console.log("mosoosdocs", doc.data())
+                });
+                console.log("mooos", avg / querySnapshot.size)
+            })
+            .catch(function (error) {
+                console.log("Error getting documents: ", error);
+                setError(error.message)
+            });
+    }, []);
+
+    useEffect(() => {
         const fetchData = async () => {
             await fetch("https://ipapi.co/json/")
                 .then(response => {
