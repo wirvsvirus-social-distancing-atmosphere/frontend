@@ -152,20 +152,42 @@ const moodsToCountries = (moodData, features) => {
         moodCountries.push([])
     }
 
+    let germany = [];
     moodData.map(item => {
         let countryIndex;
         if (item.geo) {
             countryIndex = features.findIndex((feature) => feature.name === item.geo.country)
-            if (countryIndex !== -1) {
+            if(item.geo.country === "Germany"){
+                germany.push(item.value)
+            }
+            if (countryIndex !== -1 && item.geo.country !== "Germany") {
                 moodCountries[countryIndex].push(item.value)
             }
         }
     });
+
+
+    /*console.log("gind", germanyIndices );
+    germanyIndices.forEach((region, index) =>
+    {moodCountries[index].push(germanyMean);
+        console.log("gval", germanyMean, );
+        console.log("gco", moodCountries[index], )
+        console.log("gfe", features[index])
+    })*/
+
+
+
+    //Germany
     moodCountries.map(((country, index) => {
         let mean = country.reduce((a, b) => a + b, 0) / country.length
         mean = isNaN(mean) ? 50 : mean;
         features[index]["mood"] = mean;
     }))
+
+    const germanyMean = germany.reduce((a,b) => a + b, 0) / germany.length
+    features.filter(feature => feature.name === "Germany").forEach(((country, index) => {
+        features[index]["mood"] = germanyMean;
+    }));
 
     return features
 }
