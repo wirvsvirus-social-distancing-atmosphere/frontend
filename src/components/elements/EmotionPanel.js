@@ -5,11 +5,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slider from "@material-ui/core/Slider";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Modal from "@material-ui/core/Modal";
-import Grid from "@material-ui/core/Grid";
-import Fab from "@material-ui/core/Fab";
+import {Typography, TextField, Modal, Grid, Fab, Divider} from "@material-ui/core";
 
 import Fearometer from "./Fearometer";
 import WordCloud from "./WordCloud";
@@ -172,12 +168,12 @@ function EmotionPanel({history, onEmotionSelect}) {
     };
 
     function showContent() {
-        if (window.innerWidth > 700 && window.innerHeight < 900) {
+        if (window.innerWidth > 700 && window.innerHeight < 850) {
             return (
                 <Grid container style={{width: "100%"}}>
                     <Grid
                         item
-                        style={{width: "46%", marginLeft: "2%", marginRight: "3%"}}
+                        style={{width: "45%", marginLeft: "2%", marginRight: "3%"}}
                     >
                         <DialogTitle className={classes.row}>What's your emotion today?</DialogTitle>
                         <div className={classes.row}>
@@ -247,8 +243,8 @@ function EmotionPanel({history, onEmotionSelect}) {
                             </div>
                         </form>
                     </Grid>
-
-                    <Grid item style={{width: "46%", marginLeft: "3%"}}>
+                    <Divider orientation="vertical" flexItem />
+                    <Grid item style={{width: "45%", marginLeft: "3%"}}>
                         <DialogTitle className={classes.row}>
                             What are {selectedEmotion}s of others?
                         </DialogTitle>
@@ -365,6 +361,7 @@ function EmotionPanel({history, onEmotionSelect}) {
                             </Button>
                         </div>
                     </form>
+                    
                     <DialogTitle className={classes.row}>
                         What are {selectedEmotion}s of others?
                     </DialogTitle>
