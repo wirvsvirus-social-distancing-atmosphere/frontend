@@ -5,37 +5,17 @@ import Main from './components/Main';
 import LocationContext from './state/LocationContext';
 import MoodDataContext from "./state/MoodDataContext";
 import EmotionDataContext from "./state/EmotionDataContext";
+import CoronaDataContext from "./state/CoronaDataContext";
 import firebase from "./utils/firebase";
 import {Paper} from "@material-ui/core";
-import geosjson from './res/geo.json'
-import addFakeRegulationData from "./utils/addFakeRegulationData";
 
 function App() {
 
     const [location, setLocation] = useState();
     const [moodData, setMoodData] = useState();
+    const [coronaData, setCoronaData] = useState();
     const [emotionData, setEmotionData] = useState();
     const [error, setError] = useState();
-
-    /*useEffect(() => {
-        firebase
-            .firestore()
-            .collection("mood")
-            .where("geo.country", "==", "Germany")
-            .get()
-            .then(querySnapshot => {
-                let avg = 0;
-                querySnapshot.forEach(doc => {
-                    avg += doc.data().value;
-                    console.log("mosoosdocs", doc.data())
-                });
-                console.log("mooos", avg / querySnapshot.size)
-            })
-            .catch(function (error) {
-                console.log("Error getting documents: ", error);
-                setError(error.message)
-            });
-    }, []);*/
 
     useEffect(() => {
         const fetchData = async () => {
@@ -52,6 +32,21 @@ function App() {
         }
         fetchData();
     }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await fetch("https://corona-api.com/countries")
+                .then(response => {
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log("json", data)
+                    setCoronaData(data.data)
+                });
+        }
+        fetchData();
+    }, []);
+
 
     useEffect(() => {
         firebase
@@ -96,7 +91,7 @@ function App() {
             .get()
             .then(querySnapshot => {
                 let docs = querySnapshot.docs[0];
-                if(docs){
+                if (docs) {
                     let data = docs.data()
                     let time = data.time;
                     if (Date.now() - time > (4 * 3600000)) {
@@ -105,7 +100,8 @@ function App() {
                             .collection('functionstrigger')
                             .doc()
                             .set({time: Date.now()})
-                    }} else {
+                    }
+                } else {
                     firebase
                         .firestore()
                         .collection('functionstrigger')
@@ -136,12 +132,14 @@ function App() {
     return (
         <BrowserRouter>
             <LocationContext.Provider value={location}>
-                <MoodDataContext.Provider value={moodData}>
-                    <EmotionDataContext.Provider value={emotionData}>
-                        {error && errorMessage()}
-                        <Main/>
-                    </EmotionDataContext.Provider>
-                </MoodDataContext.Provider>
+                <CoronaDataContext.Provider value={coronaData}>
+                    <MoodDataContext.Provider value={moodData}>
+                        <EmotionDataContext.Provider value={emotionData}>
+                            {error && errorMessage()}
+                            <Main/>
+                        </EmotionDataContext.Provider>
+                    </MoodDataContext.Provider>
+                </CoronaDataContext.Provider>
             </LocationContext.Provider>
 
         </BrowserRouter>

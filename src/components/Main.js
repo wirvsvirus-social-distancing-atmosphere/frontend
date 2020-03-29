@@ -82,7 +82,7 @@ function App({location: {pathname}}) {
                                 aria-label="nav tabs example"
                             >
                                 <LinkTab label="How people feel" to="/"/>
-                                <LinkTab label="How to cope" to="/howtocope"/>
+                                <LinkTab label="How people cope" to="/howtocope"/>
                             </Tabs>
                         </Toolbar>
                     </Header>
@@ -110,7 +110,7 @@ function App({location: {pathname}}) {
                             aria-label="nav tabs example"
                         >
                             <LinkTab label="How people feel" to="/"/>
-                            <LinkTab label="How to cope" to="/howtocope"/>
+                            <LinkTab label="How people cope" to="/howtocope"/>
                         </Tabs>
                     </Toolbar>
                 </Header>

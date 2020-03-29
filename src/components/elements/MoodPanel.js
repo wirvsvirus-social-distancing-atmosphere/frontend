@@ -189,12 +189,19 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                     <span style={{fontSize: "0.7rem"}}>Mood</span>
                 </Fab>
                 <Fab
-                    style={{backgroundColor: "#f370b3"}}
+                    style={{backgroundColor: "#f370b3", marginBottom: "10px"}}
                     size={window.innerWidth < 500 ? "small" : "large"}
                     color="primary"
                     onClick={() => setToggleShowMode("emotion")}
                 >
                     <span style={{fontSize: "0.7rem"}}>Emotion</span>
+                </Fab>
+                <Fab
+                    style={{backgroundColor: "#dcedf3"}}
+                    size={window.innerWidth < 500 ? "small" : "large"}
+                    onClick={() => setToggleShowMode("corona")}
+                >
+                    <span style={{fontSize: "0.6rem"}}>Corona</span>
                 </Fab>
             </div>
             {showHistogram()}
