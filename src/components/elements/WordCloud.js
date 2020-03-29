@@ -43,7 +43,12 @@ function WordCloud({ data }) {
     }
   }, [data]);
   return (
-    <div style={{ maxWidth: "calc(100% - 100px)" }}>
+    <div
+      style={{
+        maxWidth:
+          window.innerWidth > 700 && window.innerHeight < 850 ? "40%" : "90%"
+      }}
+    >
       <ReactWordcloud
         words={words}
         callbacks={{
