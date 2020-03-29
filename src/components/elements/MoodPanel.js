@@ -61,7 +61,7 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
     const [openModal, setOpenModal] = useState(!hasMoodSubmittedOnce);
     const [histogramIsVisible, setHistogramIsVisible] = useState(true);
 
-    const [toggleShowMode, setToggleShowMode] = useState("mood");
+    const [toggleShowMode, setToggleShowMode] = useState("emotion");
 
     const handleChange = (event, newValue) => {
         setMoodValue(newValue);
@@ -105,9 +105,9 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                     <Paper
                         style={{
                             width: "60%",
-                            margin: "5px 30px 60px 30px",
+                            margin: "5px 0px 60px 0px",
                             padding: "20px",
-                            backgroundColor: "#f1f1f1",
+                            backgroundColor: "rgba(241,241,241,0.74)",
                             zIndex: 100,
                             position: "absolute"
                         }}
@@ -189,12 +189,19 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                     <span style={{fontSize: "0.7rem"}}>Mood</span>
                 </Fab>
                 <Fab
-                    style={{backgroundColor: "#f370b3"}}
+                    style={{backgroundColor: "#f370b3", marginBottom: "10px"}}
                     size={window.innerWidth < 500 ? "small" : "large"}
                     color="primary"
                     onClick={() => setToggleShowMode("emotion")}
                 >
                     <span style={{fontSize: "0.7rem"}}>Emotion</span>
+                </Fab>
+                <Fab
+                    style={{backgroundColor: "#dcedf3"}}
+                    size={window.innerWidth < 500 ? "small" : "large"}
+                    onClick={() => setToggleShowMode("corona")}
+                >
+                    <span style={{fontSize: "0.6rem"}}>Corona</span>
                 </Fab>
             </div>
             {showHistogram()}

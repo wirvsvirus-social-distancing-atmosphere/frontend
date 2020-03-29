@@ -1,7 +1,6 @@
 import firebase from 'firebase';
 
 export default (item, callback) => {
-    console.log("dief", item)
     firebase
         .firestore()
         .collection('regulation')

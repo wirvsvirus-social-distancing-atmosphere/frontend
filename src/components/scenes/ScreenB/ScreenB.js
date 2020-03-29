@@ -102,6 +102,7 @@ function ScreenB() {
               resultArray[category].push(doc.data().name);
             }
           });
+
           setFirestoreData(resultArray);
         })
         .catch(function(error) {
