@@ -12,7 +12,7 @@ import Grid from "@material-ui/core/Grid";
 import Fab from "@material-ui/core/Fab";
 
 import Fearometer from "./Fearometer";
-import BubbleChart from "./BubbleChart";
+import WordCloud from "./WordCloud";
 import firebase from "../../utils/firebase";
 import emotionCategories from '../../utils/constants';
 
@@ -114,7 +114,7 @@ function EmotionPanel({history, onEmotionSelect}) {
         Object.keys(data).forEach(key => {
             children.push({
                 name: key,
-                size: data[key].count / selection.length
+                size: data[key].count /* / selection.length */
             });
         });
         setOverallMood(Math.round(avg));
@@ -172,7 +172,7 @@ function EmotionPanel({history, onEmotionSelect}) {
     };
 
     function showContent() {
-        if (window.innerWidth > 700) {
+        if (window.innerWidth > 700 && window.innerHeight < 900) {
             return (
                 <Grid container style={{width: "100%"}}>
                     <Grid
@@ -255,7 +255,7 @@ function EmotionPanel({history, onEmotionSelect}) {
 
                         <div className={classes.row}>
                             <Fearometer currentValue={overallMood}/>
-                            <BubbleChart data={bubbleChartData}/>
+                            <WordCloud data={bubbleChartData} />
                         </div>
                         <Modal
                             className={classes.row}
@@ -371,7 +371,7 @@ function EmotionPanel({history, onEmotionSelect}) {
 
                     <div className={classes.row}>
                         <Fearometer currentValue={overallMood} style={{margin: "5%"}}/>
-                        <BubbleChart data={bubbleChartData} style={{margin: "5%"}}/>
+                        <WordCloud data={bubbleChartData} style={{ margin: "5%" }} />
                     </div>
                     <Modal
                         className={classes.row}
