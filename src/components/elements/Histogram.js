@@ -1,13 +1,13 @@
-import React, { useEffect, useRef } from "react";
-import { Chart } from "chart.js";
-import firebase from "../../utils/firebase";
+import React, {useContext, useEffect, useRef} from "react";
+import {Chart} from "chart.js";
+import MoodDataContext from '../../state/MoodDataContext';
 
 function Histogram() {
   const histogramContainer = useRef();
+  const moodData = useContext(MoodDataContext);
 
   var now = Date.now();
   var nowRound = Math.round(now);
-  const last4Weeks = nowRound - 2419200000 / 4; //TODO: <- expand to 4 weeks (= remove /4)
 
   const preparedData = items => {
     const day = 86400000;
@@ -48,17 +48,9 @@ function Histogram() {
   };
 
   useEffect(() => {
-    firebase
-      .firestore()
-      .collection("mood")
-      .where("time", ">=", last4Weeks)
-      .get()
-      .then(function(querySnapshot) {
-        let items = [];
-        querySnapshot.forEach(function(doc) {
-          items.push(doc.data());
-        });
-        const chartData = preparedData(items);
+
+    if (moodData) {
+        const chartData = preparedData(moodData);
         const data = {
           labels: chartData.labels,
           datasets: [
@@ -90,12 +82,9 @@ function Histogram() {
             maintainAspectRatio: false,
             responsive: true
           }
-        });
-      })
-      .catch(function(error) {
-        console.log("Error getting documents: ", error);
-      });
-  }, []);
+        });}
+
+  }, [moodData]);
 
   return (
     <canvas
