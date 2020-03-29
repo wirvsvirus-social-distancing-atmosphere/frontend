@@ -133,7 +133,7 @@ export default ({toggleShowMode}) => {
             }
             if (feature.mood) {
                 const mood = <div>
-                    <b>Average mood:</b> {feature.mood}
+                    <b>Average mood:</b> {Math.round(feature.mood)}
                 </div>
                 setMood({country: feature.properties.name, mood: mood})
             }
