@@ -35,18 +35,61 @@ function App() {
 
     useEffect(() => {
         const fetchData = async () => {
-            await fetch("https://corona-api.com/countries")
+            const coronaHopkins = await fetch("https://corona-api.com/countries")
                 .then(response => {
                     return response.json();
                 })
                 .then((data) => {
-                    console.log("json", data)
+                    //console.log("json", data)
+                    data.data.sort((a, b) => a.name.localeCompare(b.name));
+
                     setCoronaData(data.data)
+                    return data.data
                 });
+            const coronaSeries = await fetch("https://pomber.github.io/covid19/timeseries.json")
+                .then(response => {
+                    return response.json();
+                })
+                .then((data) => {
+                    //console.log(`data`, data)
+                    return data
+                });
+            coronaHopkins.map(country => {
+                //Object.values(Object.)coronaSeries.find(())
+            })
+            Object.keys(coronaSeries).map(key => {
+                const country = coronaSeries[key]
+                const newToday = country[country.length - 1].confirmed - country[country.length - 2].confirmed;
+                const yesterday = country[country.length - 2].confirmed;
+                //if(key === "US"){console.log("inside", key, newToday, yesterday)}
+                let hopkinsObject = coronaHopkins.find(country => country.name === key)
+                if(key === "US"){hopkinsObject = coronaHopkins.find(country => country.name === "USA")}
+                if(key === "United Kingdom"){hopkinsObject = coronaHopkins.find(country => country.name === "UK")}
+                if(key === "Korea, South"){hopkinsObject = coronaHopkins.find(country => country.name === "S. Korea")}
+                if(key === "North Macedonia"){hopkinsObject = coronaHopkins.find(country => country.code === "MK")}
+                if(key === "Bolivia"){hopkinsObject = coronaHopkins.find(country => country.code === "BO")}
+                if(key === "Congo (Kinshasa)"){hopkinsObject = coronaHopkins.find(country => country.code === "CD")}
+                if(key === "Moldova"){hopkinsObject = coronaHopkins.find(country => country.code === "MD")}
+                if(key === "Taiwan*"){hopkinsObject = coronaHopkins.find(country => country.code === "TW")}
+                if(key === "Tanzania"){hopkinsObject = coronaHopkins.find(country => country.code === "TZ")}
+                if(key === "Brunei"){hopkinsObject = coronaHopkins.find(country => country.code === "BN")}
+                if(key === "Burma"){hopkinsObject = coronaHopkins.find(country => country.code === "MM")}
+                if(key === "Laos"){hopkinsObject = coronaHopkins.find(country => country.code === "LA")}
+                if(key === "Cote d'Ivoire"){hopkinsObject = coronaHopkins.find(country => country.code === "CI")}
+
+
+                //if(!hopkinsObject){console.log("unknownhopkinsobject", key)}
+                if(hopkinsObject){
+                    hopkinsObject.today.confirmed = newToday;
+                    hopkinsObject.latest_data.confirmed = yesterday;
+                    //console.log("hopkinsobject", hopkinsObject)
+                }
+                //return {name: Object.keys(key), value: key[key.length - 1]}
+            })
+            //console.log("both", Object.keys(coronaSeries),Object.values(coronaSeries), coronaSeries)
         }
         fetchData();
     }, []);
-
 
     useEffect(() => {
         firebase
