@@ -251,7 +251,7 @@ function EmotionPanel({history, onEmotionSelect}) {
                         
                         <div className={classes.row}>
                             <WordCloud data={bubbleChartData} />
-                            <p style={{position: "absolute", left: "5%"}}><Fearometer currentValue={overallMood} /></p>
+                            <p style={{position: "absolute", left: "55%"}}><Fearometer currentValue={overallMood} /></p>
                         </div>
                         <Modal
                             className={classes.row}
