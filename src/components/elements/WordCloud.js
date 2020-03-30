@@ -42,6 +42,12 @@ function WordCloud({ data }) {
       setWords(tmpWords);
     }
   }, [data]);
+
+  const options = {
+    rotationAngles: [0, 10],padding: 1,
+    rotations: 3,
+  }
+
   return (
     <div
       style={{
@@ -50,6 +56,7 @@ function WordCloud({ data }) {
       }}
     >
       <ReactWordcloud
+          options={options}
         words={words}
         callbacks={{
           getWordTooltip: ({ text }) =>
