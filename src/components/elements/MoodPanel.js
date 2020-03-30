@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, createStyles} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import {Paper} from "@material-ui/core";
@@ -10,7 +10,7 @@ import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissa
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Grid from "@material-ui/core/Grid";
-import Slider from "@material-ui/core/Slider";
+import MoodSlider from './MoodSlider';
 import Fab from "@material-ui/core/Fab";
 
 import MoodContext from "../../state/MoodContext";
@@ -26,6 +26,7 @@ import anxious from "../../res/grimace-regular.svg";
 import Map from "./Map";
 import Histogram from "./Histogram";
 
+  
 
 const useStyles = makeStyles(theme => ({
     row: {
@@ -41,13 +42,15 @@ const useStyles = makeStyles(theme => ({
         position: "absolute",
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(2, 4, 3),
-        maxWidth: 300
+        maxWidth: 300,
+        borderRadius: "4px"
     },
     textBlock: {
         margin: 10,
         display: "flex",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        textAlign: "center",
     }
 }));
 
@@ -353,7 +356,12 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                         style={{
                             display: "flex",
                             justifyContent: "center",
-                            backgroundColor: "cornflowerblue"
+                            backgroundColor: "cornflowerblue",
+                            position: "relative",
+                            borderRadius: "4px 4px 0 0",
+                            left: "-32px",
+                            width: "calc(100% + 64px)",
+                            top: "-16px"
                         }}
                     >
                         <Typography style={{color: "white"}} align={"center"}>
@@ -367,20 +375,29 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                     <div className={classes.textBlock}>How is your mood?</div>
                     <Grid container spacing={2} style={{alignItems: "center"}}>
                         <Grid item>
-                            <SentimentVeryDissatisfiedIcon/>
+                            <div style={{position: "relative"}}>
+                                <div style={{position: "absolute",top: 0, background: "red", borderRadius: "20px", height: "20px", width: "20px", margin: "5.1px"}}/>
+                                <div style={{position: "absolute",top: 0, background: "white", height: moodValue >= 50 ? "20px" : 20 - 0.4 * (50-moodValue), width: "20px", margin: "5.1px"}}/>
+                                <SentimentVeryDissatisfiedIcon style={{position: "relative", zIndex: 1, width: "30px", height: "30px"}}/>
+                            </div>  
                         </Grid>
                         <Grid item xs>
-                            <Slider
-                                value={moodValue}
+                            <MoodSlider  
+                                value={moodValue} 
                                 onChange={handleChange}
                                 aria-labelledby="continuous-slider"
                                 valueLabelDisplay="auto"
-                            />
+                                defaultValue={50}  />
                         </Grid>
                         <Grid item>
-                            <SentimentSatisfiedAltIcon/>
+                        <div style={{position: "relative"}}>
+                               <div style={{position: "absolute",top: 0, background: "green", borderRadius: "20px", height: "20px", width: "20px", margin: "5.1px"}}/>
+                                <div style={{position: "absolute",top: 0, background: "white", height: moodValue <= 50 ? "20px" : 20 - 0.4 * (moodValue-50), width: "20px", margin: "5.1px"}}/>
+                                <SentimentSatisfiedAltIcon style={{position: "relative", zIndex: 1, width: "30px", height: "30px"}}/>
+                            </div>  
                         </Grid>
                     </Grid>
+                    
                     <div style={{display: "flex", justifyContent: "center"}}>
                         <Button
                             variant="contained"
