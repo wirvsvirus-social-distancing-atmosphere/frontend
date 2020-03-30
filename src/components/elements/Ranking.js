@@ -43,7 +43,7 @@ function getSteps() {
 
 function Ranking(props) {
   const [activeStep, setActiveStep] = React.useState(
-    window.innerWidth <= 700 ? 0 : 4
+    window.innerWidth <= 700 ? 0 : 5
   );
   const classes = useStyles();
   const steps = getSteps();
@@ -66,22 +66,23 @@ function Ranking(props) {
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
           >
-            {props.data && props.data.aufmerksamkeit.map(item => {
-              return (
-                <li key={ item.name }>
-                  <div className="collapsible-header">
-                    {item.name +
-                      " (" +
-                      (
-                        (item.value /
-                          props.data.totalItemsPerCategory.aufmerksamkeit) *
-                        100
-                      ).toFixed(2) +
-                      "%)"}
-                  </div>
-                </li>
-              );
-            })}
+            {props.data &&
+              props.data.aufmerksamkeit.map(item => {
+                return (
+                  <li key={item.name}>
+                    <div className="collapsible-header">
+                      {item.name +
+                        " (" +
+                        (
+                          (item.value /
+                            props.data.totalItemsPerCategory.aufmerksamkeit) *
+                          100
+                        ).toFixed(2) +
+                        "%)"}
+                    </div>
+                  </li>
+                );
+              })}
           </ul>
           <TextField
             id="input-with-icon-textfield"
@@ -111,22 +112,23 @@ function Ranking(props) {
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
           >
-            {props.data && props.data.umdeutung.map(item => {
-              return (
-                <li key={ item.name }>
-                  <div className="collapsible-header">
-                    {item.name +
-                      " (" +
-                      (
-                        (item.value /
-                          props.data.totalItemsPerCategory.umdeutung) *
-                        100
-                      ).toFixed(2) +
-                      "%)"}
-                  </div>
-                </li>
-              );
-            })}
+            {props.data &&
+              props.data.umdeutung.map(item => {
+                return (
+                  <li key={item.name}>
+                    <div className="collapsible-header">
+                      {item.name +
+                        " (" +
+                        (
+                          (item.value /
+                            props.data.totalItemsPerCategory.umdeutung) *
+                          100
+                        ).toFixed(2) +
+                        "%)"}
+                    </div>
+                  </li>
+                );
+              })}
           </ul>
           <TextField
             id="input-with-icon-textfield"
@@ -156,22 +158,23 @@ function Ranking(props) {
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
           >
-            {props.data && props.data.reaktion.map(item => {
-              return (
-                <li key={ item.name }>
-                  <div className="collapsible-header">
-                    {item.name +
-                      " (" +
-                      (
-                        (item.value /
-                          props.data.totalItemsPerCategory.reaktion) *
-                        100
-                      ).toFixed(2) +
-                      "%)"}
-                  </div>
-                </li>
-              );
-            })}
+            {props.data &&
+              props.data.reaktion.map(item => {
+                return (
+                  <li key={item.name}>
+                    <div className="collapsible-header">
+                      {item.name +
+                        " (" +
+                        (
+                          (item.value /
+                            props.data.totalItemsPerCategory.reaktion) *
+                          100
+                        ).toFixed(2) +
+                        "%)"}
+                    </div>
+                  </li>
+                );
+              })}
           </ul>
           <TextField
             id="input-with-icon-textfield"
@@ -201,22 +204,23 @@ function Ranking(props) {
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
           >
-            {props.data && props.data.modifikation.map(item => {
-              return (
-                <li key={ item.name }>
-                  <div className="collapsible-header">
-                    {item.name +
-                      " (" +
-                      (
-                        (item.value /
-                          props.data.totalItemsPerCategory.modifikation) *
-                        100
-                      ).toFixed(2) +
-                      "%)"}
-                  </div>
-                </li>
-              );
-            })}
+            {props.data &&
+              props.data.modifikation.map(item => {
+                return (
+                  <li key={item.name}>
+                    <div className="collapsible-header">
+                      {item.name +
+                        " (" +
+                        (
+                          (item.value /
+                            props.data.totalItemsPerCategory.modifikation) *
+                          100
+                        ).toFixed(2) +
+                        "%)"}
+                    </div>
+                  </li>
+                );
+              })}
           </ul>
           <TextField
             id="input-with-icon-textfield"
@@ -247,22 +251,23 @@ function Ranking(props) {
             className="collapsible"
             style={{ height: "375px", overflow: "auto" }}
           >
-            {props.data && props.data.selektion.map(item => {
-              return (
-                <li key={ item.name }>
-                  <div className="collapsible-header">
-                    {item.name +
-                      " (" +
-                      (
-                        (item.value /
-                          props.data.totalItemsPerCategory.selektion) *
-                        100
-                      ).toFixed(2) +
-                      "%)"}
-                  </div>
-                </li>
-              );
-            })}
+            {props.data &&
+              props.data.selektion.map(item => {
+                return (
+                  <li key={item.name}>
+                    <div className="collapsible-header">
+                      {item.name +
+                        " (" +
+                        (
+                          (item.value /
+                            props.data.totalItemsPerCategory.selektion) *
+                          100
+                        ).toFixed(2) +
+                        "%)"}
+                    </div>
+                  </li>
+                );
+              })}
           </ul>
 
           <TextField

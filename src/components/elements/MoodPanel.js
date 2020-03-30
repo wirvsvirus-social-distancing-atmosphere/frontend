@@ -60,6 +60,7 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
     const [moodValue, setMoodValue] = useState(100);
     const [openModal, setOpenModal] = useState(!hasMoodSubmittedOnce);
     const [histogramIsVisible, setHistogramIsVisible] = useState(true);
+    const [visibleMouseOver, setVisibleMouseOver] = useState("none");
 
     const [toggleShowMode, setToggleShowMode] = useState("emotion");
 
@@ -221,7 +222,7 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                     style={{
                         display: "flex",
                         justifyContent: "space-around",
-                        margin: "10px"
+                        margin: "10px 10px 0px 10px"
                     }}
                 >
                     <Fab
@@ -229,12 +230,14 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                         size={window.innerWidth < 500 ? "small" : "large"}
                         color="primary"
                         onClick={() => handleEmotionSelect(emotionCategories.JOY)}
+                        onMouseOver={() => setVisibleMouseOver("joy")}
+                        onMouseLeave={() => setVisibleMouseOver("none")}
                     >
                         <div
                             style={{
                                 backgroundSize: "contain",
-                                height: "50px",
-                                width: "50px",
+                                height: visibleMouseOver === "joy" ? "56px" : "50px",
+                width: visibleMouseOver === "joy" ? "56px" : "50px",
                                 backgroundImage: `url(${happy})`,
                                 backgroundPosition: "center",
                                 backgroundRepeat: "no-repeat"
@@ -246,12 +249,14 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                         size={window.innerWidth < 500 ? "small" : "large"}
                         color="primary"
                         onClick={() => handleEmotionSelect(emotionCategories.ANGER)}
+                        onMouseOver={() => setVisibleMouseOver("anger")}
+            onMouseLeave={() => setVisibleMouseOver("none")}
                     >
                         <div
                             style={{
                                 backgroundSize: "contain",
-                                height: "50px",
-                                width: "50px",
+                                height: visibleMouseOver === "anger" ? "56px" : "50px",
+                                width: visibleMouseOver === "anger" ? "56px" : "50px",
                                 backgroundImage: `url(${angry})`,
                                 backgroundPosition: "center",
                                 backgroundRepeat: "no-repeat"
@@ -263,12 +268,14 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                         size={window.innerWidth < 500 ? "small" : "large"}
                         color="primary"
                         onClick={() => handleEmotionSelect(emotionCategories.FEAR)}
+                        onMouseOver={() => setVisibleMouseOver("fear")}
+            onMouseLeave={() => setVisibleMouseOver("none")}
                     >
                         <div
                             style={{
                                 backgroundSize: "contain",
-                                height: "50px",
-                                width: "50px",
+                                height: visibleMouseOver === "fear" ? "56px" : "50px",
+                width: visibleMouseOver === "fear" ? "56px" : "50px",
                                 backgroundImage: `url(${anxious})`,
                                 backgroundPosition: "center",
                                 backgroundRepeat: "no-repeat"
@@ -280,12 +287,14 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                         size={window.innerWidth < 500 ? "small" : "large"}
                         color="primary"
                         onClick={() => handleEmotionSelect(emotionCategories.GRIEF)}
+                        onMouseOver={() => setVisibleMouseOver("grief")}
+            onMouseLeave={() => setVisibleMouseOver("none")}
                     >
                         <div
                             style={{
                                 backgroundSize: "contain",
-                                height: "50px",
-                                width: "50px",
+                                height: visibleMouseOver === "grief" ? "56px" : "50px",
+                width: visibleMouseOver === "grief" ? "56px" : "50px",
                                 backgroundImage: `url(${sad})`,
                                 backgroundPosition: "center",
                                 backgroundRepeat: "no-repeat"
@@ -293,6 +302,46 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                         />
                     </Fab>
                 </div>
+                <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            margin: "0px 10px"
+          }}
+        >
+          <div
+            style={{
+              width: "25%",
+              visibility: visibleMouseOver === "joy" ? "visible" : "hidden"
+            }}
+          >
+            Joy
+          </div>
+          <div
+            style={{
+              width: "25%",
+              visibility: visibleMouseOver === "anger" ? "visible" : "hidden"
+            }}
+          >
+            Anger
+          </div>
+          <div
+            style={{
+              width: "25%",
+              visibility: visibleMouseOver === "fear" ? "visible" : "hidden"
+            }}
+          >
+            Fear
+          </div>
+          <div
+            style={{
+              width: "25%",
+              visibility: visibleMouseOver === "grief" ? "visible" : "hidden"
+            }}
+          >
+            Grief
+          </div>
+        </div>
             </Paper>
             <Modal
                 className={classes.row}

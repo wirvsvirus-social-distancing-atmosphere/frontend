@@ -2,16 +2,16 @@ import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
 function show_thermometer(container, currentValue) {
-  var width = window.innerWidth <= 700 ? 75 : 150,
-    height = window.innerWidth <= 700 ? 150 : 300,
+  var width = 75,
+    height = 150,
     maxValue = 100,
     minValue = 0;
 
   const PADDING = 5;
   var bottomY = height - PADDING,
     topY = PADDING,
-    bulbRadius = window.innerWidth <= 700 ? 20 : 40,
-    tubeWidth = window.innerWidth <= 700 ? 20.25 : 40.5,
+    bulbRadius = 20,
+    tubeWidth = 20.25,
     tubeBorderWidth = 1,
     mercuryColor = "rgb(230,0,0)",
     innerBulbColor = "rgb(230, 200, 200)",
@@ -157,7 +157,7 @@ function show_thermometer(container, currentValue) {
     .attr("dominant-baseline", "central")
     .text(currentValue)
     .style("fill", "white")
-    .style("font-size", window.innerWidth <= 700 ? "20px" : "36px")
+    .style("font-size", "20px")
     .style("text-anchor", "middle");
 
   // D3 axis object for the temperature scale
@@ -172,14 +172,14 @@ function show_thermometer(container, currentValue) {
   var svgAxis = svg
     .append("g")
     .attr("id", "tempScale")
-    .attr("transform", "translate(" + (width / 2 + tubeWidth / 2) + ",-0.5)")
+    .attr("transform", "translate(" + (width / 2 + tubeWidth / 2) + ",-2.5)")
     .call(axis);
 
   // Format text labels
   svgAxis
     .selectAll(".tick text")
     .style("fill", "#777777")
-    .style("font-size", window.innerWidth <= 700 ? "10px" : "12px");
+    .style("font-size", "10px");
 
   // Set main axis line to no stroke or fill
   svgAxis
