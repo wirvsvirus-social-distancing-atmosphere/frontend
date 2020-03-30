@@ -52,7 +52,9 @@ function WordCloud({ data }) {
     <div
       style={{
         maxWidth:
-          window.innerWidth > 700 && window.innerHeight < 850 ? "40%" : "90%"
+          window.innerWidth > 700 && window.innerHeight < 850 ? "70%" : "90%",
+        marginLeft: "auto",
+        marginRight: 0
       }}
     >
       <ReactWordcloud
@@ -60,7 +62,14 @@ function WordCloud({ data }) {
         words={words}
         callbacks={{
           getWordTooltip: ({ text }) =>
-            `${text} (${data.children.find(e => e.name === text).size})`
+            `${text} ${
+              data.children.find(e => e.name === text)
+                ? "(" + data.children.find(e => e.name === text).size + ")"
+                : ""
+            })`
+        }}
+        options={{
+          rotations: 0
         }}
       />
     </div>
