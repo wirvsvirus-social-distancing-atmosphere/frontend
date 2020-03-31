@@ -27,7 +27,7 @@ const moodColors = mood => {
 };
 
 const coronaColors = (corona, max) => {
-    corona = corona / max * 2;
+    corona = corona / max * 8;
     return corona > 90 ? '#c70932' :
         corona > 85 ? '#df694b' :
             corona > 80 ? '#f3956b' :
@@ -95,6 +95,7 @@ export default ({toggleShowMode}) => {
                 coronaCountry = coronaData.find((country) => feature.properties.iso_a3 === country.code)
             }
             if (coronaCountry) {
+                //if(feature.properties.name === "Haiti"){console.log("usa", coronaCountry)}
                 const coronaLatest = coronaCountry.latest_data.confirmed;
                 const coronaToday = coronaCountry.today.confirmed;
                 feature.corona = (coronaToday / coronaLatest ) * 100;
@@ -132,7 +133,7 @@ export default ({toggleShowMode}) => {
             }
             if (feature.mood) {
                 const mood = <div>
-                    <b>Average mood:</b> {feature.mood}
+                    <b>Average mood:</b> {Math.round(feature.mood)}
                 </div>
                 setMood({country: feature.properties.name, mood: mood})
             }
