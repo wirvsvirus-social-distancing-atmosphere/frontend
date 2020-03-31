@@ -81,7 +81,7 @@ export default ({toggleShowMode}) => {
         let minMaxArray = [];
         coronaData.map(country => {
             const rate = country.today.confirmed / country.latest_data.confirmed
-            if (!isNaN(rate)) {
+            if (!isNaN(rate) && rate !== Infinity) {
                 minMaxArray.push(rate)
             }
         });
@@ -152,11 +152,11 @@ export default ({toggleShowMode}) => {
             {toggleShowMode === "emotion" && <Popup>
                 <span style={{fontSize: "16px"}}>{distribution.country}</span><br/><br/>
                 {distribution.distribution.map(emotion => emotion)}
-                Corona daily growth: {Math.round(geoJson.features.find(feature => mood.country === feature.properties.name) ? geoJson.features.find(feature => mood.country === feature.properties.name).corona : "Not found")}%
+                Corona 3-days-growth: {Math.round(geoJson.features.find(feature => mood.country === feature.properties.name) ? geoJson.features.find(feature => mood.country === feature.properties.name).corona : "Not found")}%
             </Popup>}
             {toggleShowMode !== "emotion" && <Popup>
                 <span style={{fontSize: "16px"}}>{mood.country}</span><br/><br/>
-                <b>Corona daily growth:</b> {Math.round(geoJson.features.find(feature => mood.country === feature.properties.name) ? geoJson.features.find(feature => mood.country === feature.properties.name).corona : "Not found")}%
+                <b>Corona 3-days-growth:</b> {Math.round(geoJson.features.find(feature => mood.country === feature.properties.name) ? geoJson.features.find(feature => mood.country === feature.properties.name).corona : "Not found")}%
                 {mood.mood}
             </Popup>}
         </GeoJSON>

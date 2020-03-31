@@ -59,10 +59,12 @@ function App() {
             })
             Object.keys(coronaSeries).map(key => {
                 const country = coronaSeries[key]
-                const newToday = country[country.length - 1].confirmed - country[country.length - 2].confirmed;
-                const yesterday = country[country.length - 2].confirmed;
-                //if(key === "US"){console.log("inside", key, newToday, yesterday)}
+                const newToday = country[country.length - 1].confirmed - country[country.length - 3].confirmed;
+                const yesterday = country[country.length - 3].confirmed;
+                //if(key === "Germany"){console.log("inside", key, newToday, yesterday)}
                 let hopkinsObject = coronaHopkins.find(country => country.name === key)
+
+                //countries with different names in both data
                 if(key === "US"){hopkinsObject = coronaHopkins.find(country => country.name === "USA")}
                 if(key === "United Kingdom"){hopkinsObject = coronaHopkins.find(country => country.name === "UK")}
                 if(key === "Korea, South"){hopkinsObject = coronaHopkins.find(country => country.name === "S. Korea")}
