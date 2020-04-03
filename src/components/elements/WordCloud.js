@@ -40,6 +40,8 @@ function WordCloud({data}) {
                 });
             });
             setWords(tmpWords);
+        } else {
+            setWords([{text: "No topics yet", value: 10}])
         }
     }, [data]);
 
@@ -59,7 +61,7 @@ function WordCloud({data}) {
         >
             <ReactWordcloud
                 options={options}
-                words={words}
+                words={console.log("words", words) || words}
                 callbacks={{
                     getWordTooltip: ({text}) =>
                         `${text} ${

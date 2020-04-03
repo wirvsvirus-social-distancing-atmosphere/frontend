@@ -121,7 +121,7 @@ function show_thermometer(container, currentValue) {
     .domain(domain);
 
   var tubeFill_bottom = bulb_cy,
-    tubeFill_top = scale(currentValue);
+    tubeFill_top = isNaN(scale(currentValue)) ? tubeFill_bottom : scale(currentValue);
 
   // Rect element for the red mercury column
   svg
