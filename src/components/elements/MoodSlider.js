@@ -4,7 +4,7 @@ import Slider from "@material-ui/core/Slider";
 const styles = {
   root: {
     color: "cornflowerblue",
-    height: 8
+    height: 7
   },
   thumb: {
     height: 20,
