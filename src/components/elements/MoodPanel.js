@@ -185,7 +185,8 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                 //backgroundColor: "rgba(255, 255, 255, 0.3)"
             }}>
                 <Fab
-                    style={{backgroundColor: "#4b8ef3", marginBottom: "10px"}}
+          className={toggleShowMode === "mood" ? classes.activeButton : null}
+          style={{ backgroundColor: "#4b8ef3", marginBottom: "10px" }}
                     size={window.innerWidth < 500 ? "small" : "large"}
                     color="primary"
                     onClick={() => setToggleShowMode("mood")}
@@ -193,7 +194,8 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                     <span style={{fontSize: "0.7rem"}}>Mood</span>
                 </Fab>
                 <Fab
-                    style={{backgroundColor: "#f370b3", marginBottom: "10px"}}
+          className={toggleShowMode === "emotion" ? classes.activeButton : null}
+          style={{ backgroundColor: "#f370b3", marginBottom: "10px" }}
                     size={window.innerWidth < 500 ? "small" : "large"}
                     color="primary"
                     onClick={() => setToggleShowMode("emotion")}
@@ -201,7 +203,8 @@ function MoodPanel({handleNext, onMoodSubmit, onEmotionSelect}) {
                     <span style={{fontSize: "0.7rem"}}>Emotion</span>
                 </Fab>
                 <Fab
-                    style={{backgroundColor: "#dcedf3"}}
+          className={toggleShowMode === "corona" ? classes.activeButton : null}
+          style={{ backgroundColor: "#dcedf3" }}
                     size={window.innerWidth < 500 ? "small" : "large"}
                     onClick={() => setToggleShowMode("corona")}
                 >
