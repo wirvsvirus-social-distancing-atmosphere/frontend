@@ -21,6 +21,8 @@ import sad from "../../res/sad-tear-regular.svg";
 import happy from "../../res/laugh-beam-regular.svg";
 import anxious from "../../res/grimace-regular.svg";
 
+import preprocess from '../../utils/nlp/preprocessing';
+
 const useStyles = makeStyles(theme => ({
     root: {
         width: "90%",
@@ -122,7 +124,6 @@ function EmotionPanel({history, onEmotionSelect}) {
 
     const handleInputChange = e => {
         const {name, value} = e.target;
-        console.log(e);
         setFormValues({...formValues, [name]: value});
     };
 
@@ -140,7 +141,7 @@ function EmotionPanel({history, onEmotionSelect}) {
                 .doc()
                 .set({
                     category: selectedEmotion,
-                    emotion: formValues.what,
+                    emotion: preprocess(formValues.what),
                     value: formValues.severity,
                     geo: {country, region},
                     time: Date.now()
