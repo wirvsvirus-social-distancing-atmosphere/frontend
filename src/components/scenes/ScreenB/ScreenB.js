@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 
 import EmotionContext from '../../../state/EmotionContext';
 import LocationContext from '../../../state/LocationContext';
+import preprocess from '../../../utils/nlp/preprocessing';
 
 function ScreenB() {
   const mood = useContext(EmotionContext);
@@ -50,8 +51,9 @@ function ScreenB() {
       const { country, region } = location;
     saveRegulationToFirestore(
       {
-          category, emotion: mood,
-          name,
+          category,
+          emotion: mood,
+          name: preprocess(name),
           geo: { country, region },
       },
       () => {
