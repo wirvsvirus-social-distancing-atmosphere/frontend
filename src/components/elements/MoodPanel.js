@@ -161,7 +161,6 @@ function MoodPanel({ handleNext, onMoodSubmit, onEmotionSelect }) {
       );
     }
   }
-
   function displayHistogram(displayHistogram) {
     setHistogramIsVisible(displayHistogram);
   }
@@ -363,7 +362,7 @@ function MoodPanel({ handleNext, onMoodSubmit, onEmotionSelect }) {
           display: "flex",
           flexDirection: "column",
           width: "175px",
-          background: "grey",
+          background: "rgba(255,255,255,0.3)",
           position: "absolute",
           bottom: "5px",
           left: "5px",
@@ -371,104 +370,261 @@ function MoodPanel({ handleNext, onMoodSubmit, onEmotionSelect }) {
         }}
       >
         <div style={{ fontSize: "22px" }}>Legende</div>
-        <tabel>
-          {toggleShowMode === "emotion" ? (
-            <>
-              <tr>
-                <td>
-                  <div
-                    style={{
-                      width: "15px",
-                      height: "15px",
-                      background: emotionColorsArray.joy
-                    }}
-                  />
-                </td>
-                <td>Joy</td>
-              </tr>
-              <tr>
-                <td>
-                  <div
-                    style={{
-                      width: "15px",
-                      height: "15px",
-                      background: emotionColorsArray.anger
-                    }}
-                  />
-                </td>
-                <td>Anger</td>
-              </tr>
-              <tr>
-                <td>
-                  <div
-                    style={{
-                      width: "15px",
-                      height: "15px",
-                      background: emotionColorsArray.fear
-                    }}
-                  />
-                </td>
-                <td>Fear</td>
-              </tr>
-              <tr>
-                <td>
-                  <div
-                    style={{
-                      width: "15px",
-                      height: "15px",
-                      background: emotionColorsArray.grief
-                    }}
-                  />
-                </td>
-                <td>Grief</td>
-              </tr>
-            </>
-          ) : toggleShowMode === "mood" ? (
-            moodColorsArray.map(item => {
-              return (
-                <tr>
-                  <td>
+        {toggleShowMode === "emotion" ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start"
+              }}
+            >
+              <div
+                style={{
+                  width: "15px",
+                  height: "15px",
+                  background: emotionColorsArray.joy,
+                  margin: "5px"
+                }}
+              />
+              <div>Joy</div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start"
+              }}
+            >
+              <div
+                style={{
+                  width: "15px",
+                  height: "15px",
+                  background: emotionColorsArray.anger,
+                  margin: "5px"
+                }}
+              />
+              <div>Anger</div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start"
+              }}
+            >
+              <div
+                style={{
+                  width: "15px",
+                  height: "15px",
+                  background: emotionColorsArray.fear,
+                  margin: "5px"
+                }}
+              />
+              <div>Fear</div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start"
+              }}
+            >
+              <div
+                style={{
+                  width: "15px",
+                  height: "15px",
+                  background: emotionColorsArray.grief,
+                  margin: "5px"
+                }}
+              />
+              <div>Grief</div>
+            </div>
+          </>
+        ) : toggleShowMode === "mood" ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between"
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between"
+              }}
+            >
+              {moodColorsArray
+                .filter((item, index) => {
+                  return index % 2 === 0;
+                })
+                .map(item => {
+                  return (
                     <div
                       style={{
-                        width: "15px",
-                        height: "15px",
-                        background: item.color
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-start"
                       }}
-                    />
-                  </td>
-                  <td>
-                    {typeof item.value === "number"
-                      ? "> " + item.value
-                      : item.value}
-                  </td>
-                </tr>
-              );
-            })
-          ) : toggleShowMode === "corona" ? (
-            coronaColorsArray.map(item => {
-              return (
-                <tr>
-                  <td>
+                    >
+                      <div
+                        style={{
+                          width: "15px",
+                          height: "15px",
+                          background: item.color,
+                          margin: "5px"
+                        }}
+                      />
+                      <div style={{ margin: "5px" }}>
+                        {typeof item.value === "number"
+                          ? "> " + item.value
+                          : item.value}
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between"
+              }}
+            >
+              {moodColorsArray
+                .filter((item, index) => {
+                  return index % 2 !== 0;
+                })
+                .map(item => {
+                  return (
                     <div
                       style={{
-                        width: "15px",
-                        height: "15px",
-                        background: item.color
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-start"
                       }}
-                    />
-                  </td>
-                  <td>
-                    {typeof item.value === "number"
-                      ? "> " + item.value
-                      : item.value}
-                  </td>
-                </tr>
-              );
-            })
-          ) : (
-            ""
-          )}
-        </tabel>
+                    >
+                      <div
+                        style={{
+                          width: "15px",
+                          height: "15px",
+                          background: item.color,
+                          margin: "5px"
+                        }}
+                      />
+                      <div style={{ margin: "5px" }}>
+                        {typeof item.value === "number"
+                          ? "> " + item.value
+                          : item.value}
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        ) : toggleShowMode === "corona" ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between"
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between"
+              }}
+            >
+              {coronaColorsArray
+                .filter((item, index) => {
+                  return index % 2 === 0;
+                })
+                .map(item => {
+                  return (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-start"
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "15px",
+                          height: "15px",
+                          background: item.color,
+                          margin: "5px"
+                        }}
+                      />
+                      <div style={{ margin: "5px" }}>
+                        {typeof item.value === "number"
+                          ? "> " + item.value
+                          : item.value}
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between"
+              }}
+            >
+              {coronaColorsArray
+                .filter((item, index) => {
+                  return index % 2 !== 0;
+                })
+                .map(item => {
+                  return (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-start"
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "15px",
+                          height: "15px",
+                          background: item.color,
+                          margin: "5px"
+                        }}
+                      />
+                      <div style={{ margin: "5px" }}>
+                        {typeof item.value === "number"
+                          ? "> " + item.value
+                          : item.value}
+                      </div>
+                    </div>
+                  );
+                })}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "flex-start"
+                }}
+              >
+                <div
+                  style={{
+                    width: "15px",
+                    height: "15px",
+                    margin: "5px"
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </Paper>
       <Modal
         className={classes.row}
