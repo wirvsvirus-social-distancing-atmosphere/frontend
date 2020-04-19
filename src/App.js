@@ -26,7 +26,6 @@ function App() {
                 .then((data) => {
                     data.region = data.region_code
                     data.country = data.country_name
-                    console.log("result", data.region, data.country)
                     setLocation(data);
                 });
         }
@@ -119,6 +118,7 @@ function App() {
             .get()
             .then(querySnapshot => {
                 let data = querySnapshot.docs[0].data()
+                //console.log("emotiondata", querySnapshot.docs[0].data())
                 setEmotionData(data);
             })
             .catch(function (error) {

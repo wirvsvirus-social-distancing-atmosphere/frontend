@@ -108,7 +108,7 @@ exports.defineEmotionMeans = functions.firestore
 
                 var now = Date.now();
                 var nowRound = Math.round(now);
-                const last4Weeks = nowRound - 2419200000 / 4;
+                const last4Weeks = nowRound - 2419200000;
                 return admin.firestore()
                     .collection('emotions')
                     .where("time", ">=", last4Weeks)

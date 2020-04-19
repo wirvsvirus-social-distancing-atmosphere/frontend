@@ -248,7 +248,7 @@ function EmotionPanel({history, onEmotionSelect}) {
                         <DialogTitle className={classes.row}>
                             What are {selectedEmotion}s of others?
                         </DialogTitle>
-                        
+
                         <div className={classes.row}>
                             <WordCloud data={bubbleChartData} />
                             <p style={{position: "absolute", left: "55%"}}><Fearometer currentValue={overallMood} /></p>
@@ -361,11 +361,11 @@ function EmotionPanel({history, onEmotionSelect}) {
                             </Button>
                         </div>
                     </form>
-                    
+
                     <DialogTitle className={classes.row}>
-                        What are {selectedEmotion}s of others? 
+                        What are {selectedEmotion}s of others?
                     </DialogTitle>
-                    
+
                     <div className={classes.row}>
                         <WordCloud data={bubbleChartData} style={{ margin: "5%" }} />
                         <p  style={{position: "absolute", left: "5%"}}><Fearometer currentValue={overallMood}/></p>

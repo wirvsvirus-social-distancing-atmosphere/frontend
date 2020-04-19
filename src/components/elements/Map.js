@@ -125,8 +125,9 @@ export default ({toggleShowMode}) => {
                 const distribution = feature.distribution.map((emotion, index) => {
                     let average = emotion.value / emotion.length / emotion.length;
                     average = isNaN(emotion.value / emotion.length) ? 0 : average;
-                    return <div key={index}>
-                        <b>{emotion.name.charAt(0).toUpperCase() + emotion.name.slice(1)}:</b> {Math.round(average)} ({emotion.length} entries)
+                    return <div style={{marginBottom: 5, width: "150px"}} key={index}>
+                        <b>{emotion.name.charAt(0).toUpperCase() + emotion.name.slice(1)}:</b> {Math.round(average)} {/*({emotion.length} entries)*/}
+                        <div style={{backgroundColor: emotionColors[emotion.name], width: average + "%", height: 10}}/>
                     </div>
                 });
                 setDistribution({country: feature.properties.name, distribution: distribution})
@@ -149,14 +150,14 @@ export default ({toggleShowMode}) => {
         <GeoJSON key='my-geojson' data={geoJson}
                  style={toggleShowMode === "emotion" ? emotionColorMapper : toggleShowMode === "mood" ? moodColorMapper : coronaColorMapper}
                  onEachFeature={onClickFeature}>
-            {toggleShowMode === "emotion" && <Popup>
+            {toggleShowMode === "emotion" && <Popup style={{width: "100vw"}}>
                 <span style={{fontSize: "16px"}}>{distribution.country}</span><br/><br/>
                 {distribution.distribution.map(emotion => emotion)}
-                Corona 3-days-growth: {Math.round(geoJson.features.find(feature => mood.country === feature.properties.name) ? geoJson.features.find(feature => mood.country === feature.properties.name).corona : "Not found")}%
+                {/*Corona 3-days-growth: {Math.round(geoJson.features.find(feature => mood.country === feature.properties.name) ? geoJson.features.find(feature => mood.country === feature.properties.name).corona : "Not found")}%*/}
             </Popup>}
             {toggleShowMode !== "emotion" && <Popup>
                 <span style={{fontSize: "16px"}}>{mood.country}</span><br/><br/>
-                <b>Corona 3-days-growth:</b> {Math.round(geoJson.features.find(feature => mood.country === feature.properties.name) ? geoJson.features.find(feature => mood.country === feature.properties.name).corona : "Not found")}%
+                {/*<b>Corona 3-days-growth:</b> {Math.round(geoJson.features.find(feature => mood.country === feature.properties.name) ? geoJson.features.find(feature => mood.country === feature.properties.name).corona : "Not found")}%*/}
                 {mood.mood}
             </Popup>}
         </GeoJSON>
