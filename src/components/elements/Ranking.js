@@ -42,13 +42,13 @@ function getSteps() {
 }
 
 function Ranking(props) {
+  const steps = getSteps();
   const [activeStep, setActiveStep] = React.useState(
-    window.innerWidth <= 700 ? 0 : 5
+    window.innerWidth <= 700 ? 0 : steps.length
   );
   const classes = useStyles();
-  const steps = getSteps();
   const handleNext = () => {
-    activeStep === steps.length - 1
+    activeStep === steps.length - 1 || activeStep === steps.length
       ? props.history.push({
           pathname: "/"
         })
@@ -383,7 +383,7 @@ function Ranking(props) {
             onClick={handleNext}
             className={classes.button}
           >
-            {activeStep === steps.length - 1
+            {activeStep === steps.length || activeStep === steps.length - 1
               ? 'Go to "How people feel"'
               : "Next"}
           </Button>
