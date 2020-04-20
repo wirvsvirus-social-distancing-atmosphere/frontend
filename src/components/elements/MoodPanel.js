@@ -1,4 +1,6 @@
 import React, { useContext, useState, createStyles } from "react";
+import { withRouter } from 'react-router-dom';
+
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { Paper } from "@material-ui/core";
@@ -62,7 +64,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function MoodPanel({ handleNext, onMoodSubmit, onEmotionSelect }) {
+function MoodPanel({ history, onMoodSubmit, onEmotionSelect }) {
   const classes = useStyles();
 
   const hasMoodSubmittedOnce = useContext(MoodContext);
@@ -107,7 +109,9 @@ function MoodPanel({ handleNext, onMoodSubmit, onEmotionSelect }) {
 
   const handleEmotionSelect = emotion => {
     onEmotionSelect(emotion);
-    handleNext();
+    history.push({
+      pathname: "/howyoufeel",
+    });
   };
 
   function showHistogram() {
@@ -749,4 +753,4 @@ function MoodPanel({ handleNext, onMoodSubmit, onEmotionSelect }) {
   );
 }
 
-export default MoodPanel;
+export default withRouter(MoodPanel);
