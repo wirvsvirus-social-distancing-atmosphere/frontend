@@ -11,6 +11,14 @@ import {Paper} from "@material-ui/core";
 
 function App() {
 
+    useEffect(() => {
+        firebase.auth().signInAnonymously();
+        firebase.auth().onAuthStateChanged((user) => {
+            console.log("user", user.uid)
+        });
+    });
+
+
     const [location, setLocation] = useState();
     const [moodData, setMoodData] = useState();
     const [coronaData, setCoronaData] = useState();

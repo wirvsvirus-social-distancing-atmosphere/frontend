@@ -6,12 +6,14 @@ import { withRouter } from "react-router-dom";
 
 import EmotionContext from '../../../state/EmotionContext';
 import LocationContext from '../../../state/LocationContext';
+import DialogTitle from "@material-ui/core/DialogTitle";
+import {FormControl, InputLabel, Select, MenuItem} from "@material-ui/core";
 
 function ScreenB() {
   const mood = useContext(EmotionContext);
   const location = useContext(LocationContext);
 
-
+  const [selectedEmotion, setSelectedEmotion] = React.useState(mood);
   const [firestoreData, setFirestoreData] = React.useState();
 
   function getPercentagePerItem(data) {
@@ -50,7 +52,7 @@ function ScreenB() {
       const { country, region } = location;
     saveRegulationToFirestore(
       {
-          category, emotion: mood,
+          category, emotion: selectedEmotion,
           name,
           geo: { country, region },
       },
@@ -66,7 +68,7 @@ function ScreenB() {
         .firestore()
         .collection("regulation")
         .where("category", "==", category)
-        .where("emotion", "==", mood)
+        .where("emotion", "==", selectedEmotion)
         .get()
         .then(function(querySnapshot) {
           let tmp = { ...firestoreData };
@@ -88,7 +90,7 @@ function ScreenB() {
       firebase
         .firestore()
         .collection("regulation")
-        .where("emotion", "==", mood)
+        .where("emotion", "==", selectedEmotion)
         .get()
         .then(function(querySnapshot) {
           let resultArray = [];
@@ -127,7 +129,27 @@ function ScreenB() {
       sortedData.reaktion.sort((a, b) => (a.value < b.value ? 1 : -1));
     }
     return (
-      <Ranking emotion={mood} data={sortedData} saveNewItem={saveNewItem} />
+        <><div style={{display: "flex", fontSize: "1.5rem", alignItems:"center", justifyContent:"center",textAlign: "center", margin: 15,}}>
+          What can I do about
+          <FormControl style={{ marginLeft:10,minWidth: '140px', backgroundColor: "rgba(117,253,236,0.27)" }}>
+            <InputLabel htmlFor='position-simple'>Select an emotion</InputLabel>
+            <Select value={selectedEmotion} onChange={event => {
+              setSelectedEmotion(event.target.value);
+              setFirestoreData(null);
+              getFirestoreData(event.target.value)
+            }}>
+              <MenuItem value={'fear'}>Fear</MenuItem>
+              <MenuItem value={'anger'}>Anger</MenuItem>
+              <MenuItem value={'joy'}>Joy</MenuItem>
+              <MenuItem value={'grief'}>Grief</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+    <div style={{margin: 15, width: "100%", textAlign: "center"}}>
+      These are the five major aspects of emotional episodes you can influence to avoid or seek for an emotion.
+    </div>
+      <Ranking emotion={selectedEmotion} data={sortedData} saveNewItem={saveNewItem} />
+      </>
     );
   }
 

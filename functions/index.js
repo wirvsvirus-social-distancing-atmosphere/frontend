@@ -84,6 +84,7 @@ const emotionsToCountries = (emotionData, features) => {
             },
         ];
         const dominantEmotion = sums.reduce((max, emotion) => max.value > emotion.value ? max : emotion);
+        if(dominantEmotion.value === 0){dominantEmotion.name = undefined}
         features[index]["emotion"] = dominantEmotion.name;
         features[index]["values"] = dominantEmotion.value;
         features[index]["distribution"] = sums;
