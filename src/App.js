@@ -14,7 +14,7 @@ function App() {
     useEffect(() => {
         firebase.auth().signInAnonymously();
         firebase.auth().onAuthStateChanged((user) => {
-            console.log("user", user.uid)
+            //console.log("user", user.uid)
         });
     });
 
