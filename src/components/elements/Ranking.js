@@ -313,10 +313,6 @@ function Ranking(props) {
   }
   return (
     <>
-      <DialogTitle className={classes.row}>
-        What can I do about {props.emotion}?
-      </DialogTitle>
-
       <div className="container" style={{ width: "90%" }}>
         <div className={classes.root}>
           <Stepper
