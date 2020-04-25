@@ -63,8 +63,9 @@ const coronaColors = (corona, max) => {
 };
 
 const emotionColorMapper = feature => {
+  if(feature.emotion === "unknown"){feature.emotion = undefined}
   return {
-    fillColor: feature.emotion ? emotionColors[feature.emotion] : "purple",
+    fillColor: feature.emotion ? emotionColors[feature.emotion] : "#fff6df",
     color: "light-grey",
     weight: 0.3
   };

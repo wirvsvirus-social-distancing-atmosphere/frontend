@@ -83,8 +83,9 @@ const emotionsToCountries = (emotionData, features) => {
                 length: joy.length,
             },
         ];
-        const dominantEmotion = sums.reduce((max, emotion) => max.value > emotion.value ? max : emotion);
-        if(dominantEmotion.value === 0){dominantEmotion.name = undefined}
+        let dominantEmotion = sums.reduce((max, emotion) => max.value > emotion.value ? max : emotion);
+        if(dominantEmotion.value === 0){dominantEmotion.name = "unknown"}
+        if(dominantEmotion.value === 0){console.log("dominantemotionnull", dominantEmotion.name)}
         features[index]["emotion"] = dominantEmotion.name;
         features[index]["values"] = dominantEmotion.value;
         features[index]["distribution"] = sums;
