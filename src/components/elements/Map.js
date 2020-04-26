@@ -188,7 +188,7 @@ export default ({ toggleShowMode }) => {
     <LeafletMap
       style={{ width: "100%", height: "80vh", zIndex: 0 }}
       center={[20, 0]}
-      zoom={2}
+      zoom={3}
     >
       <TileLayer
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
