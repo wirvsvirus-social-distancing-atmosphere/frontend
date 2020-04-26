@@ -1,19 +1,14 @@
-import React, {useEffect, useState} from "react";
-import {Route, Switch, withRouter, NavLink, Link} from "react-router-dom";
+import React, {useState} from "react";
+import {Route, Switch, withRouter, NavLink} from "react-router-dom";
 
 import {makeStyles} from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
 
 import HowPeopleFeel from "./scenes/HowPeopleFeel/HowPeopleFeel";
 import HowYouFeel from "./scenes/HowYouFeel/HowYouFeel";
 import HowPeopleCope from "./scenes/HowPeopleCope/HowPeopleCope";
-import ScreenB from "./scenes/ScreenB/ScreenB";
-import Admission from "./scenes/Admission/Admission";
-import LinkTab from "./elements/LinkTab";
 
 import "./Main.css";
 
-import MoodContext from '../state/MoodContext';
 import EmotionContext from '../state/EmotionContext';
 
 import emotionCategories from '../utils/constants';
@@ -21,8 +16,16 @@ import emotionCategories from '../utils/constants';
 import breakpoints from '../breakpoints';
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+        flexDirection: 'column-reverse',
+        width: "100%",
+        [`@media ${breakpoints.tablet}`]: {
+            flexDirection: 'column',
+            maxHeight: 'unset',
+        },
+    },
     header: {
-        height: '60px',
         padding: '1em',
         paddingTop: '10px',
         position: 'fixed',
@@ -40,24 +43,20 @@ const useStyles = makeStyles(theme => ({
         },
     },
     main: {
-        display: 'flex',
-        flexDirection: 'column-reverse',
-        overflow: "hidden",
-        width: "100%",
-        maxHeight: "calc(100vh - 70px)",
+        maxHeight: "calc(100vh - 120px)",
+        overflowY: 'auto',
 
         [`@media ${breakpoints.tablet}`]: {
-            flexDirection: 'column',
             maxHeight: 'unset',
         },
     },
     title: {
         justifyContent: "center",
-        fontSize: "20px",
+        fontSize: "30px",
         left: "10px",
-        color: "#607d8b",
+        color: "#0f0f0f",
         display: 'none',
-        margin: '60px',
+        marginRight: '60px',
 
         [`@media ${breakpoints.tablet}`]: {
             display: 'block',
@@ -66,17 +65,18 @@ const useStyles = makeStyles(theme => ({
     navBar: {
         display: "flex",
         height: '100%',
-        alignItems: 'center',
+        alignItems: 'end',
         justifyContent: 'center',
         listStyleType: 'none',
     },
     navLink: {
-        color: '#666',
-        padding: '10px',
+        color: "#0f0f0f",
+        fontSize: '20px',
+        marginRight: '10px',
+        textAlign: 'center',
     },
     active: {
-        backgroundColor: '#2196f3',
-        color: 'white',
+        borderBottom: '2px solid #f44336',
     },
 }));
 
@@ -85,11 +85,10 @@ const defaultEmotion = emotionCategories.FEAR;
 
 function App() {
     const classes = useStyles();
-    const [hasMoodSubmitted, setHasMoodSubmitted] = useState(false);
     const [selectedEmotion, setSelectedEmotion] = useState(defaultEmotion);
 
     return (
-        <div className={classes.main}>
+        <div className={classes.root}>
             <div className={classes.header}>
                 <div className={classes.title}>
                     Moodometer
@@ -104,21 +103,21 @@ function App() {
                     <NavLink className={classes.navLink} activeClassName={classes.active} to="/howtocope">How people cope</NavLink>
                 </div>
             </div>
-            <EmotionContext.Provider value={selectedEmotion}>
-                    <MoodContext.Provider value={hasMoodSubmitted}>
-                        <Switch>
-                            <Route exact path="/">
-                                <HowPeopleFeel onMoodSubmit={setHasMoodSubmitted} onEmotionSelect={setSelectedEmotion}/>
-                            </Route>
-                            <Route path="/howyoufeel">
-                                <HowYouFeel onEmotionSelect={ setSelectedEmotion }/>
-                            </Route>
-                            <Route path="/howtocope">
-                                <HowPeopleCope/>
-                            </Route>
-                        </Switch>
-                    </MoodContext.Provider>
-            </EmotionContext.Provider>
+            <div className={classes.main}>
+                <EmotionContext.Provider value={selectedEmotion}>
+                    <Switch>
+                        <Route exact path="/">
+                            <HowPeopleFeel onEmotionSelect={setSelectedEmotion}/>
+                        </Route>
+                        <Route path="/howyoufeel">
+                            <HowYouFeel onEmotionSelect={ setSelectedEmotion }/>
+                        </Route>
+                        <Route path="/howtocope">
+                            <HowPeopleCope/>
+                        </Route>
+                    </Switch>
+                </EmotionContext.Provider>
+            </div>
         </div>
     );
 }

@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3),
         padding: theme.spacing(2),
-
+        background: '#eee',
       },
     row: {
         display: 'flex',
@@ -30,7 +30,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function HowPeopleFeel({
-    onMoodSubmit,
     onEmotionSelect
 }) {
     const classes = useStyles();
@@ -41,7 +40,6 @@ function HowPeopleFeel({
             <main className={classes.layout}>
                 <Paper className={classes.paper}>
                     <MoodPanel
-                        onMoodSubmit={ onMoodSubmit }
                         onEmotionSelect={ onEmotionSelect }
                     />
                 </Paper>

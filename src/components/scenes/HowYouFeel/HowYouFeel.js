@@ -17,8 +17,7 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3),
         padding: theme.spacing(2),
-
-      },
+        background: '#eee',      },
     row: {
         display: 'flex',
         alignItems: 'center',
@@ -35,7 +34,6 @@ function HowYouFeel({
 }) {
     const classes = useStyles();
 
-    console.log('test')
     return (
         <>
             <CssBaseline />

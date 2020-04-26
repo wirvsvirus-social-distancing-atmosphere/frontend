@@ -1,8 +1,10 @@
+import variables from  '../../variables.js';
+
 export const emotionColorsArray = {
-  joy: "#bdf38d",
-  anger: "#ffc88c",
-  fear: "#bbe7ff",
-  grief: "#e938ff"
+  joy: variables.joy,
+  anger: variables.anger,
+  fear: variables.fear,
+  grief: variables.grief
 };
 
 export const moodColorsArray = [
