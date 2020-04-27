@@ -201,7 +201,7 @@ function Fearometer({ currentValue = 42 }) {
     show_thermometer(chartContainer.current, currentValue);
   }, [currentValue]);
 
-  return <div ref={chartContainer} />;
+  return <div style={ {display: 'flex', justifyContent: 'center'} } ref={chartContainer} />;
 }
 
 export default Fearometer;

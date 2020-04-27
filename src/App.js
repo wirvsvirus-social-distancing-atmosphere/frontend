@@ -26,6 +26,11 @@ function App() {
     const [error, setError] = useState();
 
     useEffect(() => {
+        firebase.auth().signInAnonymously();
+        firebase.auth().onAuthStateChanged((user) => {
+            console.log("user", user.uid)
+        });
+
         const fetchData = async () => {
             await fetch("https://ipapi.co/json/")
                 .then(response => {

@@ -1,7 +1,11 @@
-import React, {useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import ReactWordcloud from "react-wordcloud";
 
-function WordCloud({data}) {
+import EmotionDataContext from '../../state/EmotionDataContext';
+
+function WordCloud({selectedEmotion}) {
+
+    const emotionData = useContext(EmotionDataContext);
     const [words, setWords] = React.useState();
 
     const wordCloudValues = [
@@ -16,24 +20,61 @@ function WordCloud({data}) {
         24.8415,
         30.8018
     ];
+
     useEffect(() => {
+
+        let avg = 0;
+        const tempData = {};
+        const children = [];
+        let selection = [];
+        if (emotionData && emotionData.emotions) {
+            selection = emotionData.emotions.filter(emotion => emotion.category === selectedEmotion);
+            selection.forEach(entry => {
+                    const d = entry;
+                    avg += d.value;
+                    if (!tempData[d.emotion]) {
+                        tempData[d.emotion] = {
+                            count: 0,
+                            value: 0
+                        };
+                    }
+                tempData[d.emotion] = {
+                        count: tempData[d.emotion].count + 1,
+                        value: tempData[d.emotion].value + d.value
+                    };
+                }
+            );
+            avg /= selection.length;
+        }
+        Object.keys(tempData).forEach(key => {
+            children.push({
+                name: key,
+                size: tempData[key].count /* / selection.length */
+            });
+        });
+
+        const structurizedData = {
+            name: "",
+            children
+        }
+
         let tmpWords = [
             {
                 value: 1
             }
         ];
 
-        if (data && data.children.length > 0) {
-            const min = data.children.reduce(
+        if (structurizedData && structurizedData.children.length > 0) {
+            const min = structurizedData.children.reduce(
                 (min, p) => (p.size < min ? p.size : min),
-                data.children[0].size
+                structurizedData.children[0].size
             );
-            const max = data.children.reduce(
+            const max = structurizedData.children.reduce(
                 (max, p) => (p.size > max ? p.size : max),
-                data.children[0].size
+                structurizedData.children[0].size
             );
             const mathValue = (max - min + 1) / 10;
-            data.children.forEach(item => {
+            structurizedData.children.forEach(item => {
                 tmpWords.push({
                     text: item.name,
                     value: wordCloudValues[Math.round(item.size / mathValue) - 1]
@@ -43,20 +84,23 @@ function WordCloud({data}) {
         } else {
             setWords([{text: "No topics yet", value: 10}])
         }
-    }, [data]);
+    }, [emotionData, selectedEmotion]);
 
     const options = {
-        rotationAngles: [0, 90], padding: 1,
-        rotations: 30,
+        fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+        rotationAngles: [0, 90],
+        rotations: 1,
+        scale: 'sqrt',
+        spiral: 'rectangular',
+        deterministic: true,
     }
 
     return (
         <div
             style={{
-                maxWidth:
-                    window.innerWidth > 700 && window.innerHeight < 850 ? "70%" : "90%",
                 marginLeft: "auto",
-                marginRight: 0
+                marginRight: 0,
+                width: '100%'
             }}
         >
             <ReactWordcloud
@@ -65,8 +109,8 @@ function WordCloud({data}) {
                 callbacks={{
                     getWordTooltip: ({text}) =>
                         `${text} ${
-                            data.children.find(e => e.name === text)
-                                ? "(" + data.children.find(e => e.name === text).size + ")"
+                            emotionData.children.find(e => e.name === text)
+                                ? "(" + emotionData.children.find(e => e.name === text).size + ")"
                                 : ""
                             }`
                 }}
