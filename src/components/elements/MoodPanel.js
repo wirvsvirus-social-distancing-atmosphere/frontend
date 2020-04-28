@@ -223,7 +223,7 @@ function MoodPanel({history, onEmotionSelect}) {
                     fontSize: '16px'
                 }}
             >
-                <div style={{fontSize: "22px"}}>Legende</div>
+                <div style={{fontSize: "20px"}}>Legend</div>
                 <React.Fragment>
                     <div
                         style={{

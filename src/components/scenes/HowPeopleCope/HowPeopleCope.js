@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
+import React, {useContext} from "react";
 import Ranking from "../../elements/Ranking";
 import saveRegulationToFirestore from "../../../services/saveRegulationToFirestore";
 import firebase from "../../../utils/firebase";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 import EmotionContext from '../../../state/EmotionContext';
 import LocationContext from '../../../state/LocationContext';
-import DialogTitle from "@material-ui/core/DialogTitle";
-import {FormControl, InputLabel, Select, MenuItem} from "@material-ui/core";
+import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
 
 function ScreenB() {
     const mood = useContext(EmotionContext);
@@ -31,14 +31,14 @@ function ScreenB() {
                 reaktion: data.reaktion ? data.reaktion.length : 0
             }
         };
-        Object.keys(data).forEach(function(item) {
+        Object.keys(data).forEach(function (item) {
             data[item].sort();
             let prev = data[item][0];
             for (let i = 0; i < data[item].length; i++) {
                 if (newData[item].length === 0) {
-                    newData[item][0] = { name: data[item][i], value: 1 };
+                    newData[item][0] = {name: data[item][i], value: 1};
                 } else if (data[item][i] !== prev) {
-                    newData[item].push({ name: data[item][i], value: 1 });
+                    newData[item].push({name: data[item][i], value: 1});
                 } else {
                     newData[item][newData[item].length - 1].value++;
                 }
@@ -49,12 +49,12 @@ function ScreenB() {
     }
 
     function saveNewItem(name, category) {
-        const { country, region } = location;
+        const {country, region} = location;
         saveRegulationToFirestore(
             {
                 category, emotion: selectedEmotion,
                 name,
-                geo: { country, region },
+                geo: {country, region},
             },
             () => {
                 getFirestoreData(category);
@@ -70,10 +70,10 @@ function ScreenB() {
                 .where("category", "==", category)
                 .where("emotion", "==", selectedEmotion)
                 .get()
-                .then(function(querySnapshot) {
-                    let tmp = { ...firestoreData };
+                .then(function (querySnapshot) {
+                    let tmp = {...firestoreData};
                     tmp[category] = [];
-                    querySnapshot.forEach(function(doc) {
+                    querySnapshot.forEach(function (doc) {
                         if (tmp[category]) {
                             tmp[category].push(doc.data().name);
                         } else {
@@ -83,7 +83,7 @@ function ScreenB() {
                     });
                     setFirestoreData(tmp);
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log("Error getting documents: ", error);
                 });
         } else {
@@ -92,10 +92,10 @@ function ScreenB() {
                 .collection("regulation")
                 .where("emotion", "==", selectedEmotion)
                 .get()
-                .then(function(querySnapshot) {
+                .then(function (querySnapshot) {
                     let resultArray = [];
 
-                    querySnapshot.forEach(function(doc) {
+                    querySnapshot.forEach(function (doc) {
                         const category = doc.data().category;
                         if (resultArray[category]) {
                             resultArray[category].push(doc.data().name);
@@ -107,7 +107,7 @@ function ScreenB() {
 
                     setFirestoreData(resultArray);
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log("Error getting documents: ", error);
                 });
         }
@@ -129,27 +129,37 @@ function ScreenB() {
             sortedData.reaktion.sort((a, b) => (a.value < b.value ? 1 : -1));
         }
         return (
-            <><div style={{display: "flex", fontSize: "1.5rem", alignItems:"center", justifyContent:"center",textAlign: "center", margin: 15,}}>
-              What can I do about
-              <FormControl style={{ marginLeft:10,minWidth: '140px', backgroundColor: "rgba(117,253,236,0.27)" }}>
-                <InputLabel htmlFor='position-simple'>Select an emotion</InputLabel>
-                <Select value={selectedEmotion} onChange={event => {
-                    setSelectedEmotion(event.target.value);
-                    setFirestoreData(null);
-                    getFirestoreData(event.target.value)
+            <Paper style={{
+                margin: 15,
+                padding: 10,
+                background: '#eee',
+            }}>
+                <div style={{
+                    display: "flex",
+                    fontSize: "1.5rem",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "center",
+                    margin: 15,
                 }}>
-                  <MenuItem value={'fear'}>Fear</MenuItem>
-                  <MenuItem value={'anger'}>Anger</MenuItem>
-                  <MenuItem value={'joy'}>Joy</MenuItem>
-                  <MenuItem value={'grief'}>Grief</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-            <div style={{margin: 15, width: "100%", textAlign: "center"}}>
-              These are the five major aspects of emotional episodes you can influence to avoid or seek for an emotion.
-            </div>
-            <Ranking emotion={selectedEmotion} data={sortedData} saveNewItem={saveNewItem} />
-            </>
+                    What can I do about
+                    <FormControl style={{marginLeft: 10, minWidth: '140px', backgroundColor: "rgba(239,65,52,0.12)"}}>
+                        <InputLabel htmlFor='position-simple'>Select an emotion</InputLabel>
+                        <Select value={selectedEmotion} onChange={event => {
+                            setSelectedEmotion(event.target.value);
+                            setFirestoreData(null);
+                            getFirestoreData(event.target.value)
+                        }}>
+                            <MenuItem value={'fear'}>Fear</MenuItem>
+                            <MenuItem value={'anger'}>Anger</MenuItem>
+                            <MenuItem value={'joy'}>Joy</MenuItem>
+                            <MenuItem value={'grief'}>Grief</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
+
+                <Ranking emotion={selectedEmotion} data={sortedData} saveNewItem={saveNewItem}/>
+            </Paper>
         );
     }
 

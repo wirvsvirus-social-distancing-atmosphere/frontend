@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
         },
     },
     main: {
-        maxHeight: "calc(100vh - 120px)",
+        maxHeight: "calc(100vh - 70px)",
         overflowY: 'auto',
 
         [`@media ${breakpoints.tablet}`]: {
@@ -65,17 +65,29 @@ const useStyles = makeStyles(theme => ({
     navBar: {
         display: "flex",
         height: '100%',
-        alignItems: 'end',
+        alignItems: 'center',
         justifyContent: 'center',
         listStyleType: 'none',
     },
     navLink: {
-        color: "#0f0f0f",
-        fontSize: '20px',
-        marginRight: '10px',
+        color: "#afafaf",
+        fontSize: '14px',
+        [`@media ${breakpoints.tablet}`]: {
+            fontSize: '20px',
+        },
+        '&:hover': {
+            color: "#535353",
+            borderBottom: '2px solid #FFDBDBDB',
+        },
+        marginRight: '20px',
         textAlign: 'center',
     },
     active: {
+        fontSize: '16px',
+        [`@media ${breakpoints.tablet}`]: {
+            fontSize: '24px',
+        },
+        color: "#f44336",
         borderBottom: '2px solid #f44336',
     },
 }));

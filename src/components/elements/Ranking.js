@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 
 import "../materialize.min.css";
 import { TextField } from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles(theme => ({
   row: {
@@ -313,7 +314,11 @@ function Ranking(props) {
   }
   return (
     <>
-      <div className="container" style={{ width: "90%" }}>
+      <Paper className="container" style={{ width: "95%", backgroundColor: "white" }}>
+          <div style={{fontSize: 16, padding: 15, width: "100%", textAlign: "center"}}>
+              These are the five major aspects of emotional episodes you can influence to avoid or seek for an
+              emotion.
+          </div>
         <div className={classes.root}>
           <Stepper
             alternativeLabel
@@ -384,7 +389,7 @@ function Ranking(props) {
               : "Next"}
           </Button>
         </div>
-      </div>
+      </Paper>
     </>
   );
 }

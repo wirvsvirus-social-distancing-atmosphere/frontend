@@ -145,7 +145,7 @@ function ScreenB() {
             </Select>
           </FormControl>
         </div>
-    <div style={{margin: 15, width: "100%", textAlign: "center"}}>
+    <div style={{fontSize: 16, padding: 15, width: "100%", textAlign: "center"}}>
       These are the five major aspects of emotional episodes you can influence to avoid or seek for an emotion.
     </div>
       <Ranking emotion={selectedEmotion} data={sortedData} saveNewItem={saveNewItem} />
