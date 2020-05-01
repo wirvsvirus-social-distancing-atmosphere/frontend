@@ -3,7 +3,7 @@ import ReactWordcloud from "react-wordcloud";
 
 import EmotionDataContext from '../../state/EmotionDataContext';
 
-function WordCloud({selectedEmotion}) {
+function WordCloud({selectedEmotion, country = undefined, region = undefined}) {
 
     const emotionData = useContext(EmotionDataContext);
     const [words, setWords] = React.useState();
@@ -29,6 +29,19 @@ function WordCloud({selectedEmotion}) {
         let selection = [];
         if (emotionData && emotionData.emotions) {
             selection = emotionData.emotions.filter(emotion => emotion.category === selectedEmotion);
+
+            {console.log("preselection", selection, selectedEmotion,country, region)}
+            if(country){
+                //TODO: activate region-specific selection when we have enough emotion data
+                /*if(region){
+                    selection = selection.filter(emotion => emotion.geo && emotion.geo.region && emotion.geo.region === region);
+                } else {
+                    selection = selection.filter(emotion => emotion.geo && emotion.geo.country && emotion.geo.country === country);
+                }*/
+                selection = selection.filter(emotion => emotion.geo && emotion.geo.country && emotion.geo.country === country);
+            }
+
+            {console.log("selection", selection, country, region)}
             selection.forEach(entry => {
                     const d = entry;
                     avg += d.value;
@@ -88,6 +101,7 @@ function WordCloud({selectedEmotion}) {
 
     const options = {
         fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+        fontSizes: [12, 20],
         rotationAngles: [0, 90],
         rotations: 1,
         scale: 'sqrt',
@@ -106,14 +120,14 @@ function WordCloud({selectedEmotion}) {
             <ReactWordcloud
                 options={options}
                 words={words}
-                callbacks={{
+                /*callbacks={{
                     getWordTooltip: ({text}) =>
                         `${text} ${
                             emotionData.children.find(e => e.name === text)
                                 ? "(" + emotionData.children.find(e => e.name === text).size + ")"
                                 : ""
                             }`
-                }}
+                }}*/
             />
         </div>
     );

@@ -75,7 +75,7 @@ function MoodPanel({history, onEmotionSelect}) {
             }}
         >
             <Map toggleShowMode={toggleShowMode.current}/>
-            <Paper
+            {/*<Paper
                 style={{
                     width: window.innerWidth <= 700 ? "80%" : "40%",
                     minWidth: "250px",
@@ -294,7 +294,7 @@ function MoodPanel({history, onEmotionSelect}) {
                         <div>Grief</div>
                     </div>
                 </React.Fragment>
-            </Paper>
+            </Paper>*/}
         </div>
     );
 }

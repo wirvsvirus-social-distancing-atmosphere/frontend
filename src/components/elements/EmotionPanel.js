@@ -7,7 +7,7 @@ import ExpandArrow from "@material-ui/icons/ExpandMore";
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import {makeStyles} from "@material-ui/core/styles";
-import {Fab, Grid, Modal, Paper, TextField, Typography} from "@material-ui/core";
+import {Fab, Grid, Modal, Paper, TextField, Typography, withStyles} from "@material-ui/core";
 
 import Fearometer from "./Fearometer";
 import WordCloud from "./WordCloud";
@@ -23,6 +23,41 @@ import happy from "../../res/laugh-beam-regular.svg";
 import anxious from "../../res/grimace-regular.svg";
 
 import breakpoints from '../../breakpoints';
+
+const CustomSliderStyled = withStyles({
+    root: {
+        height: 8,
+    },
+    thumb: {
+        height: 24,
+        width: 24,
+        backgroundColor: '#fff',
+        border: '2px solid currentColor',
+        marginTop: -8,
+        marginLeft: -12,
+        '&:focus,&:hover,&$active': {
+            boxShadow: 'inherit',
+        },
+    },
+    active: {},
+    valueLabel: {
+        left: 'calc(-50% + 4px)',
+    },
+    track: {
+        height: 12,
+        borderRadius: 4,
+    },
+    rail: {
+        height: 12,
+        borderRadius: 4,
+    },
+    mark: {
+        backgroundColor: '#ffffff',
+        height: 6,
+        width: 2,
+        marginTop: 3,
+    },
+})(Slider);
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -170,6 +205,8 @@ const MemoizedFearometer = React.memo(Fearometer);
 function EmotionPanel({history, onEmotionSelect}) {
     const classes = useStyles();
 
+
+
     const location = useContext(LocationContext);
     const selectedEmotion = useContext(EmotionContext);
     const [openModal, setOpenModal] = useState(false);
@@ -180,6 +217,8 @@ function EmotionPanel({history, onEmotionSelect}) {
     const [overallMood, setOverallMood] = useState(0);
     const [bubbleChartData, setBubbleChartData] = useState();
     const [showWordCloud, setShowWordCloud] = useState(false);
+
+    console.log("selectedemotion", selectedEmotion)
 
     const handleInputChange = e => {
         const {name, value} = e.target;
@@ -288,19 +327,23 @@ function EmotionPanel({history, onEmotionSelect}) {
                     <Typography className={classes.headerText}>
                         2. How intense is your <b>{selectedEmotion}</b>?
                     </Typography>
-                    <Grid container spacing={2} style={{marginTop: 7,}}>
-                        <Grid item style={{alignSelf: 'center', fontSize: 16, marginBottom: 8}}>
+                    <Grid container spacing={2}>
+                        <Grid item style={{alignSelf: 'center', fontSize: 18, marginBottom: 3}}>
                             0{/*<RemoveIcon/>*/}
                         </Grid>
                         <Grid item xs>
-                            <Slider
+                            <CustomSliderStyled
+                                step={5}
+                                marks={true}
+                                min={0}
+                                max={100}
                                 name="severity"
                                 onChange={handleSeverityChange}
                                 value={formValues.severity}
                                 valueLabelDisplay="auto"
                             />
                         </Grid>
-                        <Grid item style={{alignSelf: 'center', fontSize: 16, marginBottom: 8}}>
+                        <Grid item style={{alignSelf: 'center', fontSize: 18, marginBottom: 3}}>
                            100 {/*<AddIcon/>*/}
                         </Grid>
                     </Grid>
