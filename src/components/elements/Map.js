@@ -1,5 +1,5 @@
 import {GeoJSON, Map as LeafletMap, Popup, TileLayer} from "react-leaflet";
-import React, {useContext, useState} from "react";
+import React, {useContext, useRef, useState} from "react";
 
 import MoodDataContext from "../../state/MoodDataContext";
 import EmotionDataContext from "../../state/EmotionDataContext";
@@ -103,6 +103,8 @@ export default ({toggleShowMode}) => {
     const [selectedEmotion, setSelectedEmotion] = useState();
     const [wrapper, setWrapper] = useState();
     const [onOff, setOnOff] = useState();
+
+    const wordCloudParent = useRef();
 
     if (coronaData) {
         let minMaxArray = [];
@@ -238,8 +240,9 @@ export default ({toggleShowMode}) => {
                                 </Select>
                             </FormControl>
                             </div>
-                            <div style={{height: 300}}>
+                            <div ref={ wordCloudParent } style={{height: 300}}>
                                 <WordCloud
+                                    parent={ wordCloudParent.current }
                                     country={distribution.country}
                                     region={distribution.regionCode}
                                     selectedEmotion={selectedEmotion ? selectedEmotion : distribution.maxValueEmotion.props.emotion.name}/>

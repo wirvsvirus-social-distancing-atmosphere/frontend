@@ -4,8 +4,6 @@ import {withRouter} from "react-router-dom";
 import Slider from "@material-ui/core/Slider";
 import Button from "@material-ui/core/Button";
 import ExpandArrow from "@material-ui/icons/ExpandMore";
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
 import {makeStyles} from "@material-ui/core/styles";
 import {Fab, Grid, Modal, Paper, TextField, Typography, withStyles} from "@material-ui/core";
 
@@ -200,12 +198,9 @@ const moods = {
 };
 
 const MemoizedWordCloud = React.memo(WordCloud);
-const MemoizedFearometer = React.memo(Fearometer);
 
 function EmotionPanel({history, onEmotionSelect}) {
     const classes = useStyles();
-
-
 
     const location = useContext(LocationContext);
     const selectedEmotion = useContext(EmotionContext);
@@ -418,7 +413,7 @@ function EmotionPanel({history, onEmotionSelect}) {
                         {/*</Typography>*/}
                         {/*<MemoizedFearometer currentValue={overallMood} />*/}
                         {/*</div>*/}
-                        <MemoizedWordCloud data={bubbleChartData} selectedEmotion={selectedEmotion}/>
+                        <MemoizedWordCloud selectedEmotion={selectedEmotion}/>
                     </div>
                 </div>}
 
