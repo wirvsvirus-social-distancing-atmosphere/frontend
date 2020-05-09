@@ -8,7 +8,6 @@ import breakpoints from '../../breakpoints';
 const useStyles = makeStyles(theme => ({
     root: {
         height: '300px',
-        width: '250px',
         marginLeft: "auto",
         marginRight: 0,
         width: '100%',
@@ -28,6 +27,7 @@ function WordCloud({selectedEmotion, country = undefined, region = undefined, pa
     const classes = useStyles();
 
     const emotionData = useContext(EmotionDataContext);
+    console.log('emodata', emotionData)
     const [words, setWords] = React.useState();
     console.log(parent)
 

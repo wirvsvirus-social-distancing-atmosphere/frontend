@@ -100,6 +100,7 @@ exports.defineEmotionMeans = functions.firestore
         admin
             .firestore()
             .collection("emotionmeans")
+            //.where('time','==', 1585767820737)
             .orderBy("time", "desc")
             .limit(1)
             .get()
@@ -113,7 +114,8 @@ exports.defineEmotionMeans = functions.firestore
                 const last4Weeks = nowRound - 2419200000;
                 return admin.firestore()
                     .collection('emotions')
-                    .where("time", ">=", last4Weeks)
+                    //TODO: reactivate intervall whenever we have enough continuously incoming data
+                    //.where("time", ">=", last4Weeks)
                     .get()
                     .then((querySnapshot) => {
                         let emotionData = [];
