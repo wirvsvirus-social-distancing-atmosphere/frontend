@@ -10,7 +10,6 @@ const useStyles = makeStyles(theme => ({
         height: '300px',
         marginLeft: "auto",
         marginRight: 0,
-        width: '100%',
 
         [`@media ${breakpoints.tablet}`]: {
             height: '400px',
@@ -23,13 +22,12 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function WordCloud({selectedEmotion, country = undefined, region = undefined, parent}) {
+function WordCloud({selectedEmotion, country = undefined, region = undefined, size}) {
     const classes = useStyles();
 
     const emotionData = useContext(EmotionDataContext);
     console.log('emodata', emotionData)
     const [words, setWords] = React.useState();
-    console.log(parent)
 
     const wordCloudValues = [
         5,
@@ -134,12 +132,12 @@ function WordCloud({selectedEmotion, country = undefined, region = undefined, pa
 
     return (
         <div
-            className={ classes.root }
+            className={ !size ? classes.root : undefined }
         >
             <ReactWordcloud
                 options={options}
                 words={words}
-                size={ parent ? [parent.clientWidth, parent.clientHeight] : undefined }
+                size={ size }
                 /*callbacks={{
                     getWordTooltip: ({text}) =>
                         `${text} ${

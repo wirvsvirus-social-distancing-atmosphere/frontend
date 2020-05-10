@@ -15,7 +15,9 @@ class MyPopup extends Component {
             );
         });
         map.on("popupclose", e => {
-            L.DomEvent.on(this.getWrapper(), "mousedown", L.DomEvent.stopPropagation);
+            if (this.getWrapper()) {
+                L.DomEvent.on(this.getWrapper(), "mousedown", L.DomEvent.stopPropagation);
+            }
         });
     }
 

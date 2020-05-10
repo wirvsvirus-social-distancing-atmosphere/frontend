@@ -4,6 +4,7 @@ import saveRegulationToFirestore from "../../../services/saveRegulationToFiresto
 import firebase from "../../../utils/firebase";
 import {withRouter} from "react-router-dom";
 
+import preprocess from '../../../utils/nlp/preprocessing';
 import EmotionContext from '../../../state/EmotionContext';
 import LocationContext from '../../../state/LocationContext';
 import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
@@ -12,6 +13,7 @@ import Paper from "@material-ui/core/Paper";
 function ScreenB() {
     const mood = useContext(EmotionContext);
     const location = useContext(LocationContext);
+    console.log(location)
 
     const [selectedEmotion, setSelectedEmotion] = React.useState(mood);
     const [firestoreData, setFirestoreData] = React.useState();
@@ -53,7 +55,7 @@ function ScreenB() {
         saveRegulationToFirestore(
             {
                 category, emotion: selectedEmotion,
-                name,
+                name: preprocess(name),
                 geo: {country, region},
             },
             () => {

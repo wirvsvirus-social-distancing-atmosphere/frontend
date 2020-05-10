@@ -2,18 +2,7 @@ import React, {useRef, useState} from "react";
 import {withRouter} from 'react-router-dom';
 
 import {makeStyles} from "@material-ui/core/styles";
-import {Paper} from "@material-ui/core";
-import Fab from "@material-ui/core/Fab";
-
-import emotionCategories from "../../utils/constants";
-
-import happy from "../../res/laugh-beam-regular.svg";
-import angry from "../../res/angry-regular.svg";
-import sad from "../../res/sad-tear-regular.svg";
-import anxious from "../../res/grimace-regular.svg";
 import Map from "./Map";
-
-import {emotionColorsArray,} from "./mapModeColors";
 
 const useStyles = makeStyles(theme => ({
     row: {

@@ -1,5 +1,8 @@
 import {GeoJSON, Map as LeafletMap, Popup, TileLayer} from "react-leaflet";
-import React, {useContext, useRef, useState} from "react";
+import React, {useContext, useState} from "react";
+
+import {FormControl, InputLabel, MenuItem, Paper, Select} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 
 import MoodDataContext from "../../state/MoodDataContext";
 import EmotionDataContext from "../../state/EmotionDataContext";
@@ -10,8 +13,6 @@ import geoJson from "../../res/geo";
 import emotionCategories from "../../utils/constants";
 import CustomTooltip from "./CustomTooltip";
 import WordCloud from "./WordCloud";
-import EmotionContext from "../../state/EmotionContext";
-import {FormControl, InputLabel, MenuItem, Paper, Select} from "@material-ui/core";
 import CustomPopup from "./CustomPopup";
 
 const emotionColors = {
@@ -90,7 +91,15 @@ const coronaColorMapper = feature => {
     };
 };
 
+const useStyles = makeStyles(theme => ({
+    popup: {
+        width: '300px',
+    },
+}));
+
 export default ({toggleShowMode}) => {
+    const classes = useStyles();
+
     const [distribution, setDistribution] = useState({
         country: undefined,
         distribution: []
@@ -98,13 +107,8 @@ export default ({toggleShowMode}) => {
     const [mood, setMood] = useState({country: undefined, mood: undefined});
     const moodData = useContext(MoodDataContext);
     const emotionData = useContext(EmotionDataContext);
-    const emotion = useContext(EmotionContext);
     const coronaData = useContext(CoronaDataContext);
     const [selectedEmotion, setSelectedEmotion] = useState();
-    const [wrapper, setWrapper] = useState();
-    const [onOff, setOnOff] = useState();
-
-    const wordCloudParent = useRef();
 
     if (coronaData) {
         let minMaxArray = [];
@@ -190,12 +194,6 @@ export default ({toggleShowMode}) => {
 
     return (
         <LeafletMap
-            onPopupOpen={() => {
-                setSelectedEmotion(false)
-            }}
-            onPopupClose={() => {
-                setSelectedEmotion(false)
-            }}
             style={{width: "100%", height: "80vh", zIndex: 0}}
             center={[50, 5]}
             zoom={4}
@@ -217,13 +215,19 @@ export default ({toggleShowMode}) => {
                 onEachFeature={onClickFeature}
             >
                 {toggleShowMode === "emotion" && (
-                    <CustomPopup >
-                        <span
-                            style={{fontSize: "16px"}}>{distribution.region ? distribution.region : distribution.country}</span>
-                        <br/>
-                        <br/>
-                        {distribution.distribution.map(emotion => emotion)}
-                        {distribution.maxValueEmotion && <Paper style={{marginTop: 20, maxWidth: "250px"}}>
+                    <CustomPopup className={ classes.popup }>
+
+                        <div style={{margin: 13}}>
+                            <span
+                                style={{fontSize: "16px"}}>{distribution.region ? distribution.region : distribution.country}
+                            </span>
+                            <br/>
+                            <br/>
+
+                            {distribution.distribution.map(emotion => emotion)}
+                        </div>
+
+                        {distribution.maxValueEmotion && <div style={{marginTop: 20}}>
                             <div style={{padding: 10}}><span style={{fontSize: 16, fontWeight: "bold", }}>Most popular reasons</span>
                             <FormControl
                                 style={{marginTop: 10, width: "100%", backgroundColor: "rgba(239,65,52,0.05)"}}>
@@ -240,14 +244,14 @@ export default ({toggleShowMode}) => {
                                 </Select>
                             </FormControl>
                             </div>
-                            <div ref={ wordCloudParent } style={{height: 300}}>
+                            <div>
                                 <WordCloud
-                                    parent={ wordCloudParent.current }
+                                    size={ [300, 300] }
                                     country={distribution.country}
                                     region={distribution.regionCode}
                                     selectedEmotion={selectedEmotion ? selectedEmotion : distribution.maxValueEmotion.props.emotion.name}/>
                             </div>
-                        </Paper>}
+                        </div>}
                         {/*Corona 3-days-growth: {Math.round(geoJson.features.find(feature => mood.country === feature.properties.name) ? geoJson.features.find(feature => mood.country === feature.properties.name).corona : "Not found")}%*/}
                     </CustomPopup>
                 )}

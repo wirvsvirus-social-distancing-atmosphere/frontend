@@ -8,14 +8,11 @@ import MoodPanel from '../../elements/MoodPanel';
 const useStyles = makeStyles(theme => ({
     layout: {
         width: 'auto',
-        marginLeft: theme.spacing(2),
-        marginRight: theme.spacing(2),
 
       },
       paper: {
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3),
-        padding: theme.spacing(2),
         background: '#eee',
       },
     row: {

@@ -7,9 +7,9 @@ import ExpandArrow from "@material-ui/icons/ExpandMore";
 import {makeStyles} from "@material-ui/core/styles";
 import {Fab, Grid, Modal, Paper, TextField, Typography, withStyles} from "@material-ui/core";
 
-import Fearometer from "./Fearometer";
 import WordCloud from "./WordCloud";
 import firebase from "../../utils/firebase";
+import preprocess from '../../utils/nlp/preprocessing';
 import emotionCategories from '../../utils/constants';
 
 import LocationContext from '../../state/LocationContext';
@@ -203,14 +203,13 @@ function EmotionPanel({history, onEmotionSelect}) {
     const classes = useStyles();
 
     const location = useContext(LocationContext);
+    console.log(location)
     const selectedEmotion = useContext(EmotionContext);
     const [openModal, setOpenModal] = useState(false);
     const [formValues, setFormValues] = useState({
         what: "",
         severity: 0
     });
-    const [overallMood, setOverallMood] = useState(0);
-    const [bubbleChartData, setBubbleChartData] = useState();
     const [showWordCloud, setShowWordCloud] = useState(false);
 
     console.log("selectedemotion", selectedEmotion)
@@ -235,7 +234,7 @@ function EmotionPanel({history, onEmotionSelect}) {
                 .doc()
                 .set({
                     category: selectedEmotion,
-                    emotion: formValues.what,
+                    emotion: preprocess(formValues.what),
                     value: formValues.severity,
                     geo: {country, region},
                     time: Date.now()
@@ -404,7 +403,7 @@ function EmotionPanel({history, onEmotionSelect}) {
                     <ExpandArrow style={{margin: 10}}/>
                 </div>
 
-                {showWordCloud && <div className={classes.gridItem}>
+                {showWordCloud && <div>
 
                     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
                         {/*<div style={{justifySelf: 'start', flex: '0 0 auto'}}>*/}

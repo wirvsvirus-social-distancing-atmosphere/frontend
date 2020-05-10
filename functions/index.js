@@ -318,3 +318,22 @@ exports.defineMoodMeans = functions.firestore
                 return console.log("Error getting documents: ", error);
             });*!/
     });*/
+
+exports.processEmotions = functions.https.onRequest((_request, _response) => {
+    admin
+        .firestore()
+        .collection("emotions")
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach(function(doc) {
+                doc.ref.update({
+                    processedEmotion: doc.data().emotion
+                });
+                console.log(doc.data().emotion);
+            });
+            return console.log("Successfully processed");
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+})

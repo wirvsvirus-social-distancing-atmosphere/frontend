@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import {Route, Switch, withRouter, NavLink} from "react-router-dom";
 
 import {makeStyles} from "@material-ui/core/styles";
@@ -44,6 +44,7 @@ const useStyles = makeStyles(theme => ({
     },
     main: {
         maxHeight: "calc(100vh - 70px)",
+        maxHeight: "calc((var(--vh, 1vh) * 100) - 70px)",
         overflowY: 'auto',
 
         [`@media ${breakpoints.tablet}`]: {
@@ -94,10 +95,22 @@ const useStyles = makeStyles(theme => ({
 
 const defaultEmotion = emotionCategories.FEAR;
 
+function windowResizeHandler() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
 
 function App() {
     const classes = useStyles();
     const [selectedEmotion, setSelectedEmotion] = useState(defaultEmotion);
+
+    useEffect(() => {
+        window.addEventListener('resize', windowResizeHandler);
+
+        return () => {
+            window.removeEventListener('resize', windowResizeHandler);
+        };
+    }, []);
 
     return (
         <div className={classes.root}>
