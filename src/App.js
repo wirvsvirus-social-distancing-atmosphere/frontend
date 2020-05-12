@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {BrowserRouter} from 'react-router-dom';
+import {Paper} from "@material-ui/core";
 
+import ErrorBoundary from './components/elements/ErrorBoundary';
 import Main from './components/Main';
 import LocationContext from './state/LocationContext';
 import MoodDataContext from "./state/MoodDataContext";
 import EmotionDataContext from "./state/EmotionDataContext";
 import CoronaDataContext from "./state/CoronaDataContext";
 import firebase from "./utils/firebase";
-import {Paper} from "@material-ui/core";
 
 function App() {
 
@@ -194,7 +195,9 @@ function App() {
                     <MoodDataContext.Provider value={moodData}>
                         <EmotionDataContext.Provider value={emotionData}>
                             {error && errorMessage()}
-                            <Main/>
+                            <ErrorBoundary>
+                                <Main/>
+                            </ErrorBoundary>
                         </EmotionDataContext.Provider>
                     </MoodDataContext.Provider>
                 </CoronaDataContext.Provider>
