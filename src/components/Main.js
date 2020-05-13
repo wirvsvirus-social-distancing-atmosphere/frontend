@@ -43,7 +43,6 @@ const useStyles = makeStyles(theme => ({
         },
     },
     main: {
-        maxHeight: "calc(100vh - 70px)",
         maxHeight: "calc((var(--vh, 1vh) * 100) - 70px)",
         overflowY: 'auto',
 
@@ -103,6 +102,10 @@ function windowResizeHandler() {
 function App() {
     const classes = useStyles();
     const [selectedEmotion, setSelectedEmotion] = useState(defaultEmotion);
+
+    // initially set vh
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
 
     useEffect(() => {
         window.addEventListener('resize', windowResizeHandler);
